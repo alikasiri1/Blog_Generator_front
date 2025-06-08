@@ -1,0 +1,1255 @@
+<html>
+    <header>
+        
+
+        <!-- Material Design Icons 4.0+ -->
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.9.95/css/materialdesignicons.min.css" rel="stylesheet">
+
+        <!-- Vuetify CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.15/dist/vuetify.min.css" rel="stylesheet">
+
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script> -->
+        <!-- Vuetify JS -->
+        <style>
+            .theme--dark.v-application {
+                background-color: #181818;
+            }
+            
+            .theme--dark.v-card, 
+            .theme--dark.v-data-table,
+            .theme--dark.v-tabs-items,
+            .theme--dark.v-tabs .v-tabs-bar {
+                background-color: #232323;
+            }
+            
+            .fade-enter-active, .fade-leave-active {
+              transition-property: opacity;
+              transition-duration: .25s;
+            }
+            
+            .fade-enter-active {
+              transition-delay: .25s;
+            }
+            
+            .fade-enter, .fade-leave-active {
+              opacity: 0
+            }
+            
+            ::-webkit-scrollbar {
+                width: 8px;
+                background-color: #111;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background-color: #222;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #444;
+            }
+            
+            ::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
+                background-color: #333;
+            }
+            
+            ::-webkit-scrollbar-track:hover {
+                background-color: #292929;
+            }            
+        </style>
+    </header>
+    <body>
+        <div id="app">
+            <v-app>
+              <v-app-bar app dense>
+                <v-app-bar-nav-icon @click.stop="sidebarMenu=!sidebarMenu">
+                </v-app-bar-nav-icon>
+                <v-toolbar-title>Dashboard</v-toolbar-title>
+                <v-spacer> </v-spacer>
+                <v-btn @click="toggleTheme" text  class="mx-2">
+                    {{buttonText}}
+                </v-btn>
+                <v-icon> mdi-account </v-icon>
+              </v-app-bar>
+                <v-navigation-drawer 
+                  app
+                  v-model="sidebarMenu" 
+                  floating
+                  :permanent="sidebarMenu"
+                  :mini-variant.sync="mini"
+                >
+                  <!-- <v-list dense> -->
+                    <!-- <v-list-item> -->
+                      <!-- <v-list-item-content> -->
+                        <!-- <v-list-item-title>title</v-list-item-title> -->
+                      <!-- </v-list-item-content> -->
+                      <!-- <v-list-item-action>
+                        <v-icon @click.stop="sidebarMenu = !sidebarMenu">mdi-close</v-icon>
+                      </v-list-item-action> -->
+                    <!-- </v-list-item> -->
+                  <!-- </v-list> -->
+                  <v-list-item class="px-2" @click="toggleMini = !toggleMini" style="height: 48px !important;" >
+                      <v-list-item-avatar>
+                        <v-icon color="grey darken-1">mdi-apps</v-icon>
+                      </v-list-item-avatar>
+                      <v-list-item-content class="text-truncate primary--text" >
+                        Dashboard
+                      </v-list-item-content>
+                      <v-btn icon small>
+                        <v-icon>mdi-chevron-left</v-icon>
+                      </v-btn>
+                  </v-list-item>
+                  <v-divider></v-divider>
+                  <v-list>
+                    <v-list-item
+                      v-for="item in items"
+                      :key="item.title"
+                      :to="!item.external ? item.href : null"
+                      :href="item.external ? item.href : null"
+                      :target="item.external ? '_blank' : null"
+                      link
+                    >
+                      <v-list-item-icon>
+                        <v-icon color="primary">{{ item.icon }}</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title class="primary--text">{{ item.title }}</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-navigation-drawer>
+                
+                <v-content>
+                  <v-container class="px-4 py-0 fill-height" fluid>
+                    <v-row class="fill-height">
+                      <v-col>
+                        <transition name="fade">
+                          <router-view></router-view>
+                        </transition>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                    <v-footer>
+                      <span class="ml-auto overline">Khager &copy; 2022</span>
+                    </v-footer>
+                  </v-content>
+              </v-app>
+          </div>
+          
+    </body>
+    <!-- Vue 2.6.10 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+
+  <!-- Vue Router -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.4/dist/vue-router.min.js"></script>
+
+  <!-- Vuetify JS -->
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.15/dist/vuetify.min.js"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script> -->
+
+  <script type="text/x-template" id="home">
+    <div>
+      <v-row>
+          <v-col lg="4" cols="sm" class="pa-2">
+              <v-card>
+                  <v-row class="no-gutters">
+                      <div class="col-auto">
+                          <div class="cyan fill-height">&nbsp;</div>
+                      </div>
+                      <div class="col pa-3 cyan--text">
+                          <h4 class="text-truncate text-uppercase">Sales</h4>
+                          <h1>53</h1>
+                      </div>
+                  </v-row>
+              </v-card>
+          </v-col>
+          
+          <v-col lg="4" cols="sm" class="pa-2">
+              <v-card>
+                  <v-row class="no-gutters">
+                      <div class="col-auto">
+                          <div class="primary fill-height">&nbsp;</div>
+                      </div>
+                      <div class="col pa-3 primary--text">
+                          <h4 class="text-truncate text-uppercase">Growth</h4>
+                          <h1>23%</h1>
+                      </div>
+                  </v-row>
+              </v-card>
+          </v-col>
+              
+          <v-col lg="4" cols="sm" class="pa-2">
+              <v-card>
+                  <v-row class="no-gutters">
+                      <div class="col-auto">
+                          <div class="success fill-height">&nbsp;</div>
+                      </div>
+                      <div class="col pa-3 success--text">
+                          <h4 class="text-truncate text-uppercase">Calls</h4>
+                          <h1>213</h1>
+                      </div>
+                  </v-row>
+              </v-card>
+          </v-col>
+      </v-row>
+      
+      <v-row>
+          <v-col lg="4" cols="md" class="pa-2">
+              <v-card class="dark" min-height="252">
+                  <v-card-title class="font-weight-light text-truncate cyan--text">
+                      Orders
+                  </v-card-title>
+                  <v-card-text>
+                      <v-carousel
+                          cycle
+                          height="180"
+                          interval="2000"
+                          hide-delimiter-background
+                          show-arrows-on-hover
+                      >
+                        <v-carousel-item>
+                          <div class="row no-gutters">
+                              <div class="col">
+                                  <div>
+                                      <h2 class="cyan--text">Randy Sheets</h2>
+                                      <p class="mt-1">Tutankum, WI 33192</p>
+                                      <h3 class="mb-0">$217.00 <i class="mdi mdi-36px mdi-credit-card-outline float-right"></i></h3>
+                                      <p>Total items: 5</p>
+                                  </div>
+                              </div>
+                          </div>
+                        </v-carousel-item>
+                        <v-carousel-item>
+                          <div class="row no-gutters">
+                              <div class="col">
+                                  <div>
+                                      <h2 class="cyan--text">Jose Valdex</h2>
+                                      <p class="mt-1">Turnup, PA 23192</p>
+                                      <h3 class="mb-0">$97.00 <i class="mdi mdi-36px mdi-paypal float-right"></i></h3>
+                                      <p>Total items: 2</p>
+                                  </div>
+                              </div>
+                          </div>
+                        </v-carousel-item>
+                      </v-carousel>
+                  </v-card-text>
+              </v-card>
+          </v-col>
+              
+          <v-col lg="4" cols="md" class="pa-2">
+              <v-card min-height="258">
+                  <v-card-title class="font-weight-light text-truncate primary--text">
+                      Goals
+                  </v-card-title>
+                  <v-card-text>
+                      <p class="primary--text subtitle-1">
+                          Results from last campaign
+                      </p>
+                      <div class="my-5">
+                          <v-progress-linear
+                            indeterminate
+                            height="8"
+                            color="primary"
+                          ></v-progress-linear>
+                          <h6>SINCE JAN 2020</h6>
+                      </div>
+                  </v-card-text>
+                  <v-card-actions>
+                      <v-btn outlined rounded color="primary">
+                          Details
+                      </v-btn>
+                  </v-card-actions>
+              </v-card>
+          </v-col>
+  
+          <v-col lg="4" cols="md" class="pa-2">
+              <v-card min-height="258">
+                  <v-card-title class="font-weight-light text-truncate success--text">
+                      On-boarding
+                  </v-card-title>
+                  <v-card-text>
+                      <span class="success--text subtitle-1">
+                          Judy Pincus
+                      </span>
+                      <div class="mb-3">
+                          @jpincus
+                          <h3>Service Manager</h3>
+                          <span class="overline">Start date: 5/12/2020</span>
+                      </div>
+                  </v-card-text>
+                  <v-card-actions>
+                      <v-btn outlined rounded color="success">
+                          View
+                      </v-btn>
+                   </v-card-actions>
+              </v-card>
+          </v-col>
+      </v-row>
+          
+      <v-row>
+          <v-col class="pa-2">
+              <v-card class="mx-auto text-center">
+                  <v-card-title class="primary--text">
+                      Sales
+                  </v-card-title>
+                  <v-sparkline 
+                      :value="sparklineData" 
+                      padding="18"
+                      label-size="4"
+                      color="cyan"
+                      :gradient="['#007bff','cyan']" 
+                      :line-width="2"
+                      :stroke-linecap="'round'"
+                      smooth>
+                      <template v-slot:label="item">
+                          ${{ item.value }}
+                      </template>
+                  </v-sparkline>
+                  <v-card-actions class="py-4 justify-center">
+                      <v-btn color="primary" to="/reports">View Report</v-btn>
+                  </v-card-actions>
+              </v-card>
+          </v-col>
+      </v-row>
+    </div>
+  </script>
+  
+  <!-- <script type="text/x-template" id="reports">
+      <div>
+          <h1 class="font-weight-light">Sales Report</h1>
+          <v-card>
+              <v-data-table 
+                :headers="headers" 
+                :items="reportItems" 
+                item-key="id"
+              >
+                <template v-slot:item="{ item }">
+                  <tr>
+                      <td>{{item.name}}</td>
+                      <td>{{item.sales}}</td>
+                      <td>{{item.customers}}</td>
+                      <td>{{item.items}}</td>
+                  </tr>
+                </template>
+              <template slot="body.append">
+                  <tr class="primary--text">
+                      <th class="title">Totals</th>
+                      <th class="title">{{ sumField('sales') }}</th>
+                      <th class="title">{{ sumField('customers') }}</th>
+                      <th class="title">{{ sumField('items') }}</th>
+                  </tr>
+              </template>
+            </v-data-table>
+          </v-card>
+      </div>
+  </script> -->
+  
+  <script type="text/x-template" id="reports">
+    <div>
+      <h1 class="font-weight-light mb-4">My Blogs</h1>
+      
+        <tr class="primary--text">
+          <td class="title">Total Blogs</td>
+          <td class="title" style="padding-left: 10px;">{{ items.length }}</td>
+          <td colspan="2"></td>
+        </tr>
+      
+      <v-card>
+        <v-data-table
+          :headers="headers"
+          :items="items"
+          item-key="id"
+          class="elevation-1"
+          :loading="loading"
+        >
+          <template v-slot:item.content="{ item }">
+            {{ item.content ? item.content.substring(0, 100) + '...' : '—' }}
+          </template>
+          <template v-slot:item.published="{ item }">
+            <v-chip :color="item.published ? 'success' : 'grey'" dark>
+              {{ item.published ? 'Published' : 'Unpublished' }}
+            </v-chip>
+          </template>
+          
+        </v-data-table>
+      </v-card>
+    </div>
+  </script>
+  <script type="text/x-template" id="profile">
+    <div>
+      <h1 class="font-weight-light mb-4">Admin Profile</h1>
+      <v-card class="pa-4">
+        <v-list dense>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Username</v-list-item-title>
+              <v-list-item-subtitle>{{ profile.user.username }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+  
+          <v-divider></v-divider>
+  
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Email</v-list-item-title>
+              <v-list-item-subtitle>{{ profile.user.email }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+  
+          <v-divider></v-divider>
+  
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Last Updated</v-list-item-title>
+              <v-list-item-subtitle>{{ formatDate(profile.updated_at) }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+  
+        <v-divider class="my-4"></v-divider>
+  
+        <v-btn color="error" @click="logout" block>Logout</v-btn>
+      </v-card>
+    </div>
+  </script>
+  
+  
+  
+  <script type="text/x-template" id="inbox">
+      <div>
+          <h1 class="font-weight-light">Inbox</h1>
+          <v-card>
+              <v-row wrap>
+                  <v-col grow class="py-1 elevation-2">
+                      <v-tabs v-model="tab" show-arrows grow class="fill-width" height="60px">
+                          <v-tabs-slider color="primary"></v-tabs-slider>
+                          <v-tab v-for="t in tabs" :key="t">
+                              <div class="caption py-1">
+                                  {{ t.name }}
+                                  <v-badge overlap>
+                                    <template v-slot:badge v-if="countItems(t.name)>0">
+                                        <span class="caption">{{ countItems(t.name) }}</span>
+                                    </template>
+                                    <v-icon v-text="t.icon"></v-icon>
+                                  </v-badge>
+                              </div>
+                          </v-tab>
+                      </v-tabs>
+                      <v-tabs-items v-model="tab" grow class="pa-4">
+                          <v-tab-item>
+                              <v-row v-for="(message,i) in filteredMessages" :key="i" class="mb-5 pb-2 elevation-1" align-center>
+                                  <v-col sm="6" cols="6" class="py-0" @click.stop="readMessage(message)" :style="{ cursor: 'pointer'}">
+                                      <h4 :class="!message.read?'font-italic':''">{{message.from}} <v-icon v-show="message.read" small title="Read">mdi-check</v-icon></h4>
+                                  </v-col>
+                                  <v-col sm="6" cols="6" class="text-right caption py-0">
+                                      {{message.dtSent}}
+                                      <v-btn icon x-small @click="markDeleted(message)" title="Mark for deletion">
+                                          <v-icon>mdi-trash-can</v-icon>
+                                      </v-btn>
+                                  </v-col>
+                                  <v-col cols="12" class="py-0" @click="readMessage(message)">
+                                      <div>{{message.subject}}</div>
+                                  </v-col>
+                              </v-row>
+                          </v-tab-item>
+                          <v-tab-item>
+                              <div v-if="deletedMessages.length===0" class="text-center px-2">No deleted messages</div>
+                              <div v-for="(message,i) in deletedMessages" :key="i" class="px-2">
+                                  {{message.dtSent}} - {{message.from}}
+                                  <v-btn icon small @click="restoreToInbox(message)" title="Undelete and move to Inbox">
+                                      <v-icon>mdi-email-plus-outline</v-icon>
+                                  </v-btn>
+                              </div>
+                          </v-tab-item>
+                          <v-tab-item>
+                              <div v-if="sent.length===0" class="text-center px-2">No sent messages</div>
+                              <div v-for="(message,i) in sent" :key="i" class="px-2">
+                                  {{message.dtSent}} - {{message.to}} {{message.subject}} 
+                              </div>
+                          </v-tab-item>
+                          <v-tab-item>
+                              <div v-if="drafts.length===0" class="text-center px-2">No drafts</div>
+                              <div v-for="(message,i) in drafts" :key="i" class="px-2">
+                                  (draft) {{message.to}} {{message.subject}}
+                                  <v-btn icon small @click="compose(message)">
+                                      <v-icon>mdi-email-edit-outline</v-icon>
+                                  </v-btn>
+                                  <v-btn icon small @click="deleteDraft(i)">
+                                      <v-icon>mdi-trash-can</v-icon>
+                                  </v-btn>
+                              </div>
+                          </v-tab-item>
+                      </v-tabs-items>
+                  </v-col>
+              </v-row>
+          </v-card>
+          <v-dialog
+              v-model="dialogRead"
+              width="500">
+              <v-card>
+                  <v-card-title class="headline" primary-title>
+                    {{ activeMessage.from }}
+                  </v-card-title>
+                  <v-card-text class="pa-5">
+                      <div v-html="activeMessage.body"></div>
+                  </v-card-text>
+                  <v-card-actions class="pa-5">
+                      <v-btn color="red" @click="markDeleted(activeMessage)" outlined>Delete</v-btn>
+                      <v-btn class="ml-auto" @click="dialogRead=false" outlined color="primary">Close</v-btn>
+                      <v-btn color="primary" @click="compose(activeMessage)">Reply</v-btn>
+                  </v-card-actions>
+              </v-card>
+          </v-dialog>
+          <v-dialog
+              v-model="dialogCompose"
+              width="500">
+              <v-card>
+                  <v-card-title class="headline black" primary-title>
+                    Compose Message
+                  </v-card-title>
+                  <v-card-text class="pa-5">
+                      <v-form ref="sendForm" v-model="valid" lazy-validation>
+                          <v-text-field v-model="composeMessage.from" label="From" :rules="[rules.required, rules.email]"></v-text-field>
+                          <v-text-field v-model="composeMessage.to" label="To" :rules="[rules.required]"></v-text-field>
+                          <v-text-field v-model="composeMessage.subject" label="Subject" :rules="[rules.required]"></v-text-field>
+                          <div v-html="composeMessage.originalBody"></div>
+                          <v-textarea v-model="composeMessage.body" label="Message"></v-textarea>
+                      </v-form>
+                  </v-card-text>
+                  <v-card-actions class="pa-5">
+                      <v-btn class="ml-auto" @click="saveDraft(composeMessage)" outlined color="primary">Cancel</v-btn>
+                      <v-btn color="primary" :disabled="!valid" @click="validate">Send</v-btn>
+                  </v-card-actions>
+              </v-card>
+          </v-dialog>
+      </div>
+  </script>
+  
+  <script type="text/x-template" id="premiums">
+      <div>
+          <v-stepper v-model="e6" vertical>
+              <v-stepper-step :complete="e6 > 1" step="1">
+                Select an app
+                <small>Summarize if needed</small>
+              </v-stepper-step>
+              <v-stepper-content step="1">
+                <v-card color="grey darken-4" class="mb-12" height="200px">
+                </v-card>
+                <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
+                <v-btn text>Cancel</v-btn>
+              </v-stepper-content>
+              <v-stepper-step :complete="e6 > 2" step="2">Configure analytics for this app</v-stepper-step>
+              <v-stepper-content step="2">
+                <v-card color="grey darken-4" class="mb-12" height="200px"></v-card>
+                <v-btn color="primary" @click="e6 = 3">Continue</v-btn>
+                <v-btn text>Cancel</v-btn>
+              </v-stepper-content>
+              <v-stepper-step :complete="e6 > 3" step="3">Select an ad format and name ad unit</v-stepper-step>
+              <v-stepper-content step="3">
+                <v-card color="grey darken-4" class="mb-12" height="200px"></v-card>
+                <v-btn color="primary" @click="e6 = 4">Continue</v-btn>
+                <v-btn text>Cancel</v-btn>
+              </v-stepper-content>
+              <v-stepper-step step="4">View setup instructions</v-stepper-step>
+              <v-stepper-content step="4">
+                <v-card color="grey darken-4" class="mb-12" height="200px"></v-card>
+                <v-btn color="primary" @click="e6 = 1">Continue</v-btn>
+                <v-btn text>Cancel</v-btn>
+              </v-stepper-content>
+            </v-stepper>
+      </div>
+  </script>
+  
+  <script type="text/x-template" id="alerts">
+      <v-row>
+          <v-col cols="12" class="py-0">
+              <h1 class="font-weight-light mb-0">Kitchen Sink</h1>
+              <span class="overline">Vuetify UI components showcase</span>
+          </v-col>
+          <v-col cols="12">
+              <v-alert
+                prominent
+                type="error"
+              >
+                <v-row align="center">
+                  <v-col class="grow">
+                      Here is an example of a Vuetify alert that can displaying alarming info to users!
+                  </v-col>
+                  <v-col class="shrink">
+                    <v-btn>Take action</v-btn>
+                  </v-col>
+                </v-row>
+              </v-alert>
+          </v-col>
+          <v-col md="6" sm="12">
+              <v-expansion-panels :value="1">
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    This is an expandable item
+                    <template v-slot:actions>
+                      <v-icon color="primary">mdi-arrow-up-circle</v-icon>
+                    </template>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    This is expandable item 2...
+                    <template v-slot:actions>
+                      <v-icon color="primary">mdi-arrow-up-circle</v-icon>
+                    </template>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                  <v-expansion-panel-header disable-icon-rotate>
+                    This is expandable item 3...
+                    <template v-slot:actions>
+                      <v-icon color="error">mdi-alert-circle</v-icon>
+                    </template>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+          </v-col>
+          <v-col md="6" sm="12">
+              <v-sheet height="327" dark>
+                  <v-calendar
+                    color="primary"
+                    type="day"
+                  >
+                    <template v-slot:day-header="{ present }">
+                      <template
+                        v-if="present"
+                        class="text-center"
+                      >
+                        <h5 class="pa-1">Today</h5>
+                      </template>
+                    </template>
+          
+                    <template v-slot:interval="{ hour }">
+                      <div
+                        class="text-center"
+                      >
+                        {{ hour }} o'clock
+                      </div>
+                    </template>
+                  </v-calendar>
+              </v-sheet>
+          </v-col>
+          <v-col md="6" sm="12">
+              <v-card
+                  class="mx-auto text-center"
+                  color="grey darken-4"
+                  dark
+                >
+                  <v-card-text>
+                    <v-sheet color="rgba(0, 0, 0, .12)">
+                      <v-sparkline
+                        :value="[1,2,4,8,16,14]"
+                        color="rgba(255, 255, 255, .7)"
+                        height="100"
+                        padding="24"
+                        stroke-linecap="round"
+                        smooth
+                      >
+                        <template v-slot:label="item">
+                          {{ item.value }}
+                        </template>
+                      </v-sparkline>
+                    </v-sheet>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions class="justify-center">
+                    <v-btn block text to="/reports">Go to Report</v-btn>
+                  </v-card-actions>
+              </v-card>
+          </v-col>
+          <v-col md="6" sm="12">
+              <v-card
+                  class="mx-auto text-center"
+                  color="grey darken-4"
+                  dark
+                >
+                  <v-card-text>
+                    <v-sheet color="rgba(0, 0, 0, .12)">
+                      <v-sparkline
+                        :value="[123,92,103,135,123]"
+                        color="rgba(255, 255, 255, .7)"
+                        height="100"
+                        padding="24"
+                        stroke-linecap="round"
+                        smooth
+                      >
+                        <template v-slot:label="item">
+                          {{ item.value }}
+                        </template>
+                      </v-sparkline>
+                    </v-sheet>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions class="justify-center">
+                    <v-btn block text to="/reports">Go to Report</v-btn>
+                  </v-card-actions>
+                </v-card>
+          </v-col>
+          <v-col lg="6" md="12">
+            <div>
+              <v-chip
+                class="ma-2"
+                color="indigo"
+                text-color="white"
+              >
+                <v-avatar left>
+                  <v-icon>mdi-account-circle</v-icon>
+                </v-avatar>
+                Ranee
+              </v-chip>
+              <v-chip
+                class="ma-2"
+                color="orange"
+                text-color="white"
+              >
+                Premium
+                <v-icon right>mdi-star</v-icon>
+              </v-chip>
+          
+              <v-chip
+                class="ma-2"
+                color="primary"
+                text-color="white"
+              >
+                1 Year
+                <v-icon right>mdi-cake-variant</v-icon>
+              </v-chip>
+              <v-chip
+                class="ma-2"
+                color="green"
+                text-color="white"
+              >
+                <v-avatar
+                  left
+                  class="green darken-4"
+                >
+                  1
+                </v-avatar>
+                Years
+              </v-chip>
+              <v-chip
+                class="ma-2"
+                close
+                color="teal"
+                text-color="white"
+                @click:close="close"
+              >
+                <v-avatar left>
+                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                </v-avatar>
+                Confirmed
+              </v-chip>
+              <v-chip
+                class="ma-2"
+                close
+                color="teal"
+                text-color="white"
+                close-icon="mdi-delete"
+                @click:close="close"
+              >
+                <v-avatar left>
+                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                </v-avatar>
+                Confirmed
+              </v-chip>
+            </div>
+          </v-col>
+          <v-col lg="6" md="12">
+              <v-card>
+                  <v-tabs
+                    v-model="tab"
+                    background-color="primary"
+                    dark
+                  >
+                    <v-tab
+                      v-for="i in tabs"
+                      :key="i"
+                    >
+                      {{ i }}
+                    </v-tab>
+                  </v-tabs>
+                  <v-tabs-items v-model="tab">
+                    <v-tab-item
+                      v-for="(k,v) in tabs"
+                      :key="k"
+                    >
+                      <v-card flat>
+                          <v-card-text>
+                              <p>This is content for from tab {{ k }}...</p>
+                          </v-card-text>
+                      </v-card>
+                    </v-tab-item>
+                  </v-tabs-items>
+                </v-card>
+          </v-col>
+          <v-col cols="12">
+              <v-card color="grey darken-4">
+                  <v-card-text>
+                    <v-row align="center">
+                      <v-item-group
+                        v-model="window"
+                        class="shrink mx-2"
+                        mandatory
+                        tag="v-flex"
+                      >
+                        <v-item
+                          v-for="n in [1,2,3]"
+                          :key="n"
+                          v-slot:default="{ active, toggle }"
+                        >
+                          <div>
+                            <v-btn
+                              small
+                              :input-value="active"
+                              icon
+                              @click="toggle"
+                            >
+                              <v-icon>mdi-record</v-icon>
+                            </v-btn>
+                          </div>
+                        </v-item>
+                      </v-item-group>
+                      <v-col>
+                        <v-window
+                          v-model="window"
+                          class="elevation-1"
+                          vertical
+                        >
+                          <v-window-item
+                            v-for="n in [1,2,3]"
+                            :key="n"
+                          >
+                            <v-card flat>
+                              <v-card-text>
+                                <v-row class="mb-4" align="center">
+                                  <v-avatar color="grey" class="mx-2"></v-avatar>
+                                  <strong class="title">Title {{ n }}</strong>
+                                  <v-spacer></v-spacer>
+                                  <v-btn icon>
+                                    <v-icon>mdi-account</v-icon>
+                                  </v-btn>
+                                </v-row>
+                                <p>
+                                  Hello Codeply, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                                <p>
+                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                              </v-card-text>
+                            </v-card>
+                          </v-window-item>
+                        </v-window>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+            </v-card>
+          </v-col>
+      </v-row>
+  </script>
+  
+  <script type="text/x-template" id="page">
+      <v-row>
+          <v-col cols="12" class="py-0">
+              <h1 class="font-weight-light mb-0">Page {{ $route.path }}...</h1>
+              <span class="overline">Add other dashboard views</span>
+          </v-col>
+      </v-row>
+  </script>
+  
+  <script type="text/x-template" id="navbar"> 
+      <v-list dense>
+        <v-list-item v-for="(item, i) in items" :key="i" :item="item" :to="item.href">
+          {{ item.text }}
+        </v-list-item>
+      </v-list>
+  </script>
+  
+    <script>
+              //new 
+        const Reports = {
+          template: '#reports',
+          data: () => ({
+            headers: [
+              { text: 'ID', value: 'id' },
+              { text: 'Title', value: 'title' },
+              { text: 'Content', value: 'content' },
+              { text: 'Published', value: 'published' }
+            ],
+            items: [],
+            loading: false // ✅ define this
+          }),
+          mounted() {
+            this.fetchBlogs();
+          },
+          methods: {
+            async fetchBlogs() {
+              this.loading = true;
+              const token = localStorage.getItem('access_token');
+              const adminUUID = localStorage.getItem('admin_uuid');
+              const API_ROOT = 'http://127.0.0.1:8000/api';
+        
+              try {
+                const res = await fetch(`${API_ROOT}/${adminUUID}/admin/blogs/`, {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                  }
+                });
+                const data = await res.json();
+                this.items = data;
+              } catch (err) {
+                console.error('Failed to fetch blogs:', err);
+              } finally {
+                this.loading = false;
+              }
+            },
+            sumField(key) {
+              return this.items.reduce((a, b) => a + (b[key] || 0), 0);
+            }
+          }
+        };
+        
+
+        const Profile = {
+          template: '#profile',
+          data() {
+            return {
+              profile: {
+                user: { username: '', email: '' },
+                updated_at: ''
+              }
+            };
+          },
+          mounted() {
+            this.fetchProfile();
+          },
+          methods: {
+            async fetchProfile() {
+              const token = localStorage.getItem('access_token');
+              const adminUUID = localStorage.getItem('admin_uuid');
+              const API_ROOT = 'http://127.0.0.1:8000/api';
+        
+              try {
+                const res = await fetch(`${API_ROOT}/${adminUUID}/admin/profil/`, {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                  }
+                });
+                const data = await res.json();
+                this.profile = data[0];
+              } catch (err) {
+                console.error('Failed to load profile:', err);
+              }
+            },
+            formatDate(isoString) {
+              const date = new Date(isoString);
+              return date.toLocaleString();
+            },
+            logout() {
+              localStorage.clear();
+              window.location.href = 'login.html';
+            }
+          }
+        };
+        
+        
+        //end
+
+        Vue.component('sidebar', {
+            template: '#navbar',
+            props: {
+              items: Array
+            },
+          })
+          
+          const allMessages = [
+            {
+              id: 1,
+              from: "Gary Lewis",
+              fromAddress: "test@foofoo.com",
+              subject: "I saw this posting on the board",
+              dtSent: "Today, 9:18AM",
+              read: false,
+              deleted: false,
+              body: "Hey Mark,<br><br>I saw your post on the message board and I was wondering if you still had that item available. Can you call me if you still do?<br><br>Thanks,<br><b>Gary Lewis</b>"
+            },
+            {
+              id: 3,
+              from: "Will Adivo",
+              fromAddress: "test@testbar.com",
+              subject: "New developer",
+              dtSent: "Yesterday, 4:48PM",
+              read: true,
+              deleted: false,
+              body: "Here is the last resume for the developer position we posted on SO. Please review and let me know your thoughts!",
+              attachment: true
+            },
+            {
+              id: 4,
+              from: "Al Kowalski",
+              fromAddress: "test@domain.com",
+              subject: "RE: New developer",
+              dtSent: "Yesterday, 4:40PM",
+              read: false,
+              deleted: false,
+              body: "I looked at the resume, but the guy looks like a moron.",
+              "priority": 1
+            },
+            {
+              id: 7,
+              from: "Bob Sutton",
+              fromAddress: "test@test.com",
+              subject: "Tasking request",
+              dtSent: "3 Days Ago",
+              read: true,
+              deleted: false,
+              body: "Ovi lipsu doir. The message body goes here..."
+            },
+            {
+              id: 8,
+              from: "Will Adivo",
+              fromAddress: "test@test.com",
+              subject: "Proposal for Avid Consulting",
+              dtSent: "3 Days Ago",
+              read: false,
+              deleted: false,
+              body: "Mark, I reviewed your proposal with Beth and we have a few questions. Let me know when you time to meet."
+            },
+            {
+              id: 9,
+              from: "Philip Corrigan",
+              fromAddress: "test@testdomain.com",
+              subject: "Follow-up Appt.",
+              dtSent: "4 Days Ago",
+              read: true,
+              deleted: false,
+              body: "Hi,<br>Can you please confirm the expense report I submitted for my last trip to SD?<br>Thanks,<br>Tom Grey"
+            }
+          ]
+          
+          const Inbox = {
+            template: '#inbox',
+            data() {
+                  return {
+                      messages: [...allMessages],
+                      drafts: [],
+                      sent: [],
+                      dialogRead: false,
+                      dialogCompose: false,
+                      activeMessage: {},
+                      composeMessage: {},
+                      valid: true,
+                      rules: {
+                        required: value => !!value || "This field is required",
+                        email: v => /.+@.+\..+/.test(v) || "Must be a valid email"
+                      },
+                      tab: 0,
+                      tabs: [
+                          {name: 'Messages', icon: 'mdi-email'},
+                          {name: 'Deleted', icon: 'mdi-trash-can'},
+                          {name: 'Sent', icon: 'mdi-email-send'},
+                          {name: 'Drafts', icon: 'mdi-email-edit-outline'}
+                      ],
+                  }
+              },
+              computed: {
+                filteredMessages() {
+                  return this.messages.filter((m)=>{return !m.deleted})
+                },
+                deletedMessages() {
+                  return this.messages.filter((m)=>{return m.deleted})
+                },
+                buttonText() {
+                  return !this.$vuetify.theme.dark ? 'Go Dark' : 'Go Light'
+                }
+              },
+               methods: {
+              toggleTheme() {
+                  this.$vuetify.theme.dark = !this.$vuetify.theme.dark;      
+              },
+              readMessage(message) {
+                  this.activeMessage = message
+                  this.dialogRead = true
+                  message.read = true
+              },
+              markDeleted(message) {
+                  message.deleted = true
+              },
+              restoreToInbox(message) {
+                  message.deleted = false
+              },
+              compose(activeMessage) {
+                  this.composeMessage = {
+                      id: new Date(), //use timestamp for id for demo
+                      to: activeMessage.from,
+                      subject: activeMessage.subject,
+                      originalBody: activeMessage.body
+                  }
+                  this.dialogRead = false
+                  this.dialogCompose = true
+              },
+              saveDraft(message) {
+                  this.dialogCompose = false
+                  this.drafts.push(message)
+              },
+              deleteDraft(i) {
+                  this.drafts.splice(i,1)
+              },
+              validate() {
+                if (this.$refs.sendForm.validate()) {
+                  // send it
+                  this.send(this.composeMessage)
+                }
+              },
+              send(message) {
+                  //send the message via API/server endpoint here
+                  this.dialogCompose = false
+                  this.drafts.splice(this.drafts.findIndex(m=>m.id===message.id),1)
+                  message.dtSent = "1 min ago"
+                  this.sent.push(message)
+              },
+              reload() {
+                  //refresh the messages from API/server endpoint here
+                  this.messages = allMessages
+                  this.drafts = []
+                  this.sent = []
+              },
+              countItems(list) {
+                  switch (list) {
+                      case "Messages": 
+                          return this.filteredMessages.length
+                          break
+                      case "Deleted": 
+                          return this.deletedMessages.length
+                          break
+                      case "Sent": 
+                          return this.sent.length
+                          break
+                      case "Drafts": 
+                          return this.drafts.length
+                          break
+                      default:
+                          return 0
+                  }
+              }
+            },
+          }
+          
+          const Home = {
+              template: '#home',
+              data: () => ({
+                sparklineData: [
+                  423,
+                  446,
+                  675,
+                  510,
+                  590,
+                  610,
+                  423,
+                ],
+              }),
+          }
+          
+          const Stepper = {
+              template: '#premiums',
+              data () {
+                return {
+                  e6: 1,
+                }
+              },
+          }
+          
+          const Alerts = {
+              template: '#alerts',
+              data () {
+                  return {
+                      window: 0,
+                      tabs: 10,
+                      tab: 0
+                  }
+              },
+          }
+          
+          const Page = {
+              template: '#page',
+          }
+          
+          const routes = [
+              { path:'/', component: Home },
+              { path:'/reports', component: Reports  },
+              { path:'/inbox', component: Inbox },
+              { path:'/premiums', component: Stepper },
+              { path:'/alerts', component: Alerts },
+              { path:'/settings', component: Page },
+              { path:'/profile', component: Profile },
+          ]
+          
+          const router = new VueRouter({ routes })
+          
+          new Vue({
+            el: '#app',
+            router: router,
+            vuetify: new Vuetify({
+              theme: {
+                  dark: true,
+                  themes: {
+                      dark: {
+                          primary: '#007bff',
+                          secondary: '#333',
+                          accent: '#37474F',
+                      }
+                  }
+              }
+            }),
+            computed: {
+                mini() {
+                    return (this.$vuetify.breakpoint.smAndDown) || this.toggleMini
+                },
+                buttonText() {
+                  return !this.$vuetify.theme.dark ? 'Go Dark' : 'Go Light'
+                }
+            },
+            data: () => ({
+                sidebarMenu: true,
+                toggleMini: false,
+                items: [
+                  { title:"Home", href:"/", icon:"mdi-home-outline" },
+                  { title:"Blogs", href:"/reports", icon:"mdi-file-document-box-outline" },
+                  { title:"profile", href:"/profile", icon:"mdi-account-outline" },
+                  { title: "Preview Blogs", href: "index.html", icon: "mdi-eye-outline", external: true },
+                  { title:"Inbox", href:"/inbox", icon:"mdi-mailbox" },
+                  { title:"Premiums", href:"/premiums", icon:"mdi-crown-outline" },
+                  { title:"Alerts", href:"/alerts", icon:"mdi-alarm-light-outline" },
+                  { title:"Settings", href:"/settings", icon:"mdi-settings-outline" },
+                ],
+              }),
+              methods: {
+                toggleTheme() {
+                  this.$vuetify.theme.dark = !this.$vuetify.theme.dark;      
+                },
+              }
+          })  
+          
+          
+
+          
+    </script>  
+</html>
+
