@@ -65,12 +65,12 @@
 		const adminUUID = '2ad821ef-b8b1-4313-88f5-858837447688';
 		const API_BASE = `http://127.0.0.1:8000/api/${adminUUID}`;
 		const params = new URLSearchParams(window.location.search);
-		const blogId = params.get('id');
+		const blogTitle = params.get('title');
 		
 		async function loadBlogDetails() {
-		  if (!blogId) return;
+		  if (!blogTitle) return;
 		
-		  const res = await fetch(`${API_BASE}/blogs/${blogId}/`);
+		  const res = await fetch(`${API_BASE}/blogs/${blogTitle}/`);
 		  const blog = await res.json();
 		
 		  document.querySelector('h2.fh5co-article-title a').textContent = blog.title;

@@ -24,9 +24,46 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="js/admin.js"></script>
 
-
+    <style>
+        .bg-gradient-light {
+            background-color: #080808;
+            background-image: linear-gradient(180deg, #001552 10%, #c2cbe5 100%);
+            background-size: cover;
+          }
+          
+          .bg-gradient-dark {
+            background-color: #27272a;
+            background-image: linear-gradient(180deg, #27272a 10%, #27272a 100%);
+            background-size: cover;
+          }
+          .bg-dark {
+            background-color: #000000 !important;
+          }
+          .card{
+            background-color: #18181b;
+            border: 1px solid #2d2e33;
+          }
+          
+        .text-gray-800 {
+            color: #ffffff !important;
+        }
+        body{
+            color: #ffffff;
+        }
+        #wrapper #content-wrapper {
+            background-color: #000000
+        }
+        .card-header {
+            border-bottom: 1px solid #3f3f46;
+            background-color: #38383a;
+        }
+        .text-primary {
+            color: #ffffff !important;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -35,7 +72,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -167,7 +204,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-dark topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <form class="form-inline">
@@ -485,7 +522,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-dark">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2020</span>

@@ -47,7 +47,7 @@ async function loadBlogs() {
           <tr>
             <th>
                 ${blog.status === 'published' 
-                    ? `<a class="nav-link" href="http://127.0.0.1:8001/single.html?id=${blog.id}">
+                    ? `<a class="nav-link" href="http://127.0.0.1:8001/single.html?title=${blog.slug}"> 
                         <span>${blog.title}</span>
                     </a>`
                     : `<span class="nav-link disabled">${blog.title}</span>`
@@ -68,7 +68,7 @@ async function loadBlogs() {
                   <li><a class="dropdown-item" href="#" onclick='editBlog(${JSON.stringify(blog)})'>Edit</a></li>
                   <li><a class="dropdown-item" href="#">Regenerate</a></li>
                   <div class="dropdown-divider"></div>
-                  <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.id})'>Delete</a></li>
+                  <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.slug})'>Delete</a></li>
                   
                 </ul>
               </div>
@@ -127,9 +127,9 @@ async function submitBlog(e) {
   loadBlogs();
 }
 
-async function deleteBlog(id) {
+async function deleteBlog(slug) {
   if (!confirm('Are you sure?')) return;
-  await authFetch(`/${adminUUID}/admin/blogs/${id}/`, {
+  await authFetch(`/${adminUUID}/admin/blogs/${slug}/`, {
     method: 'DELETE'
   });
   loadBlogs();
