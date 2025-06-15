@@ -77,100 +77,6 @@
         }
     </style>
     
-    <script>
-        const API_ROOT = 'http://127.0.0.1:8000/api';
-        const accessToken = localStorage.getItem('access_token');
-        const adminUUID = localStorage.getItem('admin_uuid');
-
-        function getAuthHeaders() {
-        return {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        };
-        }
-
-        
-        
-        async function authFetch(url, options = {}) {
-        const res = await fetch(`${API_ROOT}${url}`, {
-            ...options,
-            headers: getAuthHeaders()
-        });
-
-        if (res.status === 401) {
-            alert("Session expired. Please log in again.");
-            window.location.href = 'login.html';
-            return;
-        }
-        return res.json();
-        }
-        //if (!accessToken || !adminUUID) {
-        //    alert("You're not logged in.");
-        //    window.location.href = 'login.html';
-        //  } else {
-        //    loadBlogs();
-         // }
-          async function loadBlogs() {
-            const blogs = await authFetch(`/${adminUUID}/admin/blogs/`);
-            const out = document.getElementById('dataTable');
-            out.innerHTML = `
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Content (preview)</th>
-                    <th>Published</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Content (preview)</th>
-                    <th>Published</th>
-                    <th>Actions</th>
-                  </tr>
-                </tfoot>
-                <tbody>
-                  ${blogs.map(blog => `
-                    <tr>
-                      <th>${blog.id}</th>
-                      <th>${blog.title}</th>
-                      <th>${(blog.content || '').substring(0, 100)}...</th>
-                      
-                      <th>
-                          <button class="btn btn-sm btn-${blog.published ? 'success' : 'secondary'}">
-                              ${blog.published ? 'Published' : 'Unpublished'}
-                          </button>
-                      </th>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton${blog.id}" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                          </button>
-                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${blog.id}">
-                            <li><a class="dropdown-item" href="#" onclick='editBlog(${JSON.stringify(blog)})'>Edit</a></li>
-                            <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.id})'>Delete</a></li>
-                            <li><a class="dropdown-item" href="#">Regenerate</a></li>
-                          </ul>
-                        </div>
-                      </td>
-                      
-                    </tr>`).join('')}
-                </tbody>`;
-          }
-          
-
-        async function deleteBlog(id) {
-            if (!confirm('Are you sure?')) return;
-            await authFetch(`/${adminUUID}/admin/blogs/${id}/`, {
-              method: 'DELETE'
-            });
-
-            loadBlogs();
-          }
-    </script>
 </head>
 
 <body id="page-top">
@@ -900,119 +806,183 @@
     <script src="js/demo/chart-pie-demo.js"></script>
 
     <script>
-        document.getElementById('chatbot-form').addEventListener('submit', function(e) {
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+        const adminUUID = localStorage.getItem('admin_uuid');
+        
+        function getAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            };
+        }
+        
+        async function authFetch(url, options = {}) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                ...options,
+                headers: getAuthHeaders()
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return await res.json();
+        }
+        
+        document.getElementById('chatbot-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const userPrompt = document.getElementById('user-message').value.trim();
             
             if (!userPrompt) return;
             
-            // Show loading modal
-            const modalContent = document.getElementById('modalResponseContent');
-            modalContent.innerHTML = `
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-                        <span class="sr-only">Loading...</span>
+            try {
+                // Clear input
+                document.getElementById('user-message').value = '';
+                
+
+                // Show loading modal
+                const modalContent = document.getElementById('modalResponseContent')
+                modalContent.innerHTML = `
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <h5 class="mt-3 text-primary">Generating topic...</h5>
+                        <p class="text-muted">This may take a few seconds</p>
                     </div>
-                    <h5 class="mt-3 text-primary">Creating your content...</h5>
-                    <p class="text-muted">This may take a few moments</p>
-                </div>
-            `;
-            
-            $('#responseModal').modal('show');
-            
-            // Simulate API call (replace with actual AJAX call)
-            generateBlogContent(userPrompt)
-                .then(response => {
-                    // Display the generated content in card format
-                    modalContent.innerHTML = `
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-primary">${response.title || 'Generated Content'}</h6>
-                                        <div class="dropdown no-arrow">
-                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                aria-labelledby="dropdownMenuLink">
-                                                <div class="dropdown-header">Content Actions:</div>
-                                                <a class="dropdown-item" href="#" id="saveContent"><i class="fas fa-save fa-sm fa-fw mr-2 text-gray-400"></i> Save</a>
-                                                <a class="dropdown-item" href="#" id="exportContent"><i class="fas fa-file-export fa-sm fa-fw mr-2 text-gray-400"></i> Export</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#" id="regenerateContent"><i class="fas fa-sync-alt fa-sm fa-fw mr-2 text-gray-400"></i> Regenerate</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${response.image || 'img/undraw_posting_photo.svg'}" alt="Illustration">
-                                        </div>
-                                        ${response.content}
-                                        ${response.link ? `<a target="_blank" rel="nofollow" href="${response.link.url}">${response.link.text} →</a>` : ''}
+                `;
+                
+                $('#responseModal').modal('show');
+                
+                // Step 1: Generate Topic
+                const topicData = await authFetch(`/${adminUUID}/admin/blogs/generate_topic/`, {
+                    method: 'POST',
+                    body: JSON.stringify({ prompt: userPrompt })
+                });
+                
+                modalContent.innerHTML = `
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <h5 class="mt-3 text-primary">Generating content...</h5>
+                        <h3 class="mt-3 text-primary">${topicData.response}</h3>
+                        <p class="text-muted">This may take a few moments</p>
+                    </div>
+                `;
+
+                // Step 2: Generate Content
+                const contentData = await authFetch(`/${adminUUID}/admin/blogs/generate_contents/`, {
+                    method: 'POST',
+                    body: JSON.stringify({ topic: topicData.response })
+                });
+
+                // Debug: check what you actually received
+                console.log(contentData); // Check the console for this
+
+                // Use contentData instead of response in your HTML
+                modalContent.innerHTML = `
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">${contentData.topic || 'Generated Content'}</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Content Actions:</div>
+                                        <a class="dropdown-item" href="#" id="saveContent"><i class="fas fa-save fa-sm fa-fw mr-2 text-gray-400"></i> Save</a>
+                                        <a class="dropdown-item" href="#" id="exportContent"><i class="fas fa-file-export fa-sm fa-fw mr-2 text-gray-400"></i> Export</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#" id="regenerateContent"><i class="fas fa-sync-alt fa-sm fa-fw mr-2 text-gray-400"></i> Regenerate</a>
                                     </div>
                                 </div>
                             </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${contentData.image || 'img/undraw_posting_photo.svg'}" alt="Illustration">
+                                </div>
+                                ${formatContent(contentData.content)}
+                                ${contentData.link ? `<a target="_blank" rel="nofollow" href="${contentData.link.url}">${contentData.link.text} →</a>` : ''}
+                            </div>
                         </div>
-                    `;
-                    
-                    // Set up action buttons
-                    document.getElementById('saveContent').onclick = () => alert('Content saved!');
-                    document.getElementById('exportContent').onclick = () => alert('Exporting content...');
-                    document.getElementById('regenerateContent').onclick = () => {
-                        $('#responseModal').modal('hide');
-                        document.getElementById('chatbot-form').dispatchEvent(new Event('submit'));
-                    };
-                    
-                    // Enable copy button
-                    document.getElementById('copyButton').onclick = function() {
-                        navigator.clipboard.writeText(response.rawContent || response.content)
-                            .then(() => {
-                                const originalText = this.innerHTML;
-                                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                                setTimeout(() => {
-                                    this.innerHTML = originalText;
-                                }, 2000);
-                            });
-                    };
-                })
-                .catch(error => {
-                    modalContent.innerHTML = `
-                        <div class="alert alert-danger">
-                            <h5><i class="fas fa-exclamation-triangle"></i> Generation Failed</h5>
-                            <p>${error.message || 'There was an error generating your content. Please try again.'}</p>
-                        </div>
-                    `;
-                    document.getElementById('copyButton').style.display = 'none';
-                });
+                    </div>
+                </div>
+                `;
+            
+            // Set up action buttons
+            document.getElementById('saveContent').onclick = () => saveContent(contentData);
+            document.getElementById('exportContent').onclick = () => exportContent(contentData);
+            document.getElementById('regenerateContent').onclick = () => {
+                $('#contentModal').modal('hide');
+                document.getElementById('chatbot-form').dispatchEvent(new Event('submit'));
+            };
+            
+            // Set up copy button
+            document.getElementById('copyButton').onclick = () => {
+                navigator.clipboard.writeText(contentData.content)
+                    .then(() => {
+                        const btn = document.getElementById('copyButton');
+                        const originalHTML = btn.innerHTML;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                        }, 2000);
+                    });
+            };
+                
+            } catch (error) {
+                console.error('Error:', error);
+                modalContent.innerHTML = `
+                <div class="alert alert-danger">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Generation Failed</h5>
+                    <p>${error.message || 'There was an error generating your content. Please try again.'}</p>
+                </div>
+                `;
+                document.getElementById('copyButton').style.display = 'none';
+            }
         });
         
-        // Simulate blog generation with card-style response (replace with actual API call)
-        function generateBlogContent(prompt) {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    try {
-                        resolve({
-                            title: `Your Custom Content About "${prompt}"`,
-                            image: 'img/undraw_posting_photo.svg',
-                            content: `
-                                <p>Here's a professionally generated content piece about <strong>${prompt}</strong> tailored for your needs:</p>
-                                <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                constantly updated collection of beautiful svg images that you can use
-                                completely free and without attribution!</p>
-                            `,
-                            link: {
-                                text: 'Browse more illustrations on unDraw',
-                                url: 'https://undraw.co/'
-                            },
-                            rawContent: `Professional content about ${prompt}:\n\nHere's a professionally generated content piece about ${prompt} tailored for your needs. Add some quality illustrations to your project courtesy of unDraw.`
-                        });
-                    } catch (error) {
-                        reject(error);
-                    }
-                }, 3000); // Simulate 3 second delay
-            });
+       
+        function formatContent(content) {
+            // If content is already HTML, return as-is
+            if (content.startsWith('<') && content.endsWith('>')) {
+                return content;
+            }
+            // Otherwise convert plain text to HTML paragraphs
+            return content.split('\n\n').map(para => `<p>${para}</p>`).join('');
+        }
+        
+        async function saveContent(contentData) {
+            try {
+                // Implement your save functionality here
+                await authFetch(`/${adminUUID}/admin/blogs/save/`, {
+                    method: 'POST',
+                    body: JSON.stringify(contentData)
+                });
+                alert('Content saved successfully!');
+            } catch (error) {
+                alert(`Failed to save content: ${error.message}`);
+            }
+        }
+        
+        async function exportContent(contentData) {
+            try {
+                // Implement your export functionality here
+                const response = await authFetch(`/${adminUUID}/admin/blogs/export/`, {
+                    method: 'POST',
+                    body: JSON.stringify(contentData)
+                });
+                window.open(response.download_url, '_blank');
+            } catch (error) {
+                alert(`Failed to export content: ${error.message}`);
+            }
         }
     </script>
 
