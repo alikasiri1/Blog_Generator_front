@@ -173,7 +173,7 @@
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <a class="collapse-item" href="profile.html">Blank Page</a>
                     </div>
                 </div>
             </li>
@@ -874,7 +874,7 @@
                 `;
 
                 // Step 2: Generate Content
-                const contentData = await authFetch(`/${adminUUID}/admin/blogs/generate_contents/`, {
+                const contentData = await authFetch(`/${adminUUID}/admin/blogs/${topicData.blog_slug}/generate_content/`, {
                     method: 'POST',
                     body: JSON.stringify({ topic: topicData.response })
                 });
@@ -906,10 +906,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${contentData.image || 'img/undraw_posting_photo.svg'}" alt="Illustration">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${contentData.image_url || 'img/undraw_posting_photo.svg'}" alt="Illustration">
                                 </div>
                                 ${formatContent(contentData.content)}
-                                ${contentData.link ? `<a target="_blank" rel="nofollow" href="${contentData.link.url}">${contentData.link.text} →</a>` : ''}
+                                ${contentData.slug ? `<a target="_blank" rel="nofollow" href="${contentData.slug}">view →</a>` : ''}
                             </div>
                         </div>
                     </div>
