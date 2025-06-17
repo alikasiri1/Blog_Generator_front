@@ -374,7 +374,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
                                             alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -401,7 +401,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="profile.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -438,7 +438,7 @@
 
                     <!-- Content Row -->
                     
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-xl-3 col-lg-7"></div>
                         <div class="col-xl-6 col-lg-7">
                             <div class="card-body" style="background-color: #18181b;border-radius: 31px;padding-left: 18px;padding-right: 5px;padding-bottom: 0px;padding-top: 0px;">
@@ -466,7 +466,7 @@
                         <div class="col-xl-3 col-lg-7"></div>
                     </div>
                     
-                    <div class="row" style="margin-top: 20px;">
+                    <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 20px;">
@@ -476,153 +476,58 @@
                                     
                                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                         <li class="nav-item " style="margin-right: 5px;" role="presentation">
-                                            <button class="nav-link active btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" >Home</button>
+                                            <button class="nav-link active btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >Published</button>
                                         </li>
-                                        <li class="nav-item " style="margin-right: 5px;" role="presentation">
-                                            <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);"id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
-                                        </li>
+                                        
                                         <li class="nav-item" style="margin-right: 5px;" role="presentation">
-                                            <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
+                                            <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">Private</button>
                                         </li>
                                     </ul>
                                     
                                 </div>
                                 
                                 <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 mb-4">
-                                                <div class="card shadow mb-4 border-0">
-                                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                                        <div class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                                aria-labelledby="dropdownMenuLink">
-                                                                <div class="dropdown-header">Dropdown Header:</div>
-                                                                <a class="dropdown-item" href="#">Action</a>
-                                                                <a class="dropdown-item" href="#">Another action</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                            </div>
+                                    <div class="tab-pane fade show active" id="pills-published" role="tabpanel" aria-labelledby="pills-published-tab">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-4 text-center mt-3"></div>
+                                                <div class="col-4 text-center mt-3">
+                                                    <div class="text-center py-5">
+                                                        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                            <span class="sr-only">Loading...</span>
                                                         </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="text-center">
-                                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
-                                                        </div>
-                                                        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                                            constantly updated collection of beautiful svg images that you can use
-                                                            completely free and without attribution!</p>
-                                                        <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                                            unDraw →</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 mb-4">
-                                                <div class="card shadow mb-4 border-0">
-                                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                                        <div class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                                aria-labelledby="dropdownMenuLink">
-                                                                <div class="dropdown-header">Dropdown Header:</div>
-                                                                <a class="dropdown-item" href="#">Action</a>
-                                                                <a class="dropdown-item" href="#">Another action</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="text-center">
-                                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
-                                                        </div>
-                                                        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                                            constantly updated collection of beautiful svg images that you can use
-                                                            completely free and without attribution!</p>
-                                                        <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                                            unDraw →</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 mb-4">
-                                                <div class="card shadow mb-4 border-0">
-                                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                                        <div class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                                aria-labelledby="dropdownMenuLink">
-                                                                <div class="dropdown-header">Dropdown Header:</div>
-                                                                <a class="dropdown-item" href="#">Action</a>
-                                                                <a class="dropdown-item" href="#">Another action</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="text-center">
-                                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
-                                                        </div>
-                                                        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                                            constantly updated collection of beautiful svg images that you can use
-                                                            completely free and without attribution!</p>
-                                                        <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                                            unDraw →</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 mb-4">
-                                                <div class="card shadow mb-4 border-0">
-                                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                                        <div class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                                aria-labelledby="dropdownMenuLink">
-                                                                <div class="dropdown-header">Dropdown Header:</div>
-                                                                <a class="dropdown-item" href="#">Action</a>
-                                                                <a class="dropdown-item" href="#">Another action</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="text-center">
-                                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
-                                                        </div>
-                                                        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                                            constantly updated collection of beautiful svg images that you can use
-                                                            completely free and without attribution!</p>
-                                                        <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                                            unDraw →</a>
+                                                        <p class="text-muted">This may take a few seconds</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                        <div class="col-12 text-center mt-3 mb-3" style="justify-items: center;">
+                                            <button id="showMorePublished" class="btn btn-dark border-0" style="display:none;">Show More</button>
+                                        </div>
                                     </div>
-                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
-                                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+                                    
+                                    <div class="tab-pane fade" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-4 text-center mt-3"></div>
+                                                <div class="col-4 text-center mt-3">
+                                                    <div class="text-center py-5">
+                                                        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                        <p class="text-muted">This may take a few seconds</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="col-12 text-center mt-3 mb-3" style="justify-items: center;">
+                                                <button id="showMoreUnpublished" class="btn btn-dark border-0" style="display:none;">Show More</button>
+                                            </div>
+                                    </div>
                                 </div>
-                                
 
-                                
                             </div>
                             
                         </div>
@@ -816,7 +721,6 @@
                 'Content-Type': 'application/json'
             };
         }
-        
         async function authFetch(url, options = {}) {
             const res = await fetch(`${API_ROOT}${url}`, {
                 ...options,
@@ -831,6 +735,149 @@
             return await res.json();
         }
         
+        
+
+                // Global variables
+        let allBlogs = [];
+        const itemsPerPage = 3;
+        let published = 1;
+        let unpublished = 1;
+
+        // Fetch all blogs
+        async function fetchBlogs() {
+            try {
+                allBlogs = await authFetch(`/${adminUUID}/admin/blogs/`, {
+                    method: 'GET',
+                });
+                console.log(allBlogs);
+                return allBlogs;
+            } catch (error) {
+                console.error('Error loading blogs:', error);
+                throw error;
+            }
+        }
+
+        // Filter blogs based on criteria
+        function filterBlogs(tab) {
+            switch(tab) {
+                case 'unpublished': // Not published but has content renderBlogs('unpublished', unpublished);
+                    return allBlogs.filter(blog => 
+                        blog.status !== 'published'
+                    );
+                case 'published': // Published and has content
+                    return allBlogs.filter(blog => 
+                        blog.status === 'published'
+                    );
+                default:
+                    return [];
+            }
+        }
+
+        // Render blogs for a specific tab
+        function renderBlogs(tab, page = 1) {
+            const filteredBlogs = filterBlogs(tab);
+            const startIndex = (page - 1) * itemsPerPage;
+            const blogsToShow = filteredBlogs.slice(0, startIndex + itemsPerPage);
+            console.log(filteredBlogs.length)
+            const container = document.querySelector(`#pills-${tab} .row`);
+            container.innerHTML = ''; // Clear existing content
+            
+            if (blogsToShow.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">No blogs found in this category</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            blogsToShow.forEach(blog => {
+                const blogCard = `
+                    <div class="col-xl-4 mb-4">
+                    <div class="card shadow mb-4 border-0">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">${blog.title}</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Blog Actions:</div>
+                                    <a class="dropdown-item" href="/blog/edit/${blog.id}">Edit</a>
+                                    <a class="dropdown-item" href="/blog/view/${blog.slug}">View</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;height: 20rem;" 
+                                    src="${blog.image_url ||'img/undraw_posting_photo.svg'}" alt="${blog.title}">
+                            </div>
+                            <p>Content:${blog.content}</p>
+                                
+                            </span></p>
+                            <p>Created: ${new Date(blog.created_at).toLocaleDateString()}</p>
+                            
+                            <a target="_blank" rel="nofollow" href="http://127.0.0.1:8001/${adminUUID}/admin/blogs/${blog.slug}">Show More →</a>
+                        </div>
+                    </div>
+                </div>
+                `;
+                container.insertAdjacentHTML('beforeend', blogCard);
+            });
+            
+            // Show/hide "Show More" button
+            const showMoreBtn = document.querySelector(`#pills-${tab} #showMore${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (showMoreBtn) {
+                showMoreBtn.style.display = (startIndex + itemsPerPage) < filteredBlogs.length ? 'block' : 'none';
+            }
+        }
+
+        // Initialize all tabs
+        async function initializeTabs() {
+            try {
+                // Show loading state
+                
+                
+                await fetchBlogs();
+                
+                // Initial render for each tab
+                renderBlogs('published', published);
+                renderBlogs('unpublished', unpublished);
+                
+                
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.querySelector('.row').innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-danger">Failed to load blogs. Please try again later.</div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // Event listeners for "Show More" buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTabs();
+            
+            document.getElementById('showMorePublished')?.addEventListener('click', () => {
+                published++;
+                renderBlogs('published', published);
+            });
+            
+            document.getElementById('showMoreUnpublished')?.addEventListener('click', () => {
+                unpublished++;
+                renderBlogs('unpublished', unpublished);
+            });
+        });
+
         document.getElementById('chatbot-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const userPrompt = document.getElementById('user-message').value.trim();
