@@ -568,7 +568,7 @@
         
         async function fetchAndDisplayProfile() {
             try {
-                const profileResponse = await authFetch(`/${adminUUID}/admin/profile/`, {
+                const profileResponse = await authFetch(`/admin/profile/`, {
                     method: 'GET',
                 });
                 
@@ -635,7 +635,7 @@
                     formData.user.password = password;
                 }
         
-                const response = await authFetch(`/admin/profile/`, {
+                const response = await authFetch(`/admin/profile/updates`, {
                     method: 'PATCH',
                     body: JSON.stringify(formData)
                 });

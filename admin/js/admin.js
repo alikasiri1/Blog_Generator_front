@@ -30,7 +30,7 @@ if (!accessToken || !adminUUID) {
   }
 
 async function loadBlogs() {
-  const blogs = await authFetch(`/${adminUUID}/admin/blogs/`);
+  const blogs = await authFetch(`/admin/blogs/`);
   console.log(blogs)
   const out = document.getElementById('dataTable');
   out.innerHTML = `
@@ -75,73 +75,6 @@ async function loadBlogs() {
             </td>
           </tr>`).join('')}
       </tbody>`;
-}
-
-function showCreateModal() {
-  document.getElementById('floatingFormTitle').innerText = 'Create Blog';
-  document.getElementById('blog-id').value = '';
-  document.getElementById('blog-title').value = '';
-  document.getElementById('blog-content').value = '';
-  document.getElementById('blog-category').value = '';
-  openFloatingForm();
-}
-
-function editBlog(blog) {
-  document.getElementById('floatingFormTitle').innerText = 'Edit Blog';
-  document.getElementById('blog-id').value = blog.id;
-  document.getElementById('blog-title').value = blog.title;
-  document.getElementById('blog-content').value = blog.content;
-  document.getElementById('blog-category').value = blog.category;
-  openFloatingForm();
-}
-
-function openFloatingForm() {
-  document.getElementById('floatingForm').style.display = 'block';
-  document.getElementById('floatingFormBackdrop').style.display = 'block';
-}
-
-function closeFloatingForm() {
-  document.getElementById('floatingForm').style.display = 'none';
-  document.getElementById('floatingFormBackdrop').style.display = 'none';
-}
-
-async function submitBlog(e) {
-  e.preventDefault();
-  const id = document.getElementById('blog-id').value;
-  const title = document.getElementById('blog-title').value;
-  const content = document.getElementById('blog-content').value;
-  const category = document.getElementById('blog-category').value;
-
-  const blog = { title, content, category };
-  const method = id ? 'PUT' : 'POST';
-  const url = id
-    ? `/${adminUUID}/admin/blogs/${id}/`
-    : `/${adminUUID}/admin/blogs/`;
-
-  await authFetch(url, {
-    method,
-    body: JSON.stringify(blog)
-  });
-
-  closeFloatingForm();
-  loadBlogs();
-}
-
-async function deleteBlog(slug) {
-  if (!confirm('Are you sure?')) return;
-  await authFetch(`/${adminUUID}/admin/blogs/${slug}/`, {
-    method: 'DELETE'
-  });
-  loadBlogs();
-}
-
-async function loadProfile() {
-  const profile = await authFetch(`/${adminUUID}/admin/profil/`);
-  const out = document.getElementById('output');
-  out.innerHTML = `
-    <h3>Admin Profile</h3>
-    <p><strong>Username:</strong> ${profile.username}</p>
-    <p><strong>Email:</strong> ${profile.email}</p>`;
 }
 
 function logout() {

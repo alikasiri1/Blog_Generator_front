@@ -503,7 +503,7 @@
                                         </div>
                                         
                                         <div class="col-12 text-center mt-3 mb-3" style="justify-items: center;">
-                                            <button id="showMorePublished" class="btn btn-dark border-0" style="display:none;">Show More</button>
+                                            <button id="showMorePublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
                                         </div>
                                     </div>
                                     
@@ -522,8 +522,8 @@
                                             </div>
                                         </div>
                                         
-                                            <div class="col-12 text-center mt-3 mb-3" style="justify-items: center;">
-                                                <button id="showMoreUnpublished" class="btn btn-dark border-0" style="display:none;">Show More</button>
+                                            <div class="col-12 text-center mb-3" style="justify-items: center;">
+                                                <button id="showMoreUnpublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
                                             </div>
                                     </div>
                                 </div>
@@ -746,7 +746,7 @@
         // Fetch all blogs
         async function fetchBlogs() {
             try {
-                allBlogs = await authFetch(`/${adminUUID}/admin/blogs/`, {
+                allBlogs = await authFetch(`/admin/blogs/`, {
                     method: 'GET',
                 });
                 console.log(allBlogs);
@@ -793,8 +793,8 @@
             
             blogsToShow.forEach(blog => {
                 const blogCard = `
-                    <div class="col-xl-4 mb-4">
-                    <div class="card shadow mb-4 border-0">
+                    <div class="col-xl-4 mb-3">
+                    <div class="card shadow border-0">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">${blog.title}</h6>
                             <div class="dropdown no-arrow">
@@ -904,7 +904,7 @@
                 $('#responseModal').modal('show');
                 
                 // Step 1: Generate Topic
-                const topicData = await authFetch(`/${adminUUID}/admin/blogs/generate_topic/`, {
+                const topicData = await authFetch(`/admin/blogs/generate_topic/`, {
                     method: 'POST',
                     body: JSON.stringify({ prompt: userPrompt })
                 });
@@ -921,7 +921,7 @@
                 `;
 
                 // Step 2: Generate Content
-                const contentData = await authFetch(`/${adminUUID}/admin/blogs/${topicData.blog_slug}/generate_content/`, {
+                const contentData = await authFetch(`/admin/blogs/${topicData.blog_slug}/generate_content/`, {
                     method: 'POST',
                     body: JSON.stringify({ topic: topicData.response })
                 });
@@ -935,7 +935,7 @@
                     <div class="col-xl-12">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">${contentData.topic || 'Generated Content'}</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">${contentData.title || 'Generated Content'}</h6>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -962,7 +962,8 @@
                     </div>
                 </div>
                 `;
-            
+                // load blogs again
+                initializeTabs();
             // Set up action buttons
             document.getElementById('saveContent').onclick = () => saveContent(contentData);
             document.getElementById('exportContent').onclick = () => exportContent(contentData);
