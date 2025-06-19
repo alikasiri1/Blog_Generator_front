@@ -13,9 +13,9 @@
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
+    <!-- <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+        rel="stylesheet"> -->
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -23,92 +23,94 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 
     <script >
         const API_ROOT = 'http://127.0.0.1:8000/api';
-const accessToken = localStorage.getItem('access_token');
-const adminUUID = localStorage.getItem('admin_uuid');
+        const accessToken = localStorage.getItem('access_token');
+        const adminUUID = localStorage.getItem('admin_uuid');
 
-function getAuthHeaders() {
-  return {
-    'Authorization': `Bearer ${accessToken}`,
-    'Content-Type': 'application/json'
-  };
-}
+        function getAuthHeaders() {
+        return {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        };
+        }
 
-async function authFetch(url, options = {}) {
-  const res = await fetch(`${API_ROOT}${url}`, {
-    ...options,
-    headers: getAuthHeaders()
-  });
+        async function authFetch(url, options = {}) {
+        const res = await fetch(`${API_ROOT}${url}`, {
+            ...options,
+            headers: getAuthHeaders()
+        });
 
-  if (res.status === 401) {
-    alert("Session expired. Please log in again.");
-    window.location.href = 'login.html';
-    return;
-  }
-  return res.json();
-}
-if (!accessToken || !adminUUID) {
-    alert("You're not logged in.");
-    window.location.href = 'login.html';
-  } else {
-    loadBlogs();
-  }
+        if (res.status === 401) {
+            alert("Session expired. Please log in again.");
+            window.location.href = 'login.html';
+            return;
+        }
+        return res.json();
+        }
 
-async function loadBlogs() {
-  const blogs = await authFetch(`/admin/blogs/`);
-  console.log(blogs)
-  const out = document.getElementById('dataTable');
-  out.innerHTML = `
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Content (preview)</th>
-          <th>Published</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${blogs.map(blog => `
-          <tr>
-            <th>
-                ${blog.status === 'published' 
-                    ? `<a class="nav-link" href="http://127.0.0.1:8001/single.html?title=${blog.slug}"> 
-                        <span>${blog.title}</span>
-                    </a>`
-                    : `<span class="nav-link disabled">${blog.title}</span>`
-                }
-            </th>
-            <th>${(blog.content || '').substring(0, 100)}...</th>
-            <th>
-                <button class="btn btn-sm btn-${blog.status === 'published' ? 'warning' : 'success'}">
-                    ${blog.status === 'published' ? 'Unpublish' : 'Publish'}
-                </button>
-            </th>
-            <td>
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton${blog.id}" data-bs-toggle="dropdown" aria-expanded="false">
-                  	Actions
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${blog.id}">
-                  <li><a class="dropdown-item" href="#" onclick='editBlog(${JSON.stringify(blog)})'>Edit</a></li>
-                  <li><a class="dropdown-item" href="#">Regenerate</a></li>
-                  <div class="dropdown-divider"></div>
-                  <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.slug})'>Delete</a></li>
-                  
-                </ul>
-              </div>
-            </td>
-          </tr>`).join('')}
-      </tbody>`;
-}
 
-function logout() {
-  localStorage.clear();
-  window.location.href = 'login.html';
-}
+        async function loadBlogs() {
+        const blogs = await authFetch(`/admin/blogs/`);
+        console.log(blogs)
+        const out = document.getElementById('dataTable1');
+        out.innerHTML = `
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Content</th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${blogs.map(blog => `
+                <tr>
+                    <td>
+                        ${blog.status === 'published' 
+                            ? `<a class="nav-link" href="http://127.0.0.1:8001/single.html?title=${blog.slug}"> 
+                                <span>${blog.title}</span>
+                            </a>`
+                            : `<span class="nav-link disabled">${blog.title}</span>`
+                        }
+                    </td>
+                    <td>
+                        <div class="tm-status-circle ${blog.status === 'published' ? 'moving' : 'pending'}">
+                        </div>${blog.status === 'published' ? 'Published' : 'Unpublished'}
+                    </td> 
+                    <td>${(blog.content || '').substring(0, 100)}...</td>
+                    
+                    
+                    <td>
+                    <div class="dropdown"> 
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton${blog.id}" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${blog.id}">
+                        <li><a class="dropdown-item" href="single.html?title=${blog.slug}" onclick='editBlog(${JSON.stringify(blog)})'>Edit</a></li>
+                        <li><a class="dropdown-item" href="#">${blog.status === 'published' ? 'Unpublish' : 'Publish'}</a></li>
+                        <li><a class="dropdown-item" href="#">Regenerate</a></li>
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.slug})'>Delete</a></li>
+                        
+                        </ul>
+                    </div>
+                    </td>
+                </tr>`).join('')}
+            </tbody>
+        </table>`;
+        }
+
+        loadBlogs();
+ 
+        function logout() {
+        localStorage.clear();
+        window.location.href = 'login.html';
+        }
 
     </script>
 
@@ -163,6 +165,27 @@ function logout() {
         }
         .btn-primary {
             background-color: #5a5c69;
+        }
+        .tm-status-circle {
+            display: inline-block;
+            margin-right: 5px;
+            vertical-align: middle;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            margin-top: -3px;
+          }
+        .moving {
+        background-color: #9be64d;
+        box-shadow: 0 0 8px #9be64d, inset 0 0 8px #9be64d;
+        }
+        .pending {
+            background-color: #efc54b;
+            box-shadow: 0 0 8px #efc54b, inset 0 0 8px #efc54b;
+          }
+        .cancelled {
+        background-color: #da534f;
+        box-shadow: 0 0 8px #da534f, inset 0 0 8px #da534f;
         }
     </style>
 </head>
@@ -524,94 +547,20 @@ function logout() {
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>66</td>
-                                            <td>2009/01/12</td>
-                                            <td>$86,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2012/03/29</td>
-                                            <td>$433,060</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
-                                            <td>$162,700</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>New York</td>
-                                            <td>61</td>
-                                            <td>2012/12/02</td>
-                                            <td>$372,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Herrod Chandler</td>
-                                            <td>Sales Assistant</td>
-                                            <td>San Francisco</td>
-                                            <td>59</td>
-                                            <td>2012/08/06</td>
-                                            <td>$137,500</td>
-                                        </tr>
-                                    </tbody>
-
-
-
-
-                                </table>
+                        <div class="card-body" >
+                            <div class="table-responsive" id="dataTable1">
+                                <div class="row">
+                                    <div class="col-4 text-center mt-3"></div>
+                                    <div class="col-4 text-center mt-3">
+                                        <div class="text-center py-5">
+                                            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <p class="text-muted">This may take a few seconds</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
