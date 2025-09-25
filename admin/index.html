@@ -467,7 +467,17 @@
                         </div>
                         <div class="col-xl-3 col-lg-7"></div>
                     </div>
-                    
+                    <div class="row mb-4 ml-1">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item " style="margin-right: 5px;" role="presentation">
+                                <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >Published</button>
+                            </li>
+                            
+                            <li class="nav-item" style="margin-right: 5px;" role="presentation">
+                                <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">Private</button>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
@@ -695,6 +705,10 @@
         </div>
     </div>
 
+    
+    
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -741,7 +755,7 @@
 
                 // Global variables
         let allBlogs = [];
-        const itemsPerPage = 3;
+        const itemsPerPage = 4;
         let published = 1;
         let unpublished = 1;
 
@@ -795,39 +809,47 @@
             
             blogsToShow.forEach(blog => {
                 const blogCard = `
-                    <div class="col-xl-4 mb-3">
+                
+                    <div class="col-xl-3 mb-3">
                     <div class="card shadow border-0">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">${blog.title}</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                    aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Blog Actions:</div>
-                                    <a class="dropdown-item" href="single.html?title=${blog.slug}">Edit</a>
-                                    <a class="dropdown-item" href="/blog/view/${blog.slug}">View</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="card-body">
                             <div class="text-center">
-                                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;height: 20rem;" 
+                                <a target="_blank" rel="nofollow" href="http://127.0.0.1:8001/admin/blogs/${blog.slug}">
+                                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 20rem;height: 10rem;" 
                                     src="${'img/undraw_posting_photo.svg'}" alt="${blog.title}">
+                                </a>
                             </div>
-                            <p>Content:${blog.content}</p>
+                            <p class="text-lg">${blog.title}</p>
                                 
                             </span></p>
-                            <p>Created: ${new Date(blog.created_at).toLocaleDateString()}</p>
                             
-                            <a target="_blank" rel="nofollow" href="http://127.0.0.1:8001/${adminUUID}/admin/blogs/${blog.slug}">Show More →</a>
+                            
+                            <div class="row">
+                                <div class="col-xl-11 mb-0">
+                                    <p class="text-xs mb-0">Created: ${new Date(blog.created_at).toLocaleDateString()}</p>
+                                </div>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Blog Actions:</div>
+                                            <a class="dropdown-item" href="single.html?title=${blog.slug}">Edit</a>
+                                            <a class="dropdown-item" href="/blog/view/${blog.slug}">View</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a>
+                                        </div>
+                                    </div>
+                            </div>
+                            
+                            
                         </div>
                     </div>
                 </div>
+
                 `; // src="${blog.image_url ||'img/undraw_posting_photo.svg'}" alt="${blog.title}"> 
                 container.insertAdjacentHTML('beforeend', blogCard);
             });
