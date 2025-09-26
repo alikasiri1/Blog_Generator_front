@@ -434,15 +434,19 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm">
+                            <i
+                                class="fas fa-download fa-sm text-white-50">
+                            </i> 
+                            Generate Report
+                        </a>
                     </div>
 
                     <!-- Content Row -->
                     
                     <div class="row mb-4">
                         <div class="col-xl-3 col-lg-7"></div>
-                        <div class="col-xl-6 col-lg-7">
+                         <div class="col-xl-6 "><!-- col-lg-7 -->
                             <div class="card-body" style="background-color: #18181b;border-radius: 31px;padding-left: 18px;padding-right: 5px;padding-bottom: 0px;padding-top: 0px;">
                                 <!-- Chat input form -->
                                 
@@ -469,13 +473,19 @@
                     </div>
                     <div class="row mb-4 ml-1">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                            <li class="nav-item " style="margin-right: 5px;" role="presentation">
-                                <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >Published</button>
-                            </li>
+                            <a href="#" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
+                                <i
+                                    class="fas fa-plus fa-sm text-white-20">
+                                </i> 
+                                Create New
+                            </a>
                             
-                            <li class="nav-item" style="margin-right: 5px;" role="presentation">
-                                <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">Private</button>
-                            </li>
+                            <a href="#" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
+                                <i
+                                    class="fas fa-upload fa-sm text-white-20">
+                                </i> 
+                                Import
+                            </a>
                         </ul>
                     </div>
                     <div class="row">
@@ -707,7 +717,7 @@
 
     
     
-
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -807,16 +817,16 @@
                 return;
             }
             
-            blogsToShow.forEach(blog => {
+            blogsToShow.forEach(blog => {// col-xl-3
                 const blogCard = `
                 
-                    <div class="col-xl-3 mb-3">
+                    <div class="col-lg-3 mb-3">
                     <div class="card shadow border-0">
                         
                         <div class="card-body">
-                            <div class="text-center">
+                            <div class=" text-center">
                                 <a target="_blank" rel="nofollow" href="http://127.0.0.1:8001/admin/blogs/${blog.slug}">
-                                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 20rem;height: 10rem;" 
+                                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;height: 10rem;" 
                                     src="${'img/undraw_posting_photo.svg'}" alt="${blog.title}">
                                 </a>
                             </div>
@@ -824,29 +834,26 @@
                                 
                             </span></p>
                             
-                            
-                            <div class="row">
-                                <div class="col-xl-11 mb-0">
-                                    <p class="text-xs mb-0">Created: ${new Date(blog.created_at).toLocaleDateString()}</p>
-                                </div>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Blog Actions:</div>
-                                            <a class="dropdown-item" href="single.html?title=${blog.slug}">Edit</a>
-                                            <a class="dropdown-item" href="/blog/view/${blog.slug}">View</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-lg-10 mb-0">
+                                        <p class="text-xs mb-0">Created: ${new Date(blog.created_at).toLocaleDateString()}</p>
                                     </div>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                aria-labelledby="dropdownMenuLink">
+                                                <div class="dropdown-header">Blog Actions:</div>
+                                                <a class="dropdown-item" href="single.html?title=${blog.slug}">Edit</a>
+                                                <a class="dropdown-item" href="/blog/view/${blog.slug}">View</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a>
+                                            </div>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            
-                        </div>
                     </div>
                 </div>
 
