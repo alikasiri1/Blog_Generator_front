@@ -747,6 +747,21 @@
                 'Content-Type': 'application/json'
             };
         }
+        function timeAgo(dateString) {
+        const now = new Date();
+        const past = new Date(dateString);
+        const diffMs = now - past; // milliseconds
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+        }
         async function authFetch(url, options = {}) {
             const res = await fetch(`${API_ROOT}${url}`, {
                 ...options,
@@ -819,43 +834,48 @@
             
             blogsToShow.forEach(blog => {// col-xl-3
                 const blogCard = `
-                
-                    <div class="col-lg-3 mb-3">
-                    <div class="card shadow border-0">
-                        
-                        <div class="card-body">
-                            <div class=" text-center">
-                                <a target="_blank" rel="nofollow" href="http://127.0.0.1:8001/admin/blogs/${blog.slug}">
-                                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;height: 10rem;" 
-                                    src="${'img/undraw_posting_photo.svg'}" alt="${blog.title}">
-                                </a>
-                            </div>
-                            <p class="text-lg">${blog.title}</p>
-                                
-                            </span></p>
-                            
-                                <div class="row">
-                                    <div class="col-lg-10 mb-0">
-                                        <p class="text-xs mb-0">Created: ${new Date(blog.created_at).toLocaleDateString()}</p>
-                                    </div>
-                                        <div class="dropdown no-arrow">
-                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                aria-labelledby="dropdownMenuLink">
-                                                <div class="dropdown-header">Blog Actions:</div>
-                                                <a class="dropdown-item" href="single.html?title=${blog.slug}">Edit</a>
-                                                <a class="dropdown-item" href="/blog/view/${blog.slug}">View</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a>
-                                            </div>
-                                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="card doc-card shadow-sm">
+                              <a href="/docs/btwknjkc1rh763i">
+                                <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
+                              </a>
+                              <div class="card-body">
+                                <h6 class="card-title mb-1">
+                                  ${blog.title}
+                                  
+                                </h6>
+                                <!-- corrected bg-primary spelling -->
+                                <span class="badge ">
+                                  </i> ${blog.status === 'draft' 
+                                    ? `<span class="badge "><i class="fa fa-lock me-1"></i> Private</span>` 
+                                    : `<span class="badge "><i class="fa fa-globe me-1"></i> Public</span>`}
+                                </span>
+                          
+                                <!-- last viewed + dropdown side by side -->
+                                <div class="d-flex align-items-center justify-content-between mt-2">
+                                  <small class="text-muted">Last viewed ${timeAgo(blog.created_at)}</small>
+                          
+                                  <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                      <li class="dropdown-header">Blog Actions:</li>
+                                      <li><a class="dropdown-item" href="single.html?title=${blog.slug}">Edit</a></li>
+                                      <li><a class="dropdown-item" href="/blog/view/${blog.slug}">View</a></li>
+                                      <li><hr class="dropdown-divider"></li>
+                                      <li><a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a></li>
+                                    </ul>
+                                  </div>
                                 </div>
+                              </div>
                             </div>
-                    </div>
-                </div>
+                          </div>
+
+
+                    
 
                 `; // src="${blog.image_url ||'img/undraw_posting_photo.svg'}" alt="${blog.title}"> 
                 container.insertAdjacentHTML('beforeend', blogCard);
