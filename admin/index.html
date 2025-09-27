@@ -20,64 +20,12 @@
 
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
         <!-- Bootstrap Bundle with Popper -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
      <script src="js/bootstrap.bundle.min.js"></script>
      
-    <style>
-        .bg-gradient-light {
-            background-color: #080808;
-            background-image: linear-gradient(180deg, #001552 10%, #c2cbe5 100%);
-            background-size: cover;
-          }
-          
-          .bg-gradient-dark {
-            background-color: #18181b ;
-            background-image: linear-gradient(180deg, #18181b  10%, #27272a 100%);
-            background-size: cover;
-          }
-          .bg-dark {
-            background-color: #18181b !important;
-          }
-          .btn-dark {
-            background-color: #42444e ;
-          }
-          .btn-dark:hover {
-            background-color: #27272a;
-        }
-        .nav-pills .nav-link.active {
-            background-color: #27272a !important; /* Active button color */
-            
-        }
-          .card{
-            background-color: #18181b;
-            border: 1px solid #2d2e33;
-          }
-          
-        .text-gray-800 {
-            color: #ffffff !important;
-        }
-        body{
-            color: #ffffff;
-        }
-        #wrapper #content-wrapper {
-            background-color: #000000
-        }
-        .card-header {
-            border-bottom: 1px solid #3f3f46;
-            background-color: #27272a;
-        }
-        .text-primary {
-            color: #ffffff !important;
-        }
-        .progress {
-            background-color: #35353a;
-        }
-        .btn-primary {
-            background-color: #5a5c69;
-        }
-    </style>
+    
     
 </head>
 
@@ -87,7 +35,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion " id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -98,10 +46,10 @@
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <!-- <hr class="sidebar-divider my-0"> -->
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item active ">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -109,19 +57,19 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <!-- <hr class="sidebar-divider"> -->
 
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <!-- <div class="sidebar-heading">
                 Interface
-            </div>
+            </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span >Components</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -155,9 +103,9 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <!-- <div class="sidebar-heading">
                 Addons
-            </div>
+            </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -175,7 +123,7 @@
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="profile.html">Blank Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                 </div>
             </li>
@@ -183,7 +131,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="http://127.0.0.1:8001/index.html">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Preview Blogs</span></a>
+                    <span>Preview Blogs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="profile.html">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Profile</span>
+                </a>
             </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item">
@@ -218,7 +173,7 @@
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column background-content-wrapper-dark">
 
             <!-- Main Content -->
             <div id="content">
@@ -235,9 +190,8 @@
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-dark border-1 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2" 
-                                style="border-color: #42444e;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); color: white;">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
                             <div class="input-group-append">
                                 <button class="btn btn-dark" type="button" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
                                     <i class="fas fa-search fa-sm"></i>
@@ -245,7 +199,6 @@
                             </div>
                         </div>
                     </form>
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -389,9 +342,11 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
-
+                        <button id="themeToggle" class="btn btn-dark" >
+                            light
+                        </button>
                         <div class="topbar-divider d-none d-sm-block"></div>
-
+                        
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -432,14 +387,9 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm">
-                            <i
-                                class="fas fa-download fa-sm text-white-50">
-                            </i> 
-                            Generate Report
-                        </a>
+                    
+                    <div class="card-header border-0 py-3" style="background-color: inherit;padding-left: 0px;">
+                        <h5 class="m-0 font-weight-bold text-primary">Blogs</h5>
                     </div>
 
                     <!-- Content Row -->
@@ -473,14 +423,14 @@
                     </div>
                     <div class="row mb-4 ml-1">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                            <a href="#" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
+                            <a href="blank.html" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
                                 <i
                                     class="fas fa-plus fa-sm text-white-20">
                                 </i> 
                                 Create New
                             </a>
                             
-                            <a href="#" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
+                            <a href="blank.html" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
                                 <i
                                     class="fas fa-upload fa-sm text-white-20">
                                 </i> 
@@ -489,70 +439,69 @@
                         </ul>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 mb-4">
-                            <div class="card shadow mb-4">
-                                <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 20px;">
-                                    <div class="card-header border-0 py-3" style="background-color: inherit;">
-                                        <h5 class="m-0 font-weight-bold text-primary">Blogs</h5>
-                                    </div>
-                                    
-                                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                                        <li class="nav-item " style="margin-right: 5px;" role="presentation">
-                                            <button class="nav-link active btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >Published</button>
-                                        </li>
-                                        
-                                        <li class="nav-item" style="margin-right: 5px;" role="presentation">
-                                            <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">Private</button>
-                                        </li>
-                                    </ul>
-                                    
-                                </div>
-                                
-                                <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-published" role="tabpanel" aria-labelledby="pills-published-tab">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-4 text-center mt-3"></div>
-                                                <div class="col-4 text-center mt-3">
-                                                    <div class="text-center py-5">
-                                                        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                        <p class="text-muted">This may take a few seconds</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-12 text-center mt-3 mb-3" style="justify-items: center;">
-                                            <button id="showMorePublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="tab-pane fade" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-4 text-center mt-3"></div>
-                                                <div class="col-4 text-center mt-3">
-                                                    <div class="text-center py-5">
-                                                        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                        <p class="text-muted">This may take a few seconds</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                            <div class="col-12 text-center mb-3" style="justify-items: center;">
-                                                <button id="showMoreUnpublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
-                                            </div>
-                                    </div>
-                                </div>
-
+                        
+                        <div class="d-flex col-12 justify-content-between align-items-center mb-1" >
+                            <div class="card-header border-0 py-3" style="background-color: inherit;">
+                                <h5 class="m-0 font-weight-bold text-primary"></h5>
                             </div>
                             
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item " style="margin-right: 5px;" role="presentation">
+                                    <button class="nav-link active btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >Published</button>
+                                </li>
+                                
+                                <li class="nav-item" style="margin-right: 5px;" role="presentation">
+                                    <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">Private</button>
+                                </li>
+                            </ul>
+                            
                         </div>
+                        
+                        <div class="tab-content col-12" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-published" role="tabpanel" aria-labelledby="pills-published-tab">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 text-center mt-3"></div>
+                                        <div class="col-4 text-center mt-3">
+                                            <div class="text-center py-5">
+                                                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <p class="text-muted">This may take a few seconds</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 text-center mt-3 mb-3" style="justify-items: center;">
+                                    <button id="showMorePublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 text-center mt-3"></div>
+                                        <div class="col-4 text-center mt-3">
+                                            <div class="text-center py-5">
+                                                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <p class="text-muted">This may take a few seconds</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                    <div class="col-12 text-center mb-3" style="justify-items: center;">
+                                        <button id="showMoreUnpublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
+                                    </div>
+                            </div>
+                        </div>
+
+                            
+                            
+                        
                     </div>
 
                     <!-- Content Row -->
@@ -741,6 +690,31 @@
         const accessToken = localStorage.getItem('access_token');
         const adminUUID = localStorage.getItem('admin_uuid');
         
+        const toggleButton = document.getElementById('themeToggle');
+
+        // Define class pairs to toggle: [lightClass, darkClass]
+        const classPairs = [
+            ['bg-light', 'bg-dark'],
+            ['bg-gray-100', 'bg-gray-900'],
+            ['bg-gradient-light', 'bg-gradient-dark'],
+            ['text-gray-100', 'text-gray-900'], // example for text
+            ['btn-light', 'btn-dark'],     
+            ['sidebar-light', 'sidebar-dark'],           
+            ['card-header-light', 'card-header-dark'],
+            ['progress', 'progress-dark'],
+            ['background-content-wrapper-light','background-content-wrapper-dark']
+        ];
+
+        toggleButton.addEventListener('click', () => {
+            classPairs.forEach(([lightClass, darkClass]) => {
+                // Toggle classes on all elements that have either class
+                document.querySelectorAll(`.${lightClass}, .${darkClass}`).forEach(el => {
+                    el.classList.toggle(lightClass);
+                    el.classList.toggle(darkClass);
+                });
+            });
+        });
+
         function getAuthHeaders() {
             return {
                 'Authorization': `Bearer ${accessToken}`,
@@ -780,7 +754,7 @@
 
                 // Global variables
         let allBlogs = [];
-        const itemsPerPage = 4;
+        const itemsPerPage = 8;
         let published = 1;
         let unpublished = 1;
 
@@ -825,7 +799,7 @@
             
             if (blogsToShow.length === 0) {
                 container.innerHTML = `
-                    <div class="col-12 text-center py-5">
+                    <div class="col-12 text-center py-2">
                         <p class="text-muted">No blogs found in this category</p>
                     </div>
                 `;
@@ -834,7 +808,7 @@
             
             blogsToShow.forEach(blog => {// col-xl-3
                 const blogCard = `
-                    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
                             <div class="card doc-card shadow-sm">
                               <a href="/docs/btwknjkc1rh763i">
                                 <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
