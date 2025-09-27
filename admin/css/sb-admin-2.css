@@ -69,6 +69,7 @@ body {
   background-color: #fff;
 }
 
+
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }
@@ -4493,6 +4494,17 @@ input[type="button"].btn-block {
   background-clip: border-box;
   border: 1px solid #e3e6f0;
   border-radius: 0.35rem;
+}
+.card-dark{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border-radius: 0.35rem;
+  background-color: #18181b;
+  border: 1px solid #2d2e33;
 }
 
 .card > hr {
@@ -10330,6 +10342,7 @@ a:focus {
 .sidebar {
   width: 6.5rem;
   min-height: 100vh;
+
 }
 
 .sidebar .nav-item {
@@ -10443,6 +10456,8 @@ a:focus {
 .sidebar.toggled {
   width: 0 !important;
   overflow: hidden;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .sidebar.toggled #sidebarToggle::after {
@@ -10520,6 +10535,7 @@ a:focus {
     padding-left: 20px;
     padding-right: 20px;
   }
+  
   .sidebar .nav-item .collapse {
     position: relative;
     left: 0;
@@ -10581,6 +10597,7 @@ a:focus {
     overflow: visible;
     width: 6.5rem !important;
   }
+
   .sidebar.toggled .nav-item .collapse {
     position: absolute;
     left: calc(6.5rem + 1.5rem / 2);
@@ -10607,6 +10624,10 @@ a:focus {
   }
   .sidebar.toggled .nav-item:last-child {
     margin-bottom: 1rem;
+  }
+  .sidebar.toggled .nav-item{
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
   .sidebar.toggled .nav-item .nav-link {
     text-align: center;

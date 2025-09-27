@@ -206,7 +206,7 @@
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
+                                <i class="fas fa-search fa-fw text-primary"></i>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
@@ -218,7 +218,7 @@
                                             aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
+                                                <i class="fas fa-search fa-sm "></i>
                                             </button>
                                         </div>
                                     </div>
@@ -230,7 +230,7 @@
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-bell fa-fw text-gray-200"></i>
                                 <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
@@ -281,7 +281,7 @@
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
+                                <i class="fas fa-envelope fa-fw text-gray-200"></i>
                                 <!-- Counter - Messages -->
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
@@ -342,9 +342,14 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
-                        <button id="themeToggle" class="btn btn-dark" >
-                            light
-                        </button>
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            
+                            <a class="nav-link dropdown-toggle" href="#" id="themeToggle" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-sun text-gray-200"></i>
+                            </a>
+                        </li>
+                        
                         <div class="topbar-divider d-none d-sm-block"></div>
                         
                         <!-- Nav Item - User Information -->
@@ -389,7 +394,7 @@
                     <!-- Page Heading -->
                     
                     <div class="card-header border-0 py-3" style="background-color: inherit;padding-left: 0px;">
-                        <h5 class="m-0 font-weight-bold text-primary">Blogs</h5>
+                        <h5 class="m-0 font-weight-bold text-gray-200">Blogs</h5>
                     </div>
 
                     <!-- Content Row -->
@@ -702,7 +707,10 @@
             ['sidebar-light', 'sidebar-dark'],           
             ['card-header-light', 'card-header-dark'],
             ['progress', 'progress-dark'],
-            ['background-content-wrapper-light','background-content-wrapper-dark']
+            ['background-content-wrapper-light','background-content-wrapper-dark'],
+            ['text-primary' , 'text-gray-200'],
+            ['fa-moon' , 'fa-sun'],
+            ['card' , 'card-dark']
         ];
 
         toggleButton.addEventListener('click', () => {
@@ -809,12 +817,12 @@
             blogsToShow.forEach(blog => {// col-xl-3
                 const blogCard = `
                     <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
-                            <div class="card doc-card shadow-sm">
+                            <div class="card-dark doc-card shadow-sm">
                               <a href="/docs/btwknjkc1rh763i">
                                 <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
                               </a>
                               <div class="card-body">
-                                <h6 class="card-title mb-1">
+                                <h6 class="card-title mb-1 text-gray-100">
                                   ${blog.title}
                                   
                                 </h6>
