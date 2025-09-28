@@ -25,6 +25,20 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
      <script src="js/bootstrap.bundle.min.js"></script>
      
+     <style>
+       .hover-card {
+  transition: background-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+
+/* much bigger, darker shadow + slight lift */
+.hover-card:hover {
+  background-color: #f5f5f6;
+
+  box-shadow:
+    0 1.5rem 4rem rgba(0, 0, 0, 0.4),  /* main shadow */
+    0 0.5rem 1rem rgba(0, 0, 0, 0.2);   /* subtle extra */
+}
+     </style>
     
     
 </head>
@@ -35,7 +49,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion " id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-light sidebar sidebar-light accordion " id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -163,23 +177,23 @@
             </div>
 
             <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
+            <!-- <div class="sidebar-card d-none d-lg-flex">
                 <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
                 <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
                 <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column background-content-wrapper-dark">
+        <div id="content-wrapper" class="d-flex flex-column background-content-wrapper-light">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-dark bg-dark topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-1 static-top ">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -187,10 +201,10 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
+                    <!-- <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                            <input type="text" class="form-control bg-dark border-1 small" placeholder="Search for..."
                                 aria-label="Search" aria-describedby="basic-addon2" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
                             <div class="input-group-append">
                                 <button class="btn btn-dark" type="button" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
@@ -198,7 +212,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -230,7 +244,7 @@
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw text-gray-200"></i>
+                                <i class="fas fa-bell fa-fw text-primary"></i>
                                 <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
@@ -281,7 +295,7 @@
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw text-gray-200"></i>
+                                <i class="fas fa-envelope fa-fw text-primary"></i>
                                 <!-- Counter - Messages -->
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
@@ -346,7 +360,7 @@
                             
                             <a class="nav-link dropdown-toggle" href="#" id="themeToggle" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-sun text-gray-200"></i>
+                                <i class="fas fa-sun text-primary"></i>
                             </a>
                         </li>
                         
@@ -393,49 +407,23 @@
 
                     <!-- Page Heading -->
                     
-                    <div class="card-header border-0 py-3" style="background-color: inherit;padding-left: 0px;">
-                        <h5 class="m-0 font-weight-bold text-gray-200">Blogs</h5>
+                    <div class="card-header border-0 py-1 mb-3" style="background-color: inherit;padding-left: 0px;">
+                        <h5 class="m-0 font-weight-bold text-primary">Blogs</h5>
                     </div>
 
                     <!-- Content Row -->
                     
-                    <div class="row mb-4">
-                        <div class="col-xl-3 col-lg-7"></div>
-                         <div class="col-xl-6 "><!-- col-lg-7 -->
-                            <div class="card-body" style="background-color: #18181b;border-radius: 31px;padding-left: 18px;padding-right: 5px;padding-bottom: 0px;padding-top: 0px;">
-                                <!-- Chat input form -->
-                                
-                                <form id="chatbot-form" class="mt-4">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control border-0" 
-                                                   id="user-message" placeholder="Generate new blog..." 
-                                                   aria-label="Type your message" aria-describedby="send-button"
-                                                   style="background-color: #18181b;height: 50px;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);color: white;"
-                                                    autocomplete="off"  required>
-                                                   
-                                            <div class="input-group-append" style="height: 39px;margin-top: 5px;">
-                                                <button class="btn btn-dark border-0" type="submit" id="send-button" style="border-radius: 47px;">
-                                                    <i class="fas fa-magic"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-7"></div>
-                    </div>
+                    
                     <div class="row mb-4 ml-1">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                            <a href="blank.html" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
+                            <a href="blank.html" class="d-sm-inline-block btn btn-md btn-light border-1  mr-2 mb-2 create-btn-light" style="border-radius: 10px;padding-bottom: 5px;padding-top: 5px;">
                                 <i
                                     class="fas fa-plus fa-sm text-white-20">
                                 </i> 
                                 Create New
                             </a>
                             
-                            <a href="blank.html" class="d-sm-inline-block btn btn-sm btn-dark border-0 shadow-sm mr-2 mb-2" style="border-radius: 47px;padding-bottom: 5px;">
+                            <a href="blank.html" class="d-sm-inline-block btn btn-md btn-light  border-1  mr-2 mb-2 import-btn-light" style="border-radius: 10px;padding-bottom: 5px;padding-top: 5px;">
                                 <i
                                     class="fas fa-upload fa-sm text-white-20">
                                 </i> 
@@ -452,11 +440,18 @@
                             
                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                 <li class="nav-item " style="margin-right: 5px;" role="presentation">
-                                    <button class="nav-link active btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >Published</button>
+                                    
+                                    <button class="nav-link active btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >
+                                        <i class="fa fa-unlock me-1"></i>
+                                        Published
+                                    </button>
                                 </li>
                                 
                                 <li class="nav-item" style="margin-right: 5px;" role="presentation">
-                                    <button class="nav-link btn btn-dark btn-sm border-0" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">Private</button>
+                                    <button class="nav-link btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">
+                                        <i class="fa fa-lock me-1"></i>
+                                        Private
+                                    </button>
                                 </li>
                             </ul>
                             
@@ -511,92 +506,6 @@
 
                     <!-- Content Row -->
                     
-                    
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -605,13 +514,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-dark">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
+
             <!-- End of Footer -->
 
         </div>
@@ -710,7 +613,9 @@
             ['background-content-wrapper-light','background-content-wrapper-dark'],
             ['text-primary' , 'text-gray-200'],
             ['fa-moon' , 'fa-sun'],
-            ['card' , 'card-dark']
+            ['card' , 'card-dark'],
+            ['create-btn-light' , 'create-btn-dark'],
+            ['import-btn-light' ,'import-btn-dark' ]
         ];
 
         toggleButton.addEventListener('click', () => {
@@ -817,21 +722,19 @@
             blogsToShow.forEach(blog => {// col-xl-3
                 const blogCard = `
                     <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
-                            <div class="card-dark doc-card shadow-sm">
+                            <div class="card doc-card shadow-sm hover-card">
                               <a href="/docs/btwknjkc1rh763i">
                                 <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
-                              </a>
+                                </a>
                               <div class="card-body">
-                                <h6 class="card-title mb-1 text-gray-100">
+                                <h6 class="card-title mb-1 text-gray-900">
                                   ${blog.title}
                                   
                                 </h6>
                                 <!-- corrected bg-primary spelling -->
-                                <span class="badge ">
-                                  </i> ${blog.status === 'draft' 
-                                    ? `<span class="badge "><i class="fa fa-lock me-1"></i> Private</span>` 
-                                    : `<span class="badge "><i class="fa fa-globe me-1"></i> Public</span>`}
-                                </span>
+                                 ${blog.status === 'draft' 
+                                ? `<span class="badge" ><i class="fa fa-lock me-1"></i> Private</span>` 
+                                : `<span class="badge" "><i class="fa fa-globe me-1"></i> Public</span>`}
                           
                                 <!-- last viewed + dropdown side by side -->
                                 <div class="d-flex align-items-center justify-content-between mt-2">
@@ -840,7 +743,7 @@
                                   <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in"
                                         aria-labelledby="dropdownMenuLink">
