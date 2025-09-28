@@ -4509,7 +4509,31 @@ input[type="button"].btn-block {
   background-color: #18181b;
   border: 1px solid #2d2e33;
 }
+.hover-card-light {
+  transition: background-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
 
+/* much bigger, darker shadow + slight lift */
+.hover-card-light:hover {
+  background-color: #eaeaeb;
+ 
+  
+  box-shadow:
+    0 1.5rem 4rem rgba(0, 0, 0, 0.4),  /* main shadow */
+    0 0.5rem 1rem rgba(0, 0, 0, 0.2);   /* subtle extra */
+}
+.hover-card-dark {
+  transition: background-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+
+/* much bigger, darker shadow + slight lift */
+.hover-card-dark:hover {
+  background-color: #27272b;
+
+  box-shadow:
+    0 1.5rem 4rem rgba(0, 0, 0, 0.4),  /* main shadow */
+    0 0.5rem 1rem rgba(0, 0, 0, 0.2);   /* subtle extra */
+}
 .card > hr {
   margin-right: 0;
   margin-left: 0;
