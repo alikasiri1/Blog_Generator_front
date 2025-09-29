@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Blank</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <style>
+      .custom-input-wrapper {
+position: relative;
+width: 100%;
+}
+
+.custom-input {
+width: 100%;
+border: none;
+border-radius: 4px;
+height: 67px;
+resize: none;
+padding: 12px;
+padding-top: 18px;
+box-sizing: border-box;
+font-size: 18px;
+transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focused (clicked) state */
+.custom-input:focus {
+outline: none;
+/* border-color: #296ee7; you can remove this if you only want shadow */
+box-shadow: 0 0 0 1px rgb(8 88 247); /* blue glow */
+}
+
+.custom-placeholder {
+position: absolute;
+left: 12px;
+font-size: 18px;
+top: 8px;
+padding-top: 11px;
+color: #999;
+pointer-events: none;
+transition: opacity 0.2s ease;
+}
+
+.generate-container {
+display: none; /* hidden initially */
+margin-top: 8px;
+justify-content: center;
+}
+  </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper"  >
+
+        <!-- Sidebar -->
+        
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column" style="background: linear-gradient(0deg, #FFFFFF 0%, #AFE7FC 30%, #A8D1FF 60%, #CDDAFA 85%, #FFFBF2 100%);padding-bottom: 300px;">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                
+                <!-- End of Topbar -->
+
+
+                
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3">
+                        
+                        <a href="index.html" class=" d-sm-inline-block btn btn-sm btn-light border-0 shadow-sm">
+                            <i
+                                class="fas fa-home fa-sm text-primary">
+                            </i> 
+                            home
+                        </a>
+                    </div>
+                    
+                    <!-- Page Heading -->
+                    <div class="container py-4">
+                        <!-- Headings at the top -->
+                        <div class="text-center mb-5 text-primary">
+                            <h2 class="fw-bold " style="font-weight: 700;font-size: 3rem;">Create with AI</h2>
+                            <h2 class="h4 text-muted text-gray-800 " style="font-weight: 500;">How would you like to get started?</h2>
+                        </div>
+                        <div class="container">
+                          <div class="row justify-content-center">
+                              <div class="col-md-8">                                  
+                              
+                                  <div class="custom-input-wrapper">
+                                      <textarea class="custom-input" id="contentEditor"></textarea>
+                                      <div class="custom-placeholder" id="customPlaceholder">
+                                        Describe what you'd like to make
+                                      </div>
+                                    </div>
+                                    <div id="generateContainer" class="generate-container">
+                                      <button type="button" class="chakra-button css-ttvrvp">
+                                        
+                                        Generate outline
+                                      </button>
+                                  </div>
+                                  
+      
+                              </div>
+                          </div>
+                      </div>
+                      </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    <script>
+      const textarea = document.getElementById('contentEditor');
+        const placeholder = document.getElementById('customPlaceholder');
+        const generateContainer = document.getElementById('generateContainer');
+
+        // auto expand on input
+        textarea.addEventListener('input', function () {
+        this.style.height = '67px';
+        this.style.height = this.scrollHeight + 'px';
+
+        // hide placeholder and border if there is text
+        if (this.value.trim() !== '') {
+            placeholder.style.opacity = '0';
+            this.style.border = 'none';
+            generateContainer.style.display = 'flex';
+        } else {
+            placeholder.style.opacity = '1';
+            generateContainer.style.display = 'none';
+        }
+        });
+    </script>
+</body>
+
+</html>

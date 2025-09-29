@@ -64,7 +64,8 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #858796;
+  /* color: #858796; */
+  color: #294c6f;
   text-align: left;
   background-color: #fff;
 }
@@ -4588,11 +4589,18 @@ input[type="button"].btn-block {
   margin-left: 1.25rem;
 }
 
-.card-header {
+.card-header-light {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
   background-color: #f8f9fc;
   border-bottom: 1px solid #e3e6f0;
+}
+.card-header-dark {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #000000;
+  color: #002253;
+  /* border-bottom: 1px solid #e3e6f0; */
 }
 
 .card-header:first-child {

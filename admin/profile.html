@@ -18,61 +18,9 @@
         rel="stylesheet"> -->
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
 
-    <style>
-        .bg-gradient-light {
-            background-color: #080808;
-            background-image: linear-gradient(180deg, #001552 10%, #c2cbe5 100%);
-            background-size: cover;
-          }
-          
-          .bg-gradient-dark {
-            background-color: #18181b ;
-            background-image: linear-gradient(180deg, #18181b  10%, #27272a 100%);
-            background-size: cover;
-          }
-          .bg-dark {
-            background-color: #18181b !important;
-          }
-          .btn-dark {
-            background-color: #42444e ;
-          }
-          .btn-dark:hover {
-            background-color: #27272a;
-        }
-        .nav-pills .nav-link.active {
-            background-color: #27272a !important; /* Active button color */
-            
-        }
-          .card{
-            background-color: #18181b;
-            border: 1px solid #2d2e33;
-          }
-          
-        .text-gray-800 {
-            color: #ffffff !important;
-        }
-        body{
-            color: #ffffff;
-        }
-        #wrapper #content-wrapper {
-            background-color: #000000
-        }
-        .card-header {
-            border-bottom: 1px solid #3f3f46;
-            background-color: #27272a;
-        }
-        .text-primary {
-            color: #ffffff !important;
-        }
-        .progress {
-            background-color: #35353a;
-        }
-        .btn-primary {
-            background-color: #5a5c69;
-        }
-    </style>
+  
     
 
 </head>
@@ -83,40 +31,41 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-light sidebar sidebar-light accordion " id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                </div> -->
+                <div class="sidebar-brand-text mx-3">Gamma</div>
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <!-- <hr class="sidebar-divider my-0"> -->
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item  ">
                 <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Blogs</span></a>
+                    <!-- <button id="darkLightBtn">Toggle Dark/Light</button> -->
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <!-- <hr class="sidebar-divider"> -->
 
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <!-- <div class="sidebar-heading">
                 Interface
-            </div>
+            </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span >Components</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -150,19 +99,18 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <!-- <div class="sidebar-heading">
                 Addons
-            </div>
+            </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-                    aria-controls="collapsePages">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Pages</span>
                 </a>
-                <div id="collapsePages" class="collapse show" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
                         <a class="collapse-item" href="login.html">Login</a>
@@ -171,11 +119,23 @@
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item active" href="blank.html">Blank Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                 </div>
             </li>
-
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8001/index.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Preview Blogs</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="profile.html">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
@@ -185,7 +145,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="tables.html" onclick="loadBlogs()">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
             </li>
@@ -198,17 +158,24 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
+            <!-- Sidebar Message -->
+            <!-- <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
+                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
+                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+            </div> -->
+
         </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column ">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-dark bg-dark topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-1 static-top ">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -216,19 +183,18 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
+                    <!-- <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-dark border-1 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
                             <div class="input-group-append">
-                                <button class="btn btn-dark" type="button">
+                                <button class="btn btn-dark" type="button" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
                         </div>
-                    </form>
-
+                    </form> -->
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -236,7 +202,7 @@
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
+                                <i class="fas fa-search fa-fw text-primary"></i>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
@@ -248,7 +214,7 @@
                                             aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
+                                                <i class="fas fa-search fa-sm "></i>
                                             </button>
                                         </div>
                                     </div>
@@ -260,7 +226,7 @@
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-bell fa-fw text-primary"></i>
                                 <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
@@ -311,7 +277,7 @@
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
+                                <i class="fas fa-envelope fa-fw text-primary"></i>
                                 <!-- Counter - Messages -->
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
@@ -372,9 +338,16 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
-
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            
+                            <a class="nav-link dropdown-toggle" href="#" id="themeToggle" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-sun text-primary"></i>
+                            </a>
+                        </li>
+                        
                         <div class="topbar-divider d-none d-sm-block"></div>
-
+                        
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -386,7 +359,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="profile.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -416,26 +389,25 @@
 
                     <!-- Page Heading -->
                     <div class="row">
-                        <div class="col-lg-1"></div>
+                        <!-- <div class="col-lg-1"></div> -->
                         
-                        <div class="col-lg-10  mb-5">
-                            
+                        <div class="col-lg-12  mb-5">
                             
                                 <div class="row mt-5" style="height: 90%;">
-                                    <div class="col-lg-4 mb-4">
-                                        <div class="card shadow" style="height: 100%;">
+                                    <div class="col-sm-5 col-lg-3 mb-4">
+                                        <div class="card shadow" >
                                         <div class="card-body">
                                             <h3>profile</h3>
                                             <img src="" class="card-img-top" alt="...">
                                             
                                                 <h5 class="card-title" id="username"></h5>
                                                 <p class="card-text"></p>
-                                                <a href="#" class="btn btn-dark">Go somewhere</a>
+                                                <a href="#" class="btn btn-primary">Go somewhere</a>
                                             
                                         </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-8 mb-4">
+                                    <div class="col-lg-9 col-lg-9 mb-4">
                                         <div class="card shadow" style="height: 100%;">
                                             <div class="card-body">
                                                 <h3>Account Settings</h3>
@@ -466,7 +438,7 @@
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                         <label class="tm-hide-sm">&nbsp;</label>
-                                                        <button type="submit" class="btn btn-dark btn-block text-uppercase">
+                                                        <button type="submit" class="btn btn-primary btn-block text-uppercase">
                                                         Update Your Profile
                                                         </button>
                                                     </div>
@@ -483,6 +455,7 @@
                         </div>
                     </div>
                     
+                    
                 </div>
                 <!-- /.container-fluid -->
 
@@ -490,13 +463,13 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-dark">
+            <!-- <footer class="sticky-footer bg-dark">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
-            </footer>
+            </footer> -->
             <!-- End of Footer -->
 
         </div>
@@ -529,7 +502,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -544,6 +517,36 @@
         const API_ROOT = 'http://127.0.0.1:8000/api';
         const accessToken = localStorage.getItem('access_token');
         const adminUUID = localStorage.getItem('admin_uuid');
+        const toggleButton = document.getElementById('themeToggle');
+
+        // Define class pairs to toggle: [lightClass, darkClass]
+        const classPairs = [
+            ['bg-light', 'bg-dark'],
+            ['bg-gray-100', 'bg-gray-900'],
+            ['bg-gradient-light', 'bg-gradient-dark'],
+            ['text-gray-100', 'text-gray-900'], // example for text
+            ['btn-light', 'btn-dark'],     
+            ['sidebar-light', 'sidebar-dark'],           
+            ['card-header-light', 'card-header-dark'],
+            ['progress', 'progress-dark'],
+            ['background-content-wrapper-light','background-content-wrapper-dark'],
+            ['text-primary' , 'text-gray-200'],
+            ['fa-moon' , 'fa-sun'],
+            ['card' , 'card-dark'],
+            ['create-btn-light' , 'create-btn-dark'],
+            ['import-btn-light' ,'import-btn-dark' ],
+            ['hover-card-dark' , 'hover-card-light']
+        ];
+
+        toggleButton.addEventListener('click', () => {
+            classPairs.forEach(([lightClass, darkClass]) => {
+                // Toggle classes on all elements that have either class
+                document.querySelectorAll(`.${lightClass}, .${darkClass}`).forEach(el => {
+                    el.classList.toggle(lightClass);
+                    el.classList.toggle(darkClass);
+                });
+            });
+        });
 
         function getAuthHeaders() {
             return {
