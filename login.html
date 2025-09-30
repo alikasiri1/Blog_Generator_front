@@ -53,7 +53,7 @@
         const data = await res.json();
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
-        localStorage.setItem('admin_uuid', data.admin_uuid);
+        localStorage.setItem('work_domain', data.work_domain);
 
         // Redirect to admin dashboard (you can change this as needed)
         alert('Login successful!');

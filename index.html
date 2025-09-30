@@ -63,7 +63,7 @@
 	<script>
 		//const adminUUID = '2ad821ef-b8b1-4313-88f5-858837447688'; // replace with actual UUID
 		const work_domain = localStorage.getItem('work_domain');
-		const API_BASE = `http://127.0.0.1:8000/api/${work_domain}`;
+		const API_BASE = `http://localhost:8000/api/${work_domain}`;
 
 		async function loadBlogs() {
 		  const res = await fetch(`${API_BASE}/blogs/`);
