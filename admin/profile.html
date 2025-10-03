@@ -585,6 +585,10 @@
 
                 const domainInput = document.getElementById('domain');
                 const emailInput = document.getElementById('email');
+                const nameInput = document.getElementById('name');
+                const phoneInput = document.getElementById('phone');
+                const passwordInput = document.getElementById('password');
+                const password2Input = document.getElementById('password2');
         
                 if (usernameElement) usernameElement.textContent = profile.user.username;
                 if (cardImage) cardImage.src = profile.image || 'img/undraw_profile_1.svg'; // Fallback image if profile.image is not available
@@ -596,6 +600,21 @@
                 }
                 if (emailInput && profile.user.email) {
                     emailInput.value = profile.user.email;
+                }
+                if (nameInput && profile.user.first_name) {
+                    nameInput.value = profile.user.first_name;
+                }
+                if (nameInput && profile.user.last_name) {
+                    nameInput.value +=" "+ profile.user.last_name;
+                }
+                if (phoneInput && profile.phone) {
+                    phoneInput.value = profile.phone;
+                }
+                if (passwordInput && profile.user.password) {
+                    passwordInput.value = profile.user.password;
+                }
+                if (password2Input && profile.user.password) {
+                    password2Input.value = profile.user.password;
                 }
 
                 console.log('Profile data loaded successfully:', profile);
