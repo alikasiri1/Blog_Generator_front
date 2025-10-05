@@ -4186,7 +4186,7 @@ input[type="button"].btn-block {
   height: 1.5em;
   vertical-align: middle;
   content: "";
-  background: 50% / 100% 100% no-repeat;
+  /* background: 50% / 100% 100% no-repeat; */
 }
 
 .navbar-nav-scroll {
@@ -9584,6 +9584,7 @@ button.bg-dark:focus {
   .text-sm-center {
     text-align: center !important;
   }
+
 }
 
 @media (min-width: 768px) {
@@ -9595,6 +9596,9 @@ button.bg-dark:focus {
   }
   .text-md-center {
     text-align: center !important;
+  }
+  .text-xl {
+    font-size: 2.5rem;
   }
 }
 
@@ -9608,6 +9612,10 @@ button.bg-dark:focus {
   .text-lg-center {
     text-align: center !important;
   }
+  .text-xl {
+    font-size: 3rem;
+  }
+
 }
 
 @media (min-width: 1200px) {
@@ -9620,7 +9628,12 @@ button.bg-dark:focus {
   .text-xl-center {
     text-align: center !important;
   }
+  .text-xl {
+    font-size: 4rem;
+  }
 }
+
+
 
 .text-lowercase {
   text-transform: lowercase !important;
@@ -9712,12 +9725,13 @@ a.text-danger:hover, a.text-danger:focus {
 
 .text-light {
   color: #f8f9fc !important;
+  background-color: #0540ad;
 }
 
 a.text-light:hover, a.text-light:focus {
-  color: #c2cbe5 !important;
+  background-color: #0e2b79;
 }
-
+ 
 .text-dark {
   color: #5a5c69 !important;
 }
@@ -10073,6 +10087,7 @@ a:focus {
 .text-lg {
   font-size: 1.2rem;
 }
+
 
 .text-gray-100 {
   color: #f8f9fc !important;
@@ -10730,6 +10745,8 @@ a:focus {
   color: #002253;
 }
 
+
+
 .sidebar-light .nav-item .nav-link i {
   color: #002253;
 }
@@ -10839,6 +10856,16 @@ a:focus {
 
 .sidebar-dark.toggled #sidebarToggle::after {
   color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-item .nav-link {
+  color: #002253;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.nav-item:focus , .nav-item:hover {
+  background-color: #d8e7f8;
+  border-radius: 28px;
 }
 
 .btn-circle {
