@@ -9629,7 +9629,7 @@ button.bg-dark:focus {
     text-align: center !important;
   }
   .text-xl {
-    font-size: 4rem;
+    font-size: 4.4rem;
   }
 }
 
@@ -10858,15 +10858,7 @@ a:focus {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.nav-item .nav-link {
-  color: #002253;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-.nav-item:focus , .nav-item:hover {
-  background-color: #d8e7f8;
-  border-radius: 28px;
-}
+
 
 .btn-circle {
   border-radius: 100%;
