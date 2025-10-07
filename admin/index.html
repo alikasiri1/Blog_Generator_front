@@ -466,14 +466,14 @@
                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                 <li class="nav-item " style="margin-right: 5px;" role="presentation">
                                     
-                                    <button class="nav-link active btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >
+                                    <button class="nav-link btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >
                                         <i class="fa fa-unlock me-1"></i>
                                         Published
                                     </button>
                                 </li>
                                 
                                 <li class="nav-item" style="margin-right: 5px;" role="presentation">
-                                    <button class="nav-link btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">
+                                    <button class="nav-link active btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">
                                         <i class="fa fa-lock me-1"></i>
                                         Private
                                     </button>
@@ -483,7 +483,7 @@
                         </div>
                         
                         <div class="tab-content col-12" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-published" role="tabpanel" aria-labelledby="pills-published-tab">
+                            <div class="tab-pane fade " id="pills-published" role="tabpanel" aria-labelledby="pills-published-tab">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-4 text-center mt-3"></div>
@@ -503,7 +503,7 @@
                                 </div>
                             </div>
                             
-                            <div class="tab-pane fade" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
+                            <div class="tab-pane fade show active" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-4 text-center mt-3"></div>
@@ -822,8 +822,8 @@
                 await fetchBlogs();
                 
                 // Initial render for each tab
-                renderBlogs('published', published);
                 renderBlogs('unpublished', unpublished);
+                renderBlogs('published', published);
                 
                 
                 
