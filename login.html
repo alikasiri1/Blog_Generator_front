@@ -1,73 +1,248 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>Admin Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,400italic|Roboto:400,300,700" rel="stylesheet">
-  <link rel="stylesheet" href="css/animate.css">
-  <link rel="stylesheet" href="css/icomoon.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/modernizr-2.6.2.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    
+
 </head>
-<body>
-  <div class="container">
-    <div class="row" style="margin-top: 100px;">
-      <div class="col-md-4 col-md-offset-4">
-        <h2 class="text-center">Admin Login</h2>
-        <div id="error" class="alert alert-danger" style="display:none;"></div>
-        <form id="loginForm">
-          <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="username" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="password" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </form>
-      </div>
+
+<body class=" background-content-wrapper-light">
+
+    <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between mt-3">
+                        
+            <a href="index.html" class=" d-sm-inline-block btn btn-sm btn-light border-0 shadow-sm">
+                <i
+                    class="fas fa-home fa-sm text-primary">
+                </i> 
+                home
+            </a>
+        </div>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                                <img src="img/login_image.png" class="card-img-top" alt="project" >
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+                                    <form class="user" id="loginForm">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user"
+                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                placeholder="Enter Email Address...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                        <a href="" class="btn btn-primary btn-user btn-block" id="loginbutton">
+                                            Login
+                                        </a>
+                                        <hr>
+                                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Login with Google
+                                        </a>
+                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                        </a>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="register.html">Create an Account!</a>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-      try {
-        const res = await fetch('http://127.0.0.1:8000/api/token/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const form = document.getElementById('loginForm');
+          const emailInput = document.getElementById('exampleInputEmail');
+          const passwordInput = document.getElementById('exampleInputPassword');
+        
+          // Create an error element (if one doesn't already exist)
+          let errorEl = document.getElementById('error');
+          if (!errorEl) {
+            errorEl = document.createElement('div');
+            errorEl.id = 'error';
+            errorEl.style.display = 'none';
+            errorEl.style.color = 'red';
+            errorEl.style.marginTop = '0.5rem';
+            // insert error element after the form
+            form.parentNode.insertBefore(errorEl, form.nextSibling);
+          }
+        
+          // Optional: create a success element
+          let successEl = document.getElementById('success');
+          if (!successEl) {
+            successEl = document.createElement('div');
+            successEl.id = 'success';
+            successEl.style.display = 'none';
+            successEl.style.color = 'green';
+            successEl.style.marginTop = '0.5rem';
+            form.parentNode.insertBefore(successEl, form.nextSibling);
+          }
+        
+          form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            // hide previous messages
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+            errorEl.textContent = '';
+            successEl.textContent = '';
+        
+            const username = emailInput.value.trim();
+            const password = passwordInput.value;
+            console.log(username,password)
+        
+            // Basic validation
+            if (!username) {
+              errorEl.textContent = 'Please enter your email address.';
+              errorEl.style.display = 'block';
+              return;
+            }
+            // simple email format check
+            // if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username)) {
+            //   errorEl.textContent = 'Please enter a valid email address.';
+            //   errorEl.style.display = 'block';
+            //   return;
+            // }
+            if (!password) {
+              errorEl.textContent = 'Please enter your password.';
+              errorEl.style.display = 'block';
+              return;
+            }
+        
+            // disable submit button (or links used as buttons)
+            // find button-like element inside form (your markup uses an <a> as login button)
+            let submitBtn = form.querySelector('button[type="submit"], input[type="submit"], .btn-user');
+            if (submitBtn) {
+              submitBtn.setAttribute('aria-disabled', 'true');
+              submitBtn.style.pointerEvents = 'none';
+              submitBtn.style.opacity = '0.65';
+            }
+        
+            try {
+              const response = await fetch('http://127.0.0.1:8000/api/token/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+              });
+              
+              if (!response.ok) {
+                // Try to parse error details returned by backend
+                let errText = 'Invalid credentials';
+                try {
+                  const errData = await response.json();
+                  // Django simple JWT often returns { "detail": "No active account found with the given credentials" }
+                  if (errData.detail) errText = errData.detail;
+                  else if (errData.non_field_errors && errData.non_field_errors.length) errText = errData.non_field_errors.join(', ');
+                  else errText = JSON.stringify(errData);
+                } catch (jsonErr) {
+                  // fallback to status text
+                  errText = response.statusText || errText;
+                }
+                throw new Error(errText);
+              }
+        
+              const data = await response.json();
+        
+              // save tokens and any additional required info
+              if (data.access) localStorage.setItem('access_token', data.access);
+              if (data.refresh) localStorage.setItem('refresh_token', data.refresh);
+              if (data.work_domain) localStorage.setItem('work_domain', data.work_domain);
+        
+              successEl.textContent = 'Login successful! Redirecting...';
+              successEl.style.display = 'block';
+        
+              // small delay to let user see the message (optional)
+              setTimeout(function () {
+                // Redirect to admin dashboard (adjust path as needed)
+                window.location.href = 'index.html';
+              }, 700);
+        
+            } catch (err) {
+              errorEl.textContent = err.message || 'Login failed';
+              errorEl.style.display = 'block';
+            } finally {
+              if (submitBtn) {
+                submitBtn.removeAttribute('aria-disabled');
+                submitBtn.style.pointerEvents = '';
+                submitBtn.style.opacity = '';
+              }
+            }
+          });
+        
+          // If you're using anchor tags (<a>) styled as buttons, prevent their default navigation
+          // and submit the form programmatically.
+          const anchorLogin = form.querySelector('a.btn-user[href]');
+          if (anchorLogin) {
+            anchorLogin.addEventListener('click', function (ev) {
+              ev.preventDefault();
+              // trigger form submission
+              form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            });
+          }
         });
-
-        if (!res.ok) {
-          throw new Error('Invalid credentials');
-        }
-
-        const data = await res.json();
-        localStorage.setItem('access_token', data.access);
-        localStorage.setItem('refresh_token', data.refresh);
-        localStorage.setItem('work_domain', data.work_domain);
-
-        // Redirect to admin dashboard (you can change this as needed)
-        alert('Login successful!');
-        window.location.href = 'admin/index.html';
-
-      } catch (err) {
-        document.getElementById('error').textContent = err.message;
-        document.getElementById('error').style.display = 'block';
-      }
-    });
-  </script>
-
-  <!-- Required JS -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+        </script>
+      
 </body>
+
 </html>

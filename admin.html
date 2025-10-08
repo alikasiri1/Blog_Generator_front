@@ -1,647 +1,1015 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 
-  <style>
-    body {
-      font-size: medium;
-      display: flex;
-    }
-    #sidebar {
-      width: 220px;
-      height: 100vh;
-      background-color: #f8f9fa;
-      padding: 20px;
-      border-right: 1px solid #ddd;
-    }
-    #main {
-      flex: 1;
-      padding: 20px;
-    }
-    .sidebar-link {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-      color: #000;
-      text-decoration: none;
-    }
-    .sidebar-link:hover {
-      text-decoration: underline;
-    }
-    #floatingForm {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 500px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      z-index: 1050;
-      padding: 20px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      display: none;
-    }
-    #floatingFormBackdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1040;
-      display: none;
-    }
-  </style>
-</head>
-<body>
-  <div id="sidebar">
-    <h4>Admin Panel</h4>
-    <a class="sidebar-link" href="index.html">Preview Blogs</a>
-    <a class="sidebar-link" href="#" onclick="showCreateModal()">Generate New Blog</a>
-    <a class="sidebar-link" href="#" onclick="loadProfile()">Profile</a>
-    <a class="sidebar-link text-danger" href="#" onclick="logout()">Logout</a>
-  </div>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <div id="main">
-    <h1 class="mb-4">Admin Dashboard</h1>
-    <div id="output"></div>
-  </div>
+    <title>Blog Generator</title>
 
-  <!-- Floating Form Window -->
-  <div id="floatingFormBackdrop" onclick="closeFloatingForm()"></div>
-  <div id="floatingForm">
-    <h5 id="floatingFormTitle">New Blog</h5>
-    <form onsubmit="submitBlog(event)">
-      <input type="hidden" id="blog-id">
-      <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input type="text" class="form-control" id="blog-title" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Content</label>
-        <textarea class="form-control" id="blog-content" rows="4" required></textarea>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Category</label>
-        <input type="text" class="form-control" id="blog-category">
-      </div>
-      <div class="text-end">
-        <button type="button" class="btn btn-secondary" onclick="closeFloatingForm()">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save Blog</button>
-      </div>
-    </form>
-  </div>
+  
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet"> -->
 
-  <script>
-    const API_ROOT = 'http://127.0.0.1:8000/api';
-    const accessToken = localStorage.getItem('access_token');
-    const adminUUID = localStorage.getItem('admin_uuid');
 
-    if (!accessToken || !adminUUID) {
-      alert("You're not logged in.");
-      window.location.href = 'login.html';
-    } else {
-      loadBlogs();
-    }
-
-    function getAuthHeaders() {
-      return {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      };
-    }
-
-    async function authFetch(url, options = {}) {
-      const res = await fetch(`${API_ROOT}${url}`, {
-        ...options,
-        headers: getAuthHeaders()
-      });
-
-      if (res.status === 401) {
-        alert("Session expired. Please log in again.");
-        window.location.href = 'login.html';
-        return;
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+        <!-- Bootstrap Bundle with Popper -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+     <script src="js/bootstrap.bundle.min.js"></script>
+     <style>
+       .css-gc7qqt {
+    position: relative;
+    overflow: visible;
+    width: 180px;
+    height: 180px;
+    isolation: isolate;
       }
-      return res.json();
-    }
+      .css-1sn7tib {
+    position: absolute;
+    top: 22%;
+    left: 0px;
+    width: 50%;
+    animation: 12s ease-in-out 0s infinite normal none running animation-1vog7pl;
+    pointer-events: none;
+    z-index: 2;
+}
+.css-k5mids {
+    position: absolute;
+    inset: 0px;
+    margin: auto;
+    height: 80%;
+    animation: 5s ease-in-out 0s infinite normal none running animation-1utd9n3;
+    pointer-events: none;
+    z-index: 1;
+}
+.css-5n20n3 {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 80%;
+    animation: 16s ease-in-out 1s infinite normal none running animation-1vog7pl;
+    pointer-events: none;
+    z-index: 0;
+}
+     </style>
+    
+    
+</head>
 
-    async function loadBlogs() {
-      const blogs = await authFetch(`/${adminUUID}/admin/blogs/`);
-      const out = document.getElementById('output');
-      out.innerHTML = `<h3>My Blogs</h3>
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Content (preview)</th>
-              <th>Published</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${blogs.map(blog => `
-              <tr>
-                <td>${blog.id}</td>
-                <td>${blog.title}</td>
-                <td>${(blog.content || '').substring(0, 100)}...</td>
-                <td><button class="btn btn-sm btn-${blog.published ? 'success' : 'secondary'}">
-                  ${blog.published ? 'Published' : 'Unpublished'}
-                </button></td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton${blog.id}" data-bs-toggle="dropdown" aria-expanded="false">
-                      &#8942;
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-light sidebar sidebar-light accordion " id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <!-- <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div> -->
+                <div class="sidebar-brand-text mx-3">Gamma</div>
+            </a>
+
+            <!-- Divider -->
+            <!-- <hr class="sidebar-divider my-0"> -->
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active ">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Blogs</span></a>
+                    <!-- <button id="darkLightBtn">Toggle Dark/Light</button> -->
+            </li>
+
+            <!-- Divider -->
+            <!-- <hr class="sidebar-divider"> -->
+
+            <!-- Heading -->
+            <!-- <div class="sidebar-heading">
+                Interface
+            </div> -->
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span >Components</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
+                        <a class="collapse-item" href="cards.html">Cards</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Utilities</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <a class="collapse-item" href="utilities-color.html">Colors</a>
+                        <a class="collapse-item" href="utilities-border.html">Borders</a>
+                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <!-- <div class="sidebar-heading">
+                Addons
+            </div> -->
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Pages</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Login Screens:</h6>
+                        <a class="collapse-item" href="login.html">Login</a>
+                        <a class="collapse-item" href="register.html">Register</a>
+                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Other Pages:</h6>
+                        <a class="collapse-item" href="404.html">404 Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8003/index.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Preview Blogs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="profile.html">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="charts.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Charts</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="tables.html" onclick="loadBlogs()">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tables</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+            <!-- Sidebar Message -->
+            <!-- <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
+                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
+                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+            </div> -->
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column background-content-wrapper-light">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-1 static-top ">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${blog.id}">
-                      <li><a class="dropdown-item" href="#" onclick='editBlog(${JSON.stringify(blog)})'>Edit</a></li>
-                      <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.id})'>Delete</a></li>
-                      <li><a class="dropdown-item" href="#">Regenerate</a></li>
+
+                    <!-- Topbar Search -->
+                    <!-- <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-dark border-1 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
+                            <div class="input-group-append">
+                                <button class="btn btn-dark" type="button" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form> -->
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw text-primary"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm "></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw text-primary"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw text-primary"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            
+                            <a class="nav-link dropdown-toggle" href="#" id="themeToggle" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-sun text-primary"></i>
+                            </a>
+                        </li>
+                        
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="profile.html">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
                     </ul>
-                  </div>
-                </td>
-              </tr>`).join('')}
-          </tbody>
-        </table>`;
-    }
 
-    function showCreateModal() {
-      document.getElementById('floatingFormTitle').innerText = 'Create Blog';
-      document.getElementById('blog-id').value = '';
-      document.getElementById('blog-title').value = '';
-      document.getElementById('blog-content').value = '';
-      document.getElementById('blog-category').value = '';
-      openFloatingForm();
-    }
+                </nav>
+                <!-- End of Topbar -->
 
-    function editBlog(blog) {
-      document.getElementById('floatingFormTitle').innerText = 'Edit Blog';
-      document.getElementById('blog-id').value = blog.id;
-      document.getElementById('blog-title').value = blog.title;
-      document.getElementById('blog-content').value = blog.content;
-      document.getElementById('blog-category').value = blog.category;
-      openFloatingForm();
-    }
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-    function openFloatingForm() {
-      document.getElementById('floatingForm').style.display = 'block';
-      document.getElementById('floatingFormBackdrop').style.display = 'block';
-    }
+                    <!-- Page Heading -->
+                    
+                    <div class="card-header border-0 py-1 mb-3" style="background-color: inherit;padding-left: 0px;display: flex;">
+                        <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="rectangle-history" class="ml-2 text-primary svg-inline--fa fa-rectangle-history " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="Gammas" style="width: 17px;">
+                                <path fill="currentColor" d="M464 224c0-8.8-7.2-16-16-16L64 208c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-224zm-16-64c35.3 0 64 28.7 64 64l0 224c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 224c0-35.3 28.7-64 64-64l384 0zm-8-80c13.3 0 24 10.7 24 24s-10.7 24-24 24L72 128c-13.3 0-24-10.7-24-24s10.7-24 24-24l368 0zM392 0c13.3 0 24 10.7 24 24s-10.7 24-24 24L120 48c-13.3 0-24-10.7-24-24s10.7-24 24-24L392 0z">
+                                </path>
+                            </svg>
+                        <h5 class="ml-2 m-0 font-weight-bold text-primary">Blogs</h5>
+                    </div>
 
-    function closeFloatingForm() {
-      document.getElementById('floatingForm').style.display = 'none';
-      document.getElementById('floatingFormBackdrop').style.display = 'none';
-    }
+                    <!-- Content Row -->
+                    
+                    
+                    <div class="row mb-4 ml-1">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <a href="blank.html" class="d-sm-inline-block btn btn-md btn-light border-1  mr-2 mb-2 create-btn-light" style="border-radius: 10px;padding-bottom: 5px;padding-top: 5px;">
+                                <i
+                                    class="fas fa-plus fa-sm text-white-20">
+                                </i> 
+                                Create New
+                            </a>
+                            
+                            <a href="blank.html" class="d-sm-inline-block btn btn-md btn-light  border-1  mr-2 mb-2 import-btn-light" style="border-radius: 10px;padding-bottom: 5px;padding-top: 5px;">
+                                <i
+                                    class="fas fa-upload fa-sm text-white-20">
+                                </i> 
+                                Import
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="d-flex col-12 justify-content-between align-items-center mb-1" >
+                            <div class="card-header border-0 py-3" style="background-color: inherit;">
+                                <h5 class="m-0 font-weight-bold text-primary"></h5>
+                            </div>
+                            
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item " style="margin-right: 5px;" role="presentation">
+                                    
+                                    <button class="nav-link btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);" id="pills-published-tab" data-bs-toggle="pill" data-bs-target="#pills-published" type="button" role="tab" aria-controls="pills-published" >
+                                        <i class="fa fa-unlock me-1"></i>
+                                        Published
+                                    </button>
+                                </li>
+                                
+                                <li class="nav-item" style="margin-right: 5px;" role="presentation">
+                                    <button class="nav-link active btn btn-light btn-sm border-0 text-primary" style="box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25); width: 94px;" id="pills-unpublished-tab" data-bs-toggle="pill" data-bs-target="#pills-unpublished" type="button" role="tab" aria-controls="pills-unpublished" aria-selected="false">
+                                        <i class="fa fa-lock me-1"></i>
+                                        Private
+                                    </button>
+                                </li>
+                            </ul>
+                            
+                        </div>
+                        
+                        <div class="tab-content col-12" id="pills-tabContent">
+                            <div class="tab-pane fade " id="pills-published" role="tabpanel" aria-labelledby="pills-published-tab">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 text-center mt-3"></div>
+                                        <div class="col-4 text-center mt-3">
+                                            <div class="text-center py-5">
+                                                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <p class="text-muted">This may take a few seconds</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 text-center mt-3 mb-3" style="justify-items: center;">
+                                    <button id="showMorePublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade show active" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 text-center mt-3"></div>
+                                        <div class="col-4 text-center mt-3">
+                                            <div class="text-center py-5">
+                                                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <p class="text-muted">This may take a few seconds</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                    <div class="col-12 text-center mb-3" style="justify-items: center;">
+                                        <button id="showMoreUnpublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
+                                    </div>
+                            </div>
+                        </div>
 
-    async function submitBlog(e) {
-      e.preventDefault();
-      const id = document.getElementById('blog-id').value;
-      const title = document.getElementById('blog-title').value;
-      const content = document.getElementById('blog-content').value;
-      const category = document.getElementById('blog-category').value;
+                            
+                            
+                        
+                    </div>
 
-      const blog = { title, content, category };
-      const method = id ? 'PUT' : 'POST';
-      const url = id
-        ? `/${adminUUID}/admin/blogs/${id}/`
-        : `/${adminUUID}/admin/blogs/`;
+                    <!-- Content Row -->
+                    
 
-      await authFetch(url, {
-        method,
-        body: JSON.stringify(blog)
-      });
+                </div>
+                <!-- /.container-fluid -->
 
-      closeFloatingForm();
-      loadBlogs();
-    }
+            </div>
+            <!-- End of Main Content -->
 
-    async function deleteBlog(id) {
-      if (!confirm('Are you sure?')) return;
-      await authFetch(`/${adminUUID}/admin/blogs/${id}/`, {
-        method: 'DELETE'
-      });
-      loadBlogs();
-    }
+            <!-- Footer -->
 
-    async function loadProfile() {
-      const profile = await authFetch(`/${adminUUID}/admin/profil/`);
-      const out = document.getElementById('output');
-      out.innerHTML = `
-        <h3>Admin Profile</h3>
-        <p><strong>Username:</strong> ${profile.username}</p>
-        <p><strong>Email:</strong> ${profile.email}</p>`;
-    }
+            <!-- End of Footer -->
 
-    function logout() {
-      localStorage.clear();
-      window.location.href = 'login.html';
-    }
-  </script>
+        </div>
+        <!-- End of Content Wrapper -->
 
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.min.js"></script>
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Structure -->
+    <div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-hidden="true" style="background-color: rgba(0,0,0,0.8);">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" style="background-color: #2a2a2a; border: none; border-radius: 15px;">
+                <div class="modal-header" style="border-bottom: 1px solid #38383a;">
+                    <h5 class="modal-title text-white" id="responseModalLabel">Generating Blog Content</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4" id="modalResponseContent" style="color: #e0e0e0;">
+                    <!-- Content will be inserted here -->
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid #38383a;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px;">Close</button>
+                    <button type="button" class="btn btn-primary" id="copyButton" style="border-radius: 20px;">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+
+    <script>
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+        const adminUUID = localStorage.getItem('admin_uuid');
+        
+        const toggleButton = document.getElementById('themeToggle');
+
+        // Define class pairs to toggle: [lightClass, darkClass]
+        const classPairs = [
+            ['bg-light', 'bg-dark'],
+            ['bg-gray-100', 'bg-gray-900'],
+            ['bg-gradient-light', 'bg-gradient-dark'],
+            ['text-gray-100', 'text-gray-900'], // example for text
+            ['btn-light', 'btn-dark'],     
+            ['sidebar-light', 'sidebar-dark'],           
+            ['card-header-light', 'card-header-dark'],
+            ['progress', 'progress-dark'],
+            ['background-content-wrapper-light','background-content-wrapper-dark'],
+            ['text-primary' , 'text-gray-200'],
+            ['fa-moon' , 'fa-sun'],
+            ['card' , 'card-dark'],
+            ['create-btn-light' , 'create-btn-dark'],
+            ['import-btn-light' ,'import-btn-dark' ],
+            ['hover-card-dark' , 'hover-card-light']
+        ];
+
+        toggleButton.addEventListener('click', () => {
+            classPairs.forEach(([lightClass, darkClass]) => {
+                // Toggle classes on all elements that have either class
+                document.querySelectorAll(`.${lightClass}, .${darkClass}`).forEach(el => {
+                    el.classList.toggle(lightClass);
+                    el.classList.toggle(darkClass);
+                });
+            });
+        });
+
+        function getAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            };
+        }
+        function timeAgo(dateString) {
+        const now = new Date();
+        const past = new Date(dateString);
+        const diffMs = now - past; // milliseconds
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+        }
+        async function authFetch(url, options = {}) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                ...options,
+                headers: getAuthHeaders()
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return await res.json();
+        }
+        
+        
+
+                // Global variables
+        let allBlogs = [];
+        const itemsPerPage = 8;
+        let published = 1;
+        let unpublished = 1;
+
+        // Fetch all blogs
+        async function fetchBlogs() {
+            try {
+                allBlogs = await authFetch(`/admin/blogs/`, {
+                    method: 'GET',
+                });
+                console.log(allBlogs);
+                return allBlogs;
+            } catch (error) {
+                console.error('Error loading blogs:', error);
+                throw error;
+            }
+        }
+
+        // Filter blogs based on criteria
+        function filterBlogs(tab) {
+            switch(tab) {
+                case 'unpublished': // Not published but has content renderBlogs('unpublished', unpublished);
+                    return allBlogs.filter(blog => 
+                        blog.status !== 'published'
+                    );
+                case 'published': // Published and has content
+                    return allBlogs.filter(blog => 
+                        blog.status === 'published'
+                    );
+                default:
+                    return [];
+            }
+        }
+
+        // Render blogs for a specific tab
+        function renderBlogs(tab, page = 1) {
+            const filteredBlogs = filterBlogs(tab);
+            const startIndex = (page - 1) * itemsPerPage;
+            const blogsToShow = filteredBlogs.slice(0, startIndex + itemsPerPage);
+            console.log(filteredBlogs.length)
+            // console.log()
+            const container = document.querySelector(`#pills-${tab} .row`);
+            container.innerHTML = ''; // Clear existing content
+            
+            if (blogsToShow.length === 0) {
+                container.innerHTML = `
+                
+                    <div class="col-12 text-center py-2">
+                        <div class="row" style="display: ruby-text;">
+                            <div class="css-gc7qqt text-center">
+                                <img alt="Upper cloud" class="chakra-image css-1sn7tib" src="img/cloud.bb46cfda.png">
+                                <img alt="Balloon" class="chakra-image css-k5mids" src="img/balloon.0f0058ec.png">
+                                <img alt="Lower cloud" class="chakra-image css-5n20n3" src="img/cloud.bb46cfda.png">
+                            </div>
+                        </div>
+                        
+                        <p class="h4 text-primary" style="font-weight:bold">No blogs found in this category</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            blogsToShow.forEach(blog => {// col-xl-3
+            const blogCard = `
+                <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
+                    <div class="card doc-card shadow-sm hover-card-light">
+                        <a class="text-decoration-none" href="http://localhost:8003/single.html?title=${blog.slug}">
+                            <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
+                            <div class="card-body">
+                                <h6 class="card-title mb-1 text-gray-900">
+                                ${blog.title}
+                                
+                                </h6>
+                                <!-- corrected bg-primary spelling -->
+                                ${blog.status === 'draft' 
+                                ? `<span class="badge text-muted" ><i class="fa fa-lock me-1"></i> Private</span>` 
+                                : `<span class="badge text-muted" ><i class="fa fa-globe me-1"></i> Public</span>`}
+
+                            </div>
+                        </a>
+                    
+                    
+                        <div class="card-body" style="padding-top: 0px;">
+                            <!-- last viewed + dropdown side by side -->
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <a class="text-decoration-none" href="/docs/btwknjkc1rh763i">
+                                <small class="text-muted">Last viewed ${timeAgo(blog.created_at)}</small>
+                                </a>
+                                <div class="dropdown no-arrow"> 
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                        <li class="dropdown-header text-gray-600">Blog Actions:</li> 
+                                        <li><a class="dropdown-item" href="single.html?title=${blog.slug}">Edit</a></li> 
+                                        <li><a class="dropdown-item" href="/blog/view/${blog.slug}">View</a></li>
+                                        <li><hr class="dropdown-divider"></li> 
+                                        <li><a class="dropdown-item delete-blog" href="#" data-id="${blog.id}">Delete</a></li>
+                                    </ul> 
+                                </div>
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
+
+                    
+
+                `; // src="${blog.image_url ||'img/undraw_posting_photo.svg'}" alt="${blog.title}"> 
+                container.insertAdjacentHTML('beforeend', blogCard);
+            });
+            
+            // Show/hide "Show More" button
+            const showMoreBtn = document.querySelector(`#pills-${tab} #showMore${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (showMoreBtn) {
+                showMoreBtn.style.display = (startIndex + itemsPerPage) < filteredBlogs.length ? 'block' : 'none';
+            }
+        }
+
+        // Initialize all tabs
+        async function initializeTabs() {
+            try {
+                // Show loading state
+                
+                
+                await fetchBlogs();
+                
+                // Initial render for each tab
+                renderBlogs('unpublished', unpublished);
+                renderBlogs('published', published);
+                
+                
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.querySelector('.row').innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-danger">Failed to load blogs. Please try again later.</div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // Event listeners for "Show More" buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTabs();
+            
+            document.getElementById('showMorePublished')?.addEventListener('click', () => {
+                published++;
+                renderBlogs('published', published);
+            });
+            
+            document.getElementById('showMoreUnpublished')?.addEventListener('click', () => {
+                unpublished++;
+                renderBlogs('unpublished', unpublished);
+            });
+        });
+
+        document.getElementById('chatbot-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const userPrompt = document.getElementById('user-message').value.trim();
+            
+            if (!userPrompt) return;
+            
+            try {
+                // Clear input
+                document.getElementById('user-message').value = '';
+                
+
+                // Show loading modal
+                const modalContent = document.getElementById('modalResponseContent')
+                modalContent.innerHTML = `
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <h5 class="mt-3 text-primary">Generating topic...</h5>
+                        <p class="text-muted">This may take a few seconds</p>
+                    </div>
+                `;
+                
+                $('#responseModal').modal('show');
+                
+                // Step 1: Generate Topic
+                const topicData = await authFetch(`/admin/blogs/generate_topic/`, {
+                    method: 'POST',
+                    body: JSON.stringify({ prompt: userPrompt })
+                });
+                
+                modalContent.innerHTML = `
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <h5 class="mt-3 text-primary">Generating content...</h5>
+                        <h3 class="mt-3 text-primary">${topicData.response}</h3>
+                        <p class="text-muted">This may take a few moments</p>
+                    </div>
+                `;
+
+                // Step 2: Generate Content
+                const contentData = await authFetch(`/admin/blogs/${topicData.blog_slug}/generate_content/`, {
+                    method: 'POST',
+                    body: JSON.stringify({ topic: topicData.response })
+                });
+
+                // Debug: check what you actually received
+                console.log(contentData); // Check the console for this
+
+                // Use contentData instead of response in your HTML
+                modalContent.innerHTML = `
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">${contentData.title || 'Generated Content'}</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Content Actions:</div>
+                                        <a class="dropdown-item" href="#" id="saveContent"><i class="fas fa-save fa-sm fa-fw mr-2 text-gray-400"></i> Save</a>
+                                        <a class="dropdown-item" href="#" id="exportContent"><i class="fas fa-file-export fa-sm fa-fw mr-2 text-gray-400"></i> Export</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#" id="regenerateContent"><i class="fas fa-sync-alt fa-sm fa-fw mr-2 text-gray-400"></i> Regenerate</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${contentData.image_url || 'img/undraw_posting_photo.svg'}" alt="Illustration">
+                                </div>
+                                ${formatContent(contentData.content)}
+                                ${contentData.slug ? `<a target="_blank" rel="nofollow" href="${contentData.slug}">view →</a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                // load blogs again
+                initializeTabs();
+            // Set up action buttons
+            document.getElementById('saveContent').onclick = () => saveContent(contentData);
+            document.getElementById('exportContent').onclick = () => exportContent(contentData);
+            document.getElementById('regenerateContent').onclick = () => {
+                $('#contentModal').modal('hide');
+                document.getElementById('chatbot-form').dispatchEvent(new Event('submit'));
+            };
+            
+            // Set up copy button
+            document.getElementById('copyButton').onclick = () => {
+                navigator.clipboard.writeText(contentData.content)
+                    .then(() => {
+                        const btn = document.getElementById('copyButton');
+                        const originalHTML = btn.innerHTML;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                        }, 2000);
+                    });
+            };
+                
+            } catch (error) {
+                console.error('Error:', error);
+                modalContent.innerHTML = `
+                <div class="alert alert-danger">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Generation Failed</h5>
+                    <p>${error.message || 'There was an error generating your content. Please try again.'}</p>
+                </div>
+                `;
+                document.getElementById('copyButton').style.display = 'none';
+            }
+        });
+        
+       
+        function formatContent(content) {
+            // If content is already HTML, return as-is
+            if (content.startsWith('<') && content.endsWith('>')) {
+                return content;
+            }
+            // Otherwise convert plain text to HTML paragraphs
+            return content.split('\n\n').map(para => `<p>${para}</p>`).join('');
+        }
+        
+        async function saveContent(contentData) {
+            try {
+                // Implement your save functionality here
+                await authFetch(`/${adminUUID}/admin/blogs/save/`, {
+                    method: 'POST',
+                    body: JSON.stringify(contentData)
+                });
+                alert('Content saved successfully!');
+            } catch (error) {
+                alert(`Failed to save content: ${error.message}`);
+            }
+        }
+        
+        async function exportContent(contentData) {
+            try {
+                // Implement your export functionality here
+                const response = await authFetch(`/${adminUUID}/admin/blogs/export/`, {
+                    method: 'POST',
+                    body: JSON.stringify(contentData)
+                });
+                window.open(response.download_url, '_blank');
+            } catch (error) {
+                alert(`Failed to export content: ${error.message}`);
+            }
+        }
+    </script>
+
 </body>
+
 </html>
-
-
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-</head>
-<body>
-  <ul class="nav justify-content-center bg-light py-3 mb-4">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#" onclick="loadBlogs()">Preview Blogs</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" onclick="showCreateForm()">Generate New Blog</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" onclick="loadProfile()">Profile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link text-danger" href="#" onclick="logout()">Logout</a>
-    </li>
-  </ul>
-
-  <div class="container">
-    <h1 class="mb-4">Admin Dashboard</h1>
-
-    <div id="output"></div>
-
-    <div id="form-area" style="display:none;">
-      <h3 id="form-title">Create Blog</h3>
-      <form onsubmit="submitBlog(event)">
-        <input type="hidden" id="blog-id">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" id="blog-title" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label>Content</label>
-          <textarea id="blog-content" class="form-control" rows="5" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Category</label>
-          <input type="text" id="blog-category" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">Save</button>
-        <button type="button" class="btn btn-secondary mt-2" onclick="hideForm()">Cancel</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    const API_ROOT = 'http://127.0.0.1:8000/api';
-    const accessToken = localStorage.getItem('access_token');
-    const adminUUID = localStorage.getItem('admin_uuid');
-
-    if (!accessToken || !adminUUID) {
-      alert("You're not logged in.");
-      window.location.href = 'login.html';
-    }
-
-    function getAuthHeaders() {
-      return {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      };
-    }
-
-    async function authFetch(url, options = {}) {
-      const res = await fetch(`${API_ROOT}${url}`, {
-        ...options,
-        headers: getAuthHeaders()
-      });
-
-      if (res.status === 401) {
-        alert("Session expired. Please log in again.");
-        window.location.href = 'login.html';
-        return;
-      }
-      return res.json();
-    }
-
-    async function loadBlogs() {
-      const blogs = await authFetch(`/${adminUUID}/admin/blogs/`);
-      console.log(blogs);
-      const out = document.getElementById('output');
-      out.innerHTML = `<h3>My Blogs</h3>
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Content (preview)</th>
-              <th>Published</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${blogs.map(blog => `
-              <tr>
-                <td>${blog.id}</td>
-                <td>${blog.title}</td>
-                <td>${(blog.content || '').substring(0, 100)}...</td>
-                <td><button class="btn btn-sm btn-${blog.published ? 'success' : 'secondary'}">
-                  ${blog.published ? 'Published' : 'Unpublished'}
-                </button></td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton${blog.id}" data-bs-toggle="dropdown" aria-expanded="false">
-                      &#8942;
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${blog.id}">
-                      <li><a class="dropdown-item" href="#" onclick='editBlog(${JSON.stringify(blog)})'>Edit</a></li>
-                      <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.id})'>Delete</a></li>
-                      <li><a class="dropdown-item" href="#">Regenerate</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>`).join('')}
-          </tbody>
-        </table>`;
-    }
-
-    function showCreateForm() {
-      document.getElementById('form-title').innerText = 'Create Blog';
-      document.getElementById('blog-id').value = '';
-      document.getElementById('blog-title').value = '';
-      document.getElementById('blog-content').value = '';
-      document.getElementById('blog-category').value = '';
-      document.getElementById('form-area').style.display = 'block';
-    }
-
-    function editBlog(blog) {
-      document.getElementById('form-title').innerText = 'Edit Blog';
-      document.getElementById('blog-id').value = blog.id;
-      document.getElementById('blog-title').value = blog.title;
-      document.getElementById('blog-content').value = blog.content;
-      document.getElementById('blog-category').value = blog.category;
-      document.getElementById('form-area').style.display = 'block';
-    }
-
-    function hideForm() {
-      document.getElementById('form-area').style.display = 'none';
-    }
-
-    async function submitBlog(e) {
-      e.preventDefault();
-      const id = document.getElementById('blog-id').value;
-      const title = document.getElementById('blog-title').value;
-      const content = document.getElementById('blog-content').value;
-      const category = document.getElementById('blog-category').value;
-
-      const blog = { title, content, category };
-
-      const method = id ? 'PUT' : 'POST';
-      const url = id
-        ? `/${adminUUID}/admin/blogs/${id}/`
-        : `/${adminUUID}/admin/blogs/`;
-
-      await authFetch(url, {
-        method,
-        body: JSON.stringify(blog)
-      });
-
-      hideForm();
-      loadBlogs();
-    }
-
-    async function deleteBlog(id) {
-      if (!confirm('Are you sure?')) return;
-      await authFetch(`/${adminUUID}/admin/blogs/${id}/`, {
-        method: 'DELETE'
-      });
-      loadBlogs();
-    }
-
-    async function loadProfile() {
-      const profile = await authFetch(`/${adminUUID}/admin/profil/`);
-      const out = document.getElementById('output');
-      out.innerHTML = `
-        <h3>Admin Profile</h3>
-        <p><strong>Username:</strong> ${profile.username}</p>
-        <p><strong>Email:</strong> ${profile.email}</p>`;
-    }
-
-    function logout() {
-      localStorage.clear();
-      window.location.href = 'login.html';
-    }
-  </script>
-
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-</body>
-</html> -->
-
-
-<!--                                                                               -->
-<!--                                                                               -->
-<!--                                                                               -->
-<!--                                                                               -->
-<!--                                                                               -->
-<!--                                                                               -->
-<!--                                                                               -->
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <div class="container mt-5">
-    <h1>Admin Dashboard</h1>
-
-    <div class="mb-3">
-      <button class="btn btn-primary" onclick="loadBlogs()">Load My Blogs</button>
-      <button class="btn btn-success" onclick="showCreateForm()">+ Create Blog</button>
-      <button class="btn btn-warning" onclick="loadComments()">View Comments</button>
-      <button class="btn btn-info" onclick="loadProfile()">My Profile</button>
-      <button class="btn btn-danger" onclick="logout()">Logout</button>
-    </div>
-
-    <div id="output"></div>
-
-    <div id="form-area" style="display:none;">
-      <h3 id="form-title">Create Blog</h3>
-      <form onsubmit="submitBlog(event)">
-        <input type="hidden" id="blog-id">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" id="blog-title" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label>Content</label>
-          <textarea id="blog-content" class="form-control" rows="5" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Category</label>
-          <input type="text" id="blog-category" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" onclick="hideForm()">Cancel</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    const API_ROOT = 'http://127.0.0.1:8000/api';
-    const accessToken = localStorage.getItem('access_token');
-    const adminUUID = localStorage.getItem('admin_uuid');
-
-    if (!accessToken || !adminUUID) {
-      alert("You're not logged in.");
-      window.location.href = 'login.html';
-    }
-
-    function getAuthHeaders() {
-      return {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      };
-    }
-
-    async function authFetch(url, options = {}) {
-      const res = await fetch(`${API_ROOT}${url}`, {
-        ...options,
-        headers: getAuthHeaders()
-      });
-
-      if (res.status === 401) {
-        alert("Session expired. Please log in again.");
-        window.location.href = 'login.html';
-        return;
-      }
-      return res.json();
-    }
-
-    async function loadBlogs() {
-      const blogs = await authFetch(`/${adminUUID}/admin/blogs/`);
-      console.log(blogs)
-      const out = document.getElementById('output');
-      out.innerHTML = `<h3>My Blogs</h3>` + blogs.map(blog => `
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5>${blog.title}</h5>
-            <p>${(blog.content || '').substring(0, 100)}...</p>
-            <button class="btn btn-sm btn-info" onclick='editBlog(${JSON.stringify(blog)})'>Edit</button>
-            <button class="btn btn-sm btn-danger" onclick='deleteBlog(${blog.id})'>Delete</button>
-          </div>
-        </div>`).join('');
-    }
-
-    function showCreateForm() {
-      document.getElementById('form-title').innerText = 'Create Blog';
-      document.getElementById('blog-id').value = '';
-      document.getElementById('blog-title').value = '';
-      document.getElementById('blog-content').value = '';
-      document.getElementById('blog-category').value = '';
-      document.getElementById('form-area').style.display = 'block';
-    }
-
-    function editBlog(blog) {
-      document.getElementById('form-title').innerText = 'Edit Blog';
-      document.getElementById('blog-id').value = blog.id;
-      document.getElementById('blog-title').value = blog.title;
-      document.getElementById('blog-content').value = blog.content;
-      document.getElementById('blog-category').value = blog.category;
-      document.getElementById('form-area').style.display = 'block';
-    }
-
-    function hideForm() {
-      document.getElementById('form-area').style.display = 'none';
-    }
-
-    async function submitBlog(e) {
-      e.preventDefault();
-      const id = document.getElementById('blog-id').value;
-      const title = document.getElementById('blog-title').value;
-      const content = document.getElementById('blog-content').value;
-      const category = document.getElementById('blog-category').value;
-
-      const blog = { title, content, category };
-
-      const method = id ? 'PUT' : 'POST';
-      const url = id
-        ? `/${adminUUID}/admin/blogs/${id}/`
-        : `/${adminUUID}/admin/blogs/`;
-
-      await authFetch(url, {
-        method,
-        body: JSON.stringify(blog)
-      });
-
-      hideForm();
-      loadBlogs();
-    }
-
-    async function deleteBlog(id) {
-      if (!confirm('Are you sure?')) return;
-      await authFetch(`/${adminUUID}/admin/blogs/${id}/`, {
-        method: 'DELETE'
-      });
-      loadBlogs();
-    }
-
-    async function loadComments() {
-      const comments = await authFetch(`/${adminUUID}/admin/comments/`);
-      const out = document.getElementById('output');
-      out.innerHTML = `<h3>Comments</h3>` + comments.map(c => `
-        <div class="card mb-2">
-          <div class="card-body">
-            <p><strong>ID ${c.id}</strong>: ${c.text}</p>
-            <button class="btn btn-sm btn-danger" onclick='deleteComment(${c.id})'>Delete</button>
-          </div>
-        </div>`).join('');
-    }
-
-    async function deleteComment(id) {
-      await authFetch(`/${adminUUID}/admin/comments/${id}/`, {
-        method: 'DELETE'
-      });
-      loadComments();
-    }
-
-    async function loadProfile() {
-      const profile = await authFetch(`/${adminUUID}/admin/profil/`);
-      const out = document.getElementById('output');
-      out.innerHTML = `
-        <h3>Admin Profile</h3>
-        <p><strong>Username:</strong> ${profile.username}</p>
-        <p><strong>Email:</strong> ${profile.email}</p>`;
-    }
-
-    function logout() {
-      localStorage.clear();
-      window.location.href = 'login.html';
-    }
-  </script>
-
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-</body>
-</html> -->
-
-
