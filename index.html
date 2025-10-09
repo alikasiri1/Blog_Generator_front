@@ -169,7 +169,7 @@
                     
                     
 
-                    <div class=" row" style="margin-top: 110px;">
+                    <div class=" row" style="margin-top: 150px;">
                         <div class="col-lg-5 d-flex align-items-center justify-content-center" >
                             <div class="text-center text-primary">
                               <h2 class=" fw-bold text-xl text-lg-left" style="font-weight: 700;font-family: 'ESBuild', sans-serif;">Bring your ideas to life.</h2>
@@ -201,9 +201,9 @@
 
             <div  class="content mt-4" classid="content"  style="background: linear-gradient(0deg, #FFFFFF 0%, #AFE7FC 48%, #A8D1FF 71%, #CDDAFA 85%, #ffffff 100%);">
               <div class="container-fluid ">
-                <div class="row mt-5 mb-5">
+                <div class="row mt-5 mb-5 text-center">
                   
-                  <h1 class=" fw-bold text-xl text-lg-center" style="font-weight: 700;">Creative content at the speed of light. fafa afd afdaf afd</h2>
+                  <h1 class=" text-xxl text-primary " style="font-weight: 530;font-family:var('ESBuild',sans-serif);font-feature-settings: 'ss02';">Creative content at the speed of light.</h2>
                   <div class="chakra-stack css-1jjq5p5">
                     <img alt="Cloud 2" src="https://vercel-marketing-app.gamma.app/_next/static/media/clouds2.b6ae5b45.png" class="chakra-image css-qzc3t9">
                     <img alt="Cloud 1" src="https://vercel-marketing-app.gamma.app/_next/static/media/clouds1.9209e211.png" class="chakra-image css-xpd2ee">
@@ -213,8 +213,8 @@
             </div>
 
             <div class="content" classid="content" >
-              <div class="container-fluid ">
-                <h1 class=" fw-bold text-lg-center" style="font-weight: 700;">Creative content at the speed of light.</h2>
+              <div class="container-fluid text-center">
+                <h1 class=" h1 text-lg-center" style="font-weight: 550;font-family:var('ESBuild',sans-serif)">Build anything, beautifully</h2>
 
                 <div class="row mt-5 mb-5">
                     <div class="tab-content col-12" id="pills-tabContent">
@@ -339,7 +339,7 @@
         const adminUUID = localStorage.getItem('admin_uuid');
         // Global variables
         let allBlogs = [];
-        const itemsPerPage = 4;
+        const itemsPerPage = 3;
         let published = 1;
         let unpublished = 1;
 
@@ -408,8 +408,8 @@
             
             blogsToShow.forEach(blog => {// col-xl-3
             const blogCard = `
-                <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
-                    <div class="card doc-card shadow-sm hover-card-light">
+                <div class="col-sm-6  col-md-4 col-xl-4 mb-3">
+                    <div class="card doc-card  hover-card-light" style="">
                         <a class="text-decoration-none" href="http://localhost:8003/single.html?title=${blog.slug}">
                             <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
                             <div class="card-body">
