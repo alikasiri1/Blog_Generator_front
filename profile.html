@@ -21,7 +21,11 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
   
-    
+    <style>
+        body{
+            color: #858796;
+        }
+    </style>
 
 </head>
 
@@ -46,7 +50,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item  ">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="admin.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Blogs</span></a>
                     <!-- <button id="darkLightBtn">Toggle Dark/Light</button> -->
@@ -402,7 +406,8 @@
                                             
                                                 <h5 class="card-title" id="username"></h5>
                                                 <p class="card-text"></p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                                <a href="#" class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" 
+                                                style="border-radius: 10px;">Go somewhere</a>
                                             
                                         </div>
                                         </div>
@@ -438,7 +443,7 @@
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                         <label class="tm-hide-sm">&nbsp;</label>
-                                                        <button type="submit" class="btn btn-primary btn-block text-uppercase">
+                                                        <button type="submit" class="btn btn-md btn-block text-uppercase text-light">
                                                         Update Your Profile
                                                         </button>
                                                     </div>
@@ -535,7 +540,8 @@
             ['card' , 'card-dark'],
             ['create-btn-light' , 'create-btn-dark'],
             ['import-btn-light' ,'import-btn-dark' ],
-            ['hover-card-dark' , 'hover-card-light']
+            ['hover-card-dark' , 'hover-card-light'],
+
         ];
 
         toggleButton.addEventListener('click', () => {

@@ -449,7 +449,7 @@
                                 Create New
                             </a>
                             
-                            <a href="create.html" class="d-sm-inline-block btn btn-md btn-light  border-1  mr-2 mb-2 import-btn-light" 
+                            <a href="import.html" class="d-sm-inline-block btn btn-md btn-light  border-1  mr-2 mb-2 import-btn-light" 
                             style="border-radius: 28px;padding-bottom: 5px;padding-top: 5px;">
                                 <i
                                     class="fas fa-upload fa-sm text-white-20">
@@ -559,17 +559,19 @@
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="border-bottom-width: 0px;">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel" >Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                <div class="modal-body text-primary">Select 
+                    <span class="fw-bold">logout</span> below if you are ready to end your current session.</div>
+                <div class="modal-footer" style="border-top-width: 0px;">
+                    <!-- <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button> -->
+                    <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" 
+                    style="border-radius: 10px;" href="login.html">Logout</a>
                 </div>
             </div>
         </div>
