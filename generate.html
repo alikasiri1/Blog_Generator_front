@@ -74,15 +74,20 @@ justify-content: center;
 }
 .custom-input-card {
 width: 100%;
-/* border: none; */
+border: none;
 border-radius: 4px;
 height: 67px;
 resize: none;
 padding: 12px;
 padding-top: 18px;
 box-sizing: border-box;
-font-size: 18px;
+font-size: 15px;
 transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.custom-input-card:focus {
+outline: none;
+/* border-color: #296ee7; you can remove this if you only want shadow */
+box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
 }
 .custom-input-wrapper-card {
         position: relative;
@@ -137,67 +142,62 @@ transition: border-color 0.2s ease, box-shadow 0.2s ease;
                         <div class="col-lg-6">                                  
                             <div class="row mb-3 ml-1">
                                 <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                                    <div>
-                                        
-                                    </div>
-
                                     <li class="nav-item dropdown ml-2" >
                                         
                                         <a class="nav-link dropdown-toggle import-btn-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;">
                                           10 cards
                                         </a>
-                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 300px;overflow-y: scroll;">
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 330px;overflow-y: scroll;">
                                         <li class="dropdown-header">Tip: cards are like slides</li>
                                           <li>
                                             <a class="dropdown-item" href="#">
                                                 
-                                                    <span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                                        <i class="fas fa-check fa-sm  mr-2"></i> 
+                                                    <span style="align-items: center;display: inline-flex;">
+                                                        <i class="fas fa-space fa-sm  mr-2"></i> 
                                                     </span>
                                                     1 card
-                                                
-                                                
+
                                             </a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="#">
-                                                    <span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                                        <i class="fas fa-check fa-sm  mr-2"></i> 
+                                                    <span style="align-items: center;display: inline-flex;">
+                                                        <i class="fas fa-space fa-sm  mr-2"></i> 
                                                     </span>
                                                     2 card  
                                             </a>
                                         </li>
                                           <li><a class="dropdown-item" href="#">
-                                            <span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                                <i class="fas fa-check fa-sm  mr-2"></i> 
+                                            <span style="align-items: center;display: inline-flex;">
+                                                <i class="fas fa-space fa-sm  mr-2"></i> 
                                             </span>
                                             3 card  
                                           </a></li>
-                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                            <i class="fas fa-check fa-sm  mr-2"></i> 
+                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                            <i class="fas fa-space fa-sm  mr-2"></i> 
                                         </span>
                                         4 card  </a></li>
-                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                            <i class="fas fa-check fa-sm  mr-2"></i> 
+                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                            <i class="fas fa-space fa-sm  mr-2"></i> 
                                         </span>
                                         5 card  </a></li>
-                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                            <i class="fas fa-check fa-sm  mr-2"></i> 
+                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                            <i class="fas fa-space fa-sm  mr-2"></i> 
                                         </span>
                                         6 card  </a></li>
-                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                            <i class="fas fa-check fa-sm  mr-2"></i> 
+                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                            <i class="fas fa-space fa-sm  mr-2"></i> 
                                         </span>
                                         7 card  </a></li>
-                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                            <i class="fas fa-check fa-sm  mr-2"></i> 
+                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                            <i class="fas fa-space fa-sm  mr-2"></i> 
                                         </span>
                                         8 card  </a></li>
-                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;color: #ffffff;">
-                                            <i class="fas fa-check fa-sm  mr-2"></i> 
+                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                            <i class="fas fa-space fa-sm  mr-2"></i> 
                                         </span>
                                         9 card  </a></li>
-                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;color: #ffffff;">
+                                          <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
                                             <i class="fas fa-check fa-sm text-primary mr-2"></i> 
                                         </span>
                                         10 card  </a></li>
@@ -285,44 +285,33 @@ transition: border-color 0.2s ease, box-shadow 0.2s ease;
                                     </li>
                                     
                                 </ul>
-                            </div>
+                            </div>  
                             <div class="custom-input-wrapper">
                                 <textarea class="custom-input" id="contentEditor"></textarea>
                                 <div class="custom-placeholder" id="customPlaceholder">
                                   Describe what you'd like to make
                                 </div>
                               </div>
-                              <div id="controls">
-                                <input type="number" id="cardCount" placeholder="Number of cards" min="1" />
-                                <button onclick="generateCards()">Generate</button>
-                              </div>
-                              <h4>Outlines</h4>
-                            <div class="card-body shadow " id="cardContainer" style="background-color: #ffffff;border-radius: 5px;">
-                                <!-- <div class="custom-input-wrapper-card mb-2">
-                                    <div class="card-number ">1</div>
-                                    <textarea class="custom-input border-1" id="contentEditor"></textarea>
-                                    <div class="custom-placeholder" id="customPlaceholder">
-                                        مقدمه‌ای بر ژنتیک: رازهای وراثت و زندگی
-                                    </div>
-                                </div>
-                                <div class="custom-input-wrapper-card mb-2 ">
-                                    <div class="card-number ">2</div>
-                                    <textarea class="custom-input" id="contentEditor" style="border: #999;"></textarea>
-                                    <div class="custom-placeholder" id="customPlaceholder">
-                                        ژنتیک چیست؟
-                                    </div>
-                                </div> -->
-                                
-                            </div>
-
                               <div id="generateContainer" class="generate-container row mt-3 mb-4 justify-content-center ml-1">
-                                  <a href="blank.html" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
-                                   style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;">
-                                          <i class="fas fa-star fa-sm text-white-20 ">
-                                          </i> 
-                                          Generate Outline
-                                      </a>
-                              </div>
+                                <a href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
+                                 style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
+                                 onclick="generateCards()"
+                                 >
+                                        
+                                 <i class="fas fa-star fa-sm text-white-20 ">
+                                        </i> 
+                                        Generate Outline
+                                    </a>
+                            </div>
+                              
+                            <div id="carddivcontainer" style="display: none;">
+                                <h4>Outlines</h4>
+                                <div class="card-body shadow " id="cardContainer" style="background-color: #ffffff;border-radius: 5px;">
+                                </div>
+                            </div>
+                              
+
+                              
                               <!-- <div id="generateContainer" class="generate-container">
                                 <button type="button" class="chakra-button css-ttvrvp">
                                   
@@ -408,39 +397,164 @@ transition: border-color 0.2s ease, box-shadow 0.2s ease;
         });
     </script>
     <script>
-        function generateCards() {
+        // --- Variables to store the selections ---
+        let selectedCardCount = 10;
+        let selectedLanguage = "English";
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+
+        function getAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            };
+        }
+        // --- Authenticated fetch helper ---
+        async function authFetch(url, options = {}) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                ...options,
+                headers: getAuthHeaders()
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return await res.json();
+        }
+
+        // --- Fetch generated topics from backend ---
+        async function getGeneratedTopics(prompt, cardCount) {
+            try {
+                const response = await authFetch(`/admin/blogs/generate_topic/`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        num_cards: cardCount,
+                        documents:[]
+                    })
+                });
+
+                console.log("✅ Backend response:", response);
+
+                // Extract topics list from backend response
+                if (response.status === 'success' && Array.isArray(response.topics)) {
+                    return response.topics;
+                } else {
+                    console.warn("⚠️ Unexpected response structure:", response);
+                    return [];
+                }
+
+            } catch (error) {
+                console.error("❌ Error fetching topics:", error);
+                return [];
+            }
+        }
+
+        // --- Function to handle icon update ---
+        function updateDropdownIcons(dropdownItems, clickedItem) {
+            dropdownItems.forEach(item => {
+                const icon = item.querySelector('i');
+                if (icon) {
+                    // Reset all icons to white "space" icon
+                    icon.className = 'fas fa-space fa-sm mr-2';
+                }
+            });
+
+            const clickedIcon = clickedItem.querySelector('i');
+            if (clickedIcon) {
+                clickedIcon.className = 'fas fa-check fa-sm text-primary mr-2';
+            }
+        }
+        // --- Handle CARD COUNT dropdown ---
+        const cardItems = document.querySelectorAll('#pills-tab .nav-item.dropdown:nth-child(1) .dropdown-menu .dropdown-item');
+        const cardDropdownBtn = document.querySelector('#pills-tab .nav-item.dropdown:nth-child(1) > a.nav-link');
+
+        cardItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Extract number (e.g., "3 card" → 3)
+                const text = this.innerText.trim();
+                const match = text.match(/\d+/);
+                selectedCardCount = match ? parseInt(match[0], 10) : null;
+
+                // Update dropdown button text
+                if (cardDropdownBtn) cardDropdownBtn.innerHTML = text;
+
+                // Update icons
+                updateDropdownIcons(cardItems, this);
+
+                console.log("✅ Selected card count:", selectedCardCount);
+            });
+        });
+
+        // --- Handle LANGUAGE dropdown ---
+        const langItems = document.querySelectorAll('#pills-tab .nav-item.dropdown:nth-child(2) .dropdown-menu .dropdown-item');
+        const langDropdownBtn = document.querySelector('#pills-tab .nav-item.dropdown:nth-child(2) > a.nav-link');
+
+        langItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Get selected language text
+                const langName = this.querySelector('p') ? this.querySelector('p').innerText.trim() : this.innerText.trim();
+                selectedLanguage = langName;
+
+                // Update dropdown button text
+                if (langDropdownBtn)
+                    langDropdownBtn.innerHTML = `<i class="fas fa-language fa-sm text-primary mr-2"></i> ${selectedLanguage}`;
+
+                // Update icons
+                updateDropdownIcons(langItems, this);
+
+                console.log("🌍 Selected language:", selectedLanguage);
+            });
+        });
+
+        async function generateCards() {
+          const divcontainer = document.getElementById('carddivcontainer');
+          divcontainer.style.display = 'block';
           const container = document.getElementById("cardContainer");
-          const count = parseInt(document.getElementById("cardCount").value);
+        //   const count = parseInt(document.getElementById("cardCount").value);
+          const count = selectedCardCount
           container.innerHTML = ""; // Clear old cards
     
           if (!count || count <= 0) {
             alert("Please enter a valid number of cards!");
             return;
           }
-    
-          for (let i = 1; i <= count; i++) {
-            // Create wrapper div
-            const wrapper = document.createElement("div");
-            wrapper.className = "custom-input-wrapper-card  mb-2";
-    
-            // Card number
-            const number = document.createElement("div");
-            number.className = "card-number";
-            number.textContent = i;
-    
-            // Textarea
-            const textarea = document.createElement("textarea");
-            textarea.className = "custom-input";
-            textarea.id = `contentEditor_${i}`;
-            textarea.value = `This is sample text for card ${i}.`;
-    
-            // Append all
-            wrapper.appendChild(number);
-            wrapper.appendChild(textarea);
-            container.appendChild(wrapper);
-          }
+          // 🔹 Send prompt to backend and get list of strings
+         const prompt = "Generate creative content for cards"; // You can replace this dynamically
+          const generatedTexts = await getGeneratedTopics(prompt, count);
+
+          // 🔹 Generate cards and fill them with backend output
+            for (let i = 1; i <= count; i++) {
+                const wrapper = document.createElement("div");
+                wrapper.className = "custom-input-wrapper-card mb-2";
+                // wrapper.style.border = "1px solid black";
+                // wrapper.style.borderRadius = "5px";
+                // wrapper.style.padding = "5px";
+
+                const number = document.createElement("div");
+                number.className = "card-number";
+                number.textContent = i;
+
+                const textarea = document.createElement("textarea");
+                textarea.className = "custom-input-card";
+                textarea.id = `contentEditor_${i}`;
+                textarea.value = generatedTexts[i - 1] || ``;
+
+                wrapper.appendChild(number);
+                wrapper.appendChild(textarea);
+                container.appendChild(wrapper);
+            }
+
+            console.log("🎉 Cards generated successfully!");
         }
       </script>
+
 </body>
 
 </html>
