@@ -23,9 +23,9 @@
     
     <style>
       .custom-input-wrapper {
-position: relative;
-width: 100%;
-}
+        position: relative;
+        width: 100%;
+        }
 
 .custom-input {
 width: 100%;
@@ -63,6 +63,34 @@ display: none; /* hidden initially */
 margin-top: 8px;
 justify-content: center;
 }
+.card-number {
+    width: 50px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: #eff7ff;
+      justify-content: center;
+      font-size: 18px;
+}
+.custom-input-card {
+width: 100%;
+/* border: none; */
+border-radius: 4px;
+height: 67px;
+resize: none;
+padding: 12px;
+padding-top: 18px;
+box-sizing: border-box;
+font-size: 18px;
+transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.custom-input-wrapper-card {
+        position: relative;
+        width: 100%;
+        display: flex;
+        border: 1px solid #f0f0f0; 
+        border-radius: 4px;
+        }
   </style>
 </head>
 
@@ -264,6 +292,28 @@ justify-content: center;
                                   Describe what you'd like to make
                                 </div>
                               </div>
+                              <div id="controls">
+                                <input type="number" id="cardCount" placeholder="Number of cards" min="1" />
+                                <button onclick="generateCards()">Generate</button>
+                              </div>
+                              <h4>Outlines</h4>
+                            <div class="card-body shadow " id="cardContainer" style="background-color: #ffffff;border-radius: 5px;">
+                                <!-- <div class="custom-input-wrapper-card mb-2">
+                                    <div class="card-number ">1</div>
+                                    <textarea class="custom-input border-1" id="contentEditor"></textarea>
+                                    <div class="custom-placeholder" id="customPlaceholder">
+                                        مقدمه‌ای بر ژنتیک: رازهای وراثت و زندگی
+                                    </div>
+                                </div>
+                                <div class="custom-input-wrapper-card mb-2 ">
+                                    <div class="card-number ">2</div>
+                                    <textarea class="custom-input" id="contentEditor" style="border: #999;"></textarea>
+                                    <div class="custom-placeholder" id="customPlaceholder">
+                                        ژنتیک چیست؟
+                                    </div>
+                                </div> -->
+                                
+                            </div>
 
                               <div id="generateContainer" class="generate-container row mt-3 mb-4 justify-content-center ml-1">
                                   <a href="blank.html" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
@@ -357,7 +407,40 @@ justify-content: center;
         }
         });
     </script>
+    <script>
+        function generateCards() {
+          const container = document.getElementById("cardContainer");
+          const count = parseInt(document.getElementById("cardCount").value);
+          container.innerHTML = ""; // Clear old cards
     
+          if (!count || count <= 0) {
+            alert("Please enter a valid number of cards!");
+            return;
+          }
+    
+          for (let i = 1; i <= count; i++) {
+            // Create wrapper div
+            const wrapper = document.createElement("div");
+            wrapper.className = "custom-input-wrapper-card  mb-2";
+    
+            // Card number
+            const number = document.createElement("div");
+            number.className = "card-number";
+            number.textContent = i;
+    
+            // Textarea
+            const textarea = document.createElement("textarea");
+            textarea.className = "custom-input";
+            textarea.id = `contentEditor_${i}`;
+            textarea.value = `This is sample text for card ${i}.`;
+    
+            // Append all
+            wrapper.appendChild(number);
+            wrapper.appendChild(textarea);
+            container.appendChild(wrapper);
+          }
+        }
+      </script>
 </body>
 
 </html>
