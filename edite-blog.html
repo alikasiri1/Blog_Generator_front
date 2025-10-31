@@ -1410,10 +1410,45 @@
         let resizeStartY = 0;
         let resizeStartWidth = 0;
         let resizeStartHeight = 0;
-        let resizeDirection = '';
+        let resizeDirection = null;
         let showAuthorInfo = true;
         let showRecentPosts = true;
 
+        const API_ROOT = 'http://127.0.0.1:8000/api/admin';
+        const accessToken = localStorage.getItem('access_token');
+        // const adminUUID = localStorage.getItem('admin_uuid');
+
+        function getAuthHeaders() {
+        return {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        };
+        }
+
+        async function authFetch(url, options = {}) {
+        const res = await fetch(`${API_ROOT}${url}`, {
+            ...options,
+            headers: getAuthHeaders()
+        });
+
+        if (res.status === 401) {
+            alert("Session expired. Please log in again.");
+            window.location.href = 'login.html';
+            return;
+        }
+        return res.json();
+        }
+
+		const params = new URLSearchParams(window.location.search);
+		const blogTitle = params.get('title');
+		
+		async function loadBlogDetails() {
+		  if (!blogTitle) return;
+		
+		  const blog = await authFetch(`/blogs/${blogTitle}`);
+        //   console.log(blog)
+          return blog
+		}
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadFromLocalStorage();
@@ -1427,7 +1462,7 @@
         });
 
         // Sample Data
-        function loadSampleData() {
+        async  function loadSampleData() {
             const sampleData = [
                 {
                     heading: "Create Relevant Content",
@@ -1442,13 +1477,36 @@
                     content: "Every blog post is an opportunity to connect with your audience. Share your experiences, insights, and lessons learned. Be authentic and let your personality shine through your writing."
                 }
             ];
-            
-            cards = sampleData.map(data => createCard(data));
+            const blog = await  loadBlogDetails()
+            if (!blog || !blog.content) {
+                console.error("No blog data found");
+                return;
+            }
+            console.log(blog.content)
+            // Convert backend blog content into your card structure
+            cards = blog.content.map(section => createCard({
+                heading: section.heading,
+                content: section.body,
+                image: section.media?.url || null,
+                imagePosition: 'top',
+            }));
+            // cards = sampleData.map(data => createCard(data));
             renderCards();
             saveToLocalStorage();
         }
 
         // Card Management
+        // function createCard(data = {}) {
+        //     return {
+        //         id: Date.now() + Math.random(),
+        //         heading: data.heading || '',
+        //         content: data.content || '',
+        //         image: data.image || null,
+        //         imagePosition: data.imagePosition || 'top',
+        //         imageWidth: data.imageWidth || null,
+        //         imageHeight: data.imageHeight || null
+        //     };
+        // }
         function createCard(data = {}) {
             return {
                 id: Date.now() + Math.random(),
@@ -1678,6 +1736,8 @@
             
             return imageContainer;
         }
+        
+
 
         function startResize(e) {
             e.preventDefault();
@@ -1693,7 +1753,7 @@
             document.addEventListener('mousemove', doResize);
             document.addEventListener('mouseup', stopResize);
         }
-
+          
         function doResize(e) {
             if (!resizingImage) return;
             
@@ -1726,6 +1786,7 @@
             document.removeEventListener('mousemove', doResize);
             document.removeEventListener('mouseup', stopResize);
         }
+
 
         function insertCardAt(index) {
             const newCard = createCard();
