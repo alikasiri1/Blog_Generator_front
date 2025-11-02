@@ -4,7 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Editor - JSON to Editable Cards</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- <link href="css/sb-admin-2.css" rel="stylesheet"> -->
     <style>
+        .nav-item .nav-link {
+          color: #002253;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .nav-item:focus , .nav-item:hover {
+          background-color: #e7f1ff;
+          border-radius: 28px;
+        }
+        @media (min-width: 1300px) {
+          .content {
+            padding-left: 100px;
+            padding-right: 100px;
+          }
+        }
+        @media (min-width: 1300px) {
+          .navbar {
+            padding-left: 100px;
+            padding-right: 100px;
+          }
+        }
         /* CSS Variables for Theming */
         :root {
             --color-bg: #f8f9fa;
@@ -20,13 +44,14 @@
             
             --font-heading: 'Georgia', serif;
             --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            
+            --heading-placeholder: "عنوان را وارد کنید...";
+            --content-placeholder: "نوشتن را شروع کنید...";
             --radius: 16px;
             --shadow-sm: 0 2px 8px var(--color-shadow);
             --shadow-md: 0 4px 16px var(--color-shadow);
             --shadow-lg: 0 8px 32px var(--color-shadow);
             
-            --container-width: 900px;
+            --container-width: 1100px;
         }
 
         /* Theme: Dark */
@@ -194,6 +219,7 @@
             margin: 2rem auto;
             padding: 0 1rem;
             transition: max-width 0.3s ease;
+            margin-top: 72px;
         }
 
         /* Container width control */
@@ -446,7 +472,7 @@
         }
 
         /* Card Header */
-        .card-header {
+        .card-header_ {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -474,7 +500,8 @@
         }
 
         .card-heading:empty:before {
-            content: 'Enter heading...';
+            /* content: 'Enter heading...'; */
+            content: var(--heading-placeholder, "عنوان را وارد کنید...");
             color: #999;
         }
 
@@ -540,6 +567,7 @@
             transition: border-color 0.2s ease;
             overflow: auto;
             overflow-wrap: break-word;
+            color: var(--color-text);
         }
 
         .card-content:focus {
@@ -547,7 +575,8 @@
         }
 
         .card-content:empty:before {
-            content: 'Start writing...';
+            /* content: 'Start writing...'; */
+            content: var(--content-placeholder, "نوشتن را شروع کنید...");
             color: #999;
         }
 
@@ -1201,15 +1230,26 @@
         body.preview-mode .section-toggle-menu {
             display: none;
         }
-    </style>
+        .nav-item .nav-link {
+          color: #002253;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .nav-item:focus , .nav-item:hover {
+          background-color: #e7f1ff;
+          border-radius: 28px;
+        }
+
+    </style>    
+
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
+
+    <!-- <header class="header">
         <div class="header-content">
             <div class="logo">✍️ Blog Editor</div>
             <div class="header-actions">
-                <!-- Language switcher -->
+
                 <button id="langBtn" class="btn btn-secondary">🌐 EN</button>
                 <select id="themeSelector" class="btn btn-secondary">
                     <option value="light">Light Theme</option>
@@ -1218,25 +1258,82 @@
                     <option value="warm">Warm Theme</option>
                 </select>
                 <button id="previewBtn" class="btn btn-secondary">👁️ Preview</button>
-                <!-- Add publish button -->
+
                 <button id="publishBtn" class="btn btn-primary">🚀 Publish</button>
                 <button id="exportBtn" class="btn btn-secondary">💾 Export</button>
                 <button id="loadJsonBtn" class="btn btn-primary">📂 Load JSON</button>
             </div>
         </div>
-    </header>
+    </header> -->
+
+    <nav class="navbar navbar-expand-lg fixed-top bootstrap-scope" style="background-color: rgba(255, 255, 255, 0.95);direction: ltr;">
+        <div class="container-fluid">
+            <a class="navbar-brand text-primary" href="#">
+              gamma
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" 
+                    aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item ml-2">
+                  <a class="nav-link" aria-current="page" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="home">خانه</a>
+                </li>
+                <li class="nav-item ml-2">
+                  <a class="nav-link" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="link">لینک</a>
+                </li>
+                <li class="nav-item dropdown ml-2">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                     data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;" data-label="dropdown">منو</a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#" data-label="action">عملیات</a></li>
+                    <li><a class="dropdown-item" href="#" data-label="another">عملیات دیگر</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" data-label="something">چیزی دیگر</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item ml-2 dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" 
+                     data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;" data-label="theme">🎨 تم</a>
+                  <ul class="dropdown-menu" aria-labelledby="themeDropdown">
+                    <li><a class="dropdown-item" href="#" onclick="setTheme('light')" data-label="light">روشن</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="setTheme('dark')" data-label="dark">تاریک</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="setTheme('minimalist')" data-label="minimalist">حداقل</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="setTheme('warm')" data-label="warm">گرم</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="navbar-nav">
+                  <li class="nav-item ml-2">
+                      <a class="nav-link" id="langBtn" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="lang">🌐 EN</a>
+                    </li>
+                <li class="nav-item ml-2">
+                  <a class="nav-link" id="previewBtn" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="preview">پیش‌نمایش</a>
+                </li>
+                <li class="nav-item ml-2">
+                  <a class="nav-link" id="publishBtn" href="#" style="background-color: #0540ad;color: #f8f9fc;padding-left: 16px;padding-right: 16px;border-radius: 28px;border: none;box-sizing: unset;cursor:pointer;" data-label="publish">انتشار</a>
+                </li>
+                
+              </ul>
+              
+            </div> 
+          </div>
+      </nav>
 
     <!-- Main Container -->
     <div class="container">
         <!-- Container width control -->
-        <div class="width-control">
+        <div class="width-control" style="direction: ltr;">
             <span class="width-control-label">Container Width:</span>
             <input type="range" class="width-slider" id="widthSlider" min="600" max="1400" value="900" step="50">
-            <span class="width-value" id="widthValue">900px</span>
+            <span class="width-value" id="widthValue">1100px</span>
         </div>
 
         <!-- Toolbar -->
-        <div id="toolbar" class="toolbar">
+        <div id="toolbar" class="toolbar" style="direction: ltr;">
             <div class="toolbar-group">
                 <button class="toolbar-btn" data-command="bold" title="Bold (Ctrl+B)"><strong>B</strong></button>
                 <button class="toolbar-btn" data-command="italic" title="Italic (Ctrl+I)"><em>I</em></button>
@@ -1398,13 +1495,63 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
+        const translations = {
+            fa: {
+                home: 'خانه',
+                link: 'لینک',
+                dropdown: 'منو',
+                action: 'عملیات',
+                another: 'عملیات دیگر',
+                something: 'چیزی دیگر',
+                theme: '🎨 تم',
+                light: 'روشن',
+                dark: 'تاریک',
+                minimalist: 'حداقل',
+                warm: 'گرم',
+                lang: '🌐 FA',
+                preview: 'پیش‌نمایش',
+                publish: 'انتشار',
+                width: 'عرض ظرف:',
+                export: 'صادرات محتوا',
+                exportFormat: 'فرمت صادرات',
+                cancel: 'لغو',
+                download: 'دانلود',
+                loadJson: 'بارگذاری JSON',
+                pasteJson: 'متن JSON را بپوشش دهید',
+                load: 'بارگذاری'
+            },
+            en: {
+                home: 'Home',
+                link: 'Link',
+                dropdown: 'Menu',
+                action: 'Action',
+                another: 'Another action',
+                something: 'Something else',
+                theme: '🎨 Theme',
+                light: 'Light',
+                dark: 'Dark',
+                minimalist: 'Minimalist',
+                warm: 'Warm',
+                lang: '🌐 EN',
+                preview: 'Preview',
+                publish: 'Publish',
+                width: 'Container Width:',
+                export: 'Export Content',
+                exportFormat: 'Export Format',
+                cancel: 'Cancel',
+                download: 'Download',
+                loadJson: 'Load JSON',
+                pasteJson: 'Paste JSON Array',
+                load: 'Load'
+            }
+        };
         // State Management
         let cards = [];
         let draggedCard = null;
         let isPreviewMode = false;
-        let currentLanguage = 'en';
+        let currentLanguage = 'fa';
         let resizingImage = null;
         let resizeStartX = 0;
         let resizeStartY = 0;
@@ -1439,6 +1586,41 @@
         return res.json();
         }
 
+        function updateLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+            
+            // Update navbar direction
+            // const navbar = document.querySelector('.navbar');
+            // if (navbar) {
+            //     navbar.style.direction = lang === 'fa' ? 'rtl' : 'ltr';
+            // }
+
+            // Update all elements with data-label attribute
+            document.querySelectorAll('[data-label]').forEach(element => {
+                const label = element.getAttribute('data-label');
+                if (translations[lang][label]) {
+                    element.textContent = translations[lang][label];
+                }
+            });
+
+            // Update placeholders
+            const placeholder = lang === 'fa' ? '"عنوان را وارد کنید..."' : '"Enter heading..."';
+            document.body.style.setProperty('--heading-placeholder', placeholder);
+            const contentPlaceholder = lang === 'fa' ? '"نوشتن را شروع کنید..."' : '"Start writing..."';
+            document.body.style.setProperty('--content-placeholder', contentPlaceholder);
+            // const headingPlaceholder = lang === 'fa' ? 'عنوان را وارد کنید...' : 'Enter heading...';
+            // const contentPlaceholder = lang === 'fa' ? 'نوشتن را شروع کنید...' : 'Start writing...';
+            
+            // Re-render to apply placeholders
+            renderCards();
+        }
+
+        function setTheme(theme) {
+            document.body.dataset.theme = theme;
+            localStorage.setItem('theme', theme);
+        }
+
 		const params = new URLSearchParams(window.location.search);
 		const blogTitle = params.get('title');
 		
@@ -1446,14 +1628,16 @@
 		  if (!blogTitle) return;
 		
 		  const blog = await authFetch(`/blogs/${blogTitle}`);
-        //   console.log(blog)
           return blog
 		}
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            loadFromLocalStorage();
+            // loadFromLocalStorage();
             setupEventListeners();
             setupKeyboardShortcuts();
+            currentLanguage = 'fa';
+            console.log(currentLanguage);
+            updateLanguage(currentLanguage);
             console.log(cards.length)
             // Load sample data if no cards exist
             // if (cards.length === 3) {
@@ -1463,20 +1647,20 @@
 
         // Sample Data
         async  function loadSampleData() {
-            const sampleData = [
-                {
-                    heading: "Create Relevant Content",
-                    content: "You'll be posting loads of engaging content, so be sure to keep your blog organized with Categories that also allow readers to explore more of what interests them. Each category of your blog has its own page that's fully customizable. Add a catchy title, a brief description and a beautiful image to the category page header to truly make it your own."
-                },
-                {
-                    heading: "Use Hashtags Effectively",
-                    content: "You can also add tags (#vacation #dream #summer) throughout your posts to reach more people, and help readers search for relevant content. Using hashtags can expand your post reach and help people find the content that matters to them. Go ahead, #hashtag away."
-                },
-                {
-                    heading: "Share Your Story",
-                    content: "Every blog post is an opportunity to connect with your audience. Share your experiences, insights, and lessons learned. Be authentic and let your personality shine through your writing."
-                }
-            ];
+            // const sampleData = [
+            //     {
+            //         heading: "Create Relevant Content",
+            //         content: "You'll be posting loads of engaging content, so be sure to keep your blog organized with Categories that also allow readers to explore more of what interests them. Each category of your blog has its own page that's fully customizable. Add a catchy title, a brief description and a beautiful image to the category page header to truly make it your own."
+            //     },
+            //     {
+            //         heading: "Use Hashtags Effectively",
+            //         content: "You can also add tags (#vacation #dream #summer) throughout your posts to reach more people, and help readers search for relevant content. Using hashtags can expand your post reach and help people find the content that matters to them. Go ahead, #hashtag away."
+            //     },
+            //     {
+            //         heading: "Share Your Story",
+            //         content: "Every blog post is an opportunity to connect with your audience. Share your experiences, insights, and lessons learned. Be authentic and let your personality shine through your writing."
+            //     }
+            // ];
             const blog = await  loadBlogDetails()
             if (!blog || !blog.content) {
                 console.error("No blog data found");
@@ -1492,8 +1676,10 @@
             }));
             // cards = sampleData.map(data => createCard(data));
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
         }
+
+       
 
         // Card Management
         // function createCard(data = {}) {
@@ -1518,7 +1704,24 @@
                 imageHeight: data.imageHeight || null
             };
         }
-
+        function saveToJSON() {
+            const blogData = {
+                cards: cards.map(card => ({
+                    heading: card.heading,
+                    content: card.content,
+                    image: card.image,
+                    imagePosition: card.imagePosition,
+                    imageWidth: card.imageWidth,
+                    imageHeight: card.imageHeight
+                })),
+                settings: {
+                    theme: document.body.dataset.theme || 'light',
+                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '1100px',
+                    language: currentLanguage
+                }
+            };
+            localStorage.setItem('blogData', JSON.stringify(blogData));
+        }
         function renderCards() {
             const container = document.getElementById('cardsContainer');
             container.innerHTML = '';
@@ -1550,6 +1753,144 @@
             return divider;
         }
 
+        // function createCardElement(card, index) {
+        //     const cardDiv = document.createElement('div');
+        //     cardDiv.className = 'card';
+        //     cardDiv.dataset.index = index;
+            
+        //     const topBar = document.createElement('div');
+        //     topBar.className = 'card-top-bar';
+        //     topBar.innerHTML = `
+        //         <div class="card-actions">
+        //             <div class="card-action-btn drag-handle" draggable="true" title="Drag to reorder">⋮⋮</div>
+        //             <button class="card-action-btn" onclick="addImageToCard(${index})">🖼️</button>
+        //         </div>
+        //         <div class="card-menu-wrapper">
+        //             <button class="card-menu-button" onclick="toggleCardMenu(${index})" title="Card options">⋮</button>
+        //             <div class="card-menu" id="cardMenu${index}">
+        //                 <button class="card-menu-item" onclick="duplicateCard(${index})">📋 Duplicate</button>
+        //                 <button class="card-menu-item danger" onclick="deleteCard(${index})">🗑️ Delete</button>
+        //             </div>
+        //         </div>
+        //     `;
+        //     cardDiv.appendChild(topBar);
+            
+        //     // Card Header
+        //     const header = document.createElement('div');
+        //     header.className = 'card-header_';
+            
+        //     const heading = document.createElement('div');
+        //     heading.className = 'card-heading';
+        //     heading.contentEditable = !isPreviewMode;
+        //     heading.textContent = card.heading;
+        //     heading.addEventListener('blur', () => {
+        //         card.heading = heading.textContent;
+        //         saveToLocalStorage();
+        //     });
+            
+        //     header.appendChild(heading);
+            
+        //     // Card Content Wrapper
+        //     const contentWrapper = document.createElement('div');
+        //     // contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;
+        //     if (card.imagePosition == "top" ||card.imagePosition == "bottom" ){
+        //        contentWrapper.className = `card-content-wrapper`;
+        //     }
+        //     else{
+        //         contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;  
+        //     }
+
+        //     // Image Container (if exists)
+        //     // if (card.image) {
+        //     //     const imageContainer = createImageContainer(card, index);
+        //     //     contentWrapper.appendChild(imageContainer);
+        //     // }
+            
+        //     // Card Content
+        //     const content = document.createElement('div');
+        //     content.className = 'card-content';
+        //     content.contentEditable = !isPreviewMode;
+        //     content.innerHTML = card.content;
+        //     content.addEventListener('blur', () => {
+        //         card.content = content.innerHTML;
+        //         saveToLocalStorage();
+        //     });
+            
+        //     contentWrapper.appendChild(content);
+            
+        //     // Image Controls (if image exists and not in preview mode)
+        //     if (card.image && !isPreviewMode) {
+        //         const imageControls = document.createElement('div');
+        //         imageControls.className = 'image-controls';
+        //         imageControls.innerHTML = `
+        //             <div class="image-controls-label">Image Position</div>
+        //             <div class="image-position-buttons">
+        //                 <button class="image-position-btn ${card.imagePosition === 'top' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'top')">Top</button>
+        //                 <button class="image-position-btn ${card.imagePosition === 'bottom' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'bottom')">Bottom</button>
+        //                 <button class="image-position-btn ${card.imagePosition === 'left' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'left')">Left</button>
+        //                 <button class="image-position-btn ${card.imagePosition === 'right' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'right')">Right</button>
+        //             </div>
+        //         `;
+        //         const imageContainer = createImageContainer(card, index);
+
+        //         if (card.imagePosition == "top" ){
+        //             cardDiv.appendChild(header);
+        //             cardDiv.appendChild(imageContainer);
+        //             cardDiv.appendChild(contentWrapper);
+        //         }
+        //         else if (card.imagePosition == "bottom") {
+        //             cardDiv.appendChild(header); 
+        //             cardDiv.appendChild(contentWrapper); 
+        //             cardDiv.appendChild(imageContainer);
+        //         } 
+        //         else{
+        //             cardDiv.appendChild(header);
+        //             contentWrapper.appendChild(imageContainer);
+        //             cardDiv.appendChild(contentWrapper); 
+        //         }
+        //         // cardDiv.appendChild(header);
+        //         // cardDiv.appendChild(contentWrapper);
+        //         cardDiv.appendChild(imageControls);
+        //     } else {
+        //             if (card.image) {
+        //                 const imageContainer = createImageContainer(card, index);
+        //                 if (card.imagePosition == "top" ){
+        //                 cardDiv.appendChild(header);
+        //                 cardDiv.appendChild(imageContainer);
+        //                 cardDiv.appendChild(contentWrapper);
+        //             }
+        //             else if (card.imagePosition == "bottom") {
+        //                 cardDiv.appendChild(header); 
+        //                 cardDiv.appendChild(contentWrapper); 
+        //                 cardDiv.appendChild(imageContainer);
+        //             } 
+        //             else{
+        //                 cardDiv.appendChild(header);
+        //                 contentWrapper.appendChild(imageContainer);
+        //                 cardDiv.appendChild(contentWrapper); 
+        //             }
+        //         }
+        //         else{
+        //             cardDiv.appendChild(header);
+        //             cardDiv.appendChild(contentWrapper);
+        //         }
+                
+        //     }
+            
+        //     // Drag and Drop - only on drag handle
+        //     const dragHandle = topBar.querySelector('.drag-handle');
+        //     dragHandle.addEventListener('mousedown', () => {
+        //         cardDiv.draggable = true;
+        //     });
+            
+        //     cardDiv.addEventListener('dragstart', handleDragStart);
+        //     cardDiv.addEventListener('dragover', handleDragOver);
+        //     cardDiv.addEventListener('drop', handleDrop);
+        //     cardDiv.addEventListener('dragend', handleDragEnd);
+            
+        //     return cardDiv;
+        // }
+
         function createCardElement(card, index) {
             const cardDiv = document.createElement('div');
             cardDiv.className = 'card';
@@ -1565,116 +1906,97 @@
                 <div class="card-menu-wrapper">
                     <button class="card-menu-button" onclick="toggleCardMenu(${index})" title="Card options">⋮</button>
                     <div class="card-menu" id="cardMenu${index}">
-                        <button class="card-menu-item" onclick="duplicateCard(${index})">📋 Duplicate</button>
-                        <button class="card-menu-item danger" onclick="deleteCard(${index})">🗑️ Delete</button>
+                        <button class="card-menu-item" onclick="duplicateCard(${index})">📋 ${currentLanguage === 'fa' ? 'تکثیر' : 'Duplicate'}</button>
+                        <button class="card-menu-item danger" onclick="deleteCard(${index})">🗑️ ${currentLanguage === 'fa' ? 'حذف' : 'Delete'}</button>
                     </div>
                 </div>
             `;
             cardDiv.appendChild(topBar);
             
-            // Card Header
             const header = document.createElement('div');
-            header.className = 'card-header';
+            header.className = 'card-header_';
             
             const heading = document.createElement('div');
             heading.className = 'card-heading';
             heading.contentEditable = !isPreviewMode;
-            heading.textContent = card.heading;
+            // heading.textContent = card.heading;
+            heading.innerHTML = card.heading;
             heading.addEventListener('blur', () => {
-                card.heading = heading.textContent;
-                saveToLocalStorage();
+                // card.heading = heading.textContent;
+                card.heading = heading.innerHTML;
+                saveToJSON();
             });
             
             header.appendChild(heading);
             
-            // Card Content Wrapper
             const contentWrapper = document.createElement('div');
-            // contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;
-            if (card.imagePosition == "top" ||card.imagePosition == "bottom" ){
-               contentWrapper.className = `card-content-wrapper`;
-            }
-            else{
+            if (card.imagePosition == "top" || card.imagePosition == "bottom") {
+                contentWrapper.className = `card-content-wrapper`;
+            } else {
                 contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;  
             }
 
-            // Image Container (if exists)
-            // if (card.image) {
-            //     const imageContainer = createImageContainer(card, index);
-            //     contentWrapper.appendChild(imageContainer);
-            // }
-            
-            // Card Content
             const content = document.createElement('div');
             content.className = 'card-content';
             content.contentEditable = !isPreviewMode;
             content.innerHTML = card.content;
             content.addEventListener('blur', () => {
                 card.content = content.innerHTML;
-                saveToLocalStorage();
+                saveToJSON();
             });
             
             contentWrapper.appendChild(content);
             
-            // Image Controls (if image exists and not in preview mode)
             if (card.image && !isPreviewMode) {
                 const imageControls = document.createElement('div');
                 imageControls.className = 'image-controls';
                 imageControls.innerHTML = `
-                    <div class="image-controls-label">Image Position</div>
+                    <div class="image-controls-label">${currentLanguage === 'fa' ? 'موقعیت تصویر' : 'Image Position'}</div>
                     <div class="image-position-buttons">
-                        <button class="image-position-btn ${card.imagePosition === 'top' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'top')">Top</button>
-                        <button class="image-position-btn ${card.imagePosition === 'bottom' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'bottom')">Bottom</button>
-                        <button class="image-position-btn ${card.imagePosition === 'left' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'left')">Left</button>
-                        <button class="image-position-btn ${card.imagePosition === 'right' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'right')">Right</button>
+                        <button class="image-position-btn ${card.imagePosition === 'top' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'top')">${currentLanguage === 'fa' ? 'بالا' : 'Top'}</button>
+                        <button class="image-position-btn ${card.imagePosition === 'bottom' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'bottom')">${currentLanguage === 'fa' ? 'پایین' : 'Bottom'}</button>
+                        <button class="image-position-btn ${card.imagePosition === 'right' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'right')">${currentLanguage === 'fa' ?  'راست': 'Left'}</button>
+                        <button class="image-position-btn ${card.imagePosition === 'left' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'left')">${currentLanguage === 'fa' ? 'چپ' : 'Right'}</button>
                     </div>
                 `;
                 const imageContainer = createImageContainer(card, index);
 
-                if (card.imagePosition == "top" ){
+                if (card.imagePosition == "top") {
                     cardDiv.appendChild(header);
                     cardDiv.appendChild(imageContainer);
                     cardDiv.appendChild(contentWrapper);
-                }
-                else if (card.imagePosition == "bottom") {
+                } else if (card.imagePosition == "bottom") {
                     cardDiv.appendChild(header); 
                     cardDiv.appendChild(contentWrapper); 
                     cardDiv.appendChild(imageContainer);
-                } 
-                else{
+                } else {
                     cardDiv.appendChild(header);
                     contentWrapper.appendChild(imageContainer);
                     cardDiv.appendChild(contentWrapper); 
                 }
-                // cardDiv.appendChild(header);
-                // cardDiv.appendChild(contentWrapper);
                 cardDiv.appendChild(imageControls);
             } else {
-                    if (card.image) {
-                        const imageContainer = createImageContainer(card, index);
-                        if (card.imagePosition == "top" ){
+                if (card.image) {
+                    const imageContainer = createImageContainer(card, index);
+                    if (card.imagePosition == "top") {
                         cardDiv.appendChild(header);
                         cardDiv.appendChild(imageContainer);
                         cardDiv.appendChild(contentWrapper);
-                    }
-                    else if (card.imagePosition == "bottom") {
+                    } else if (card.imagePosition == "bottom") {
                         cardDiv.appendChild(header); 
                         cardDiv.appendChild(contentWrapper); 
                         cardDiv.appendChild(imageContainer);
-                    } 
-                    else{
+                    } else {
                         cardDiv.appendChild(header);
                         contentWrapper.appendChild(imageContainer);
                         cardDiv.appendChild(contentWrapper); 
                     }
-                }
-                else{
+                } else {
                     cardDiv.appendChild(header);
                     cardDiv.appendChild(contentWrapper);
                 }
-                
             }
             
-            // Drag and Drop - only on drag handle
             const dragHandle = topBar.querySelector('.drag-handle');
             dragHandle.addEventListener('mousedown', () => {
                 cardDiv.draggable = true;
@@ -1687,7 +2009,7 @@
             
             return cardDiv;
         }
-
+        
         function createImageContainer(card, index) {
             const imageContainer = document.createElement('div');
             imageContainer.className = 'card-image-container';
@@ -1779,7 +2101,8 @@
                 const cardIndex = parseInt(resizingImage.dataset.cardIndex);
                 cards[cardIndex].imageWidth = resizingImage.offsetWidth;
                 cards[cardIndex].imageHeight = resizingImage.offsetHeight;
-                saveToLocalStorage();
+                // saveToLocalStorage();
+                saveToJSON();
             }
             
             resizingImage = null;
@@ -1792,7 +2115,8 @@
             const newCard = createCard();
             cards.splice(index, 0, newCard);
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
+            // saveToLocalStorage();
         }
 
         function toggleCardMenu(index) {
@@ -1827,7 +2151,7 @@
                     reader.onload = (event) => {
                         cards[index].image = event.target.result;
                         renderCards();
-                        saveToLocalStorage();
+                        saveToJSON();
                     };
                     reader.readAsDataURL(file);
                 }
@@ -1840,13 +2164,13 @@
             cards[index].imageWidth = null;
             cards[index].imageHeight = null;
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
         }
 
         function changeImagePosition(index, position) {
             cards[index].imagePosition = position;
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
         }
 
         // Card Actions
@@ -1854,14 +2178,15 @@
             const newCard = { ...cards[index], id: Date.now() + Math.random() };
             cards.splice(index + 1, 0, newCard);
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
         }
 
         function deleteCard(index) {
-            if (confirm('Are you sure you want to delete this card?')) {
+            const confirmText = currentLanguage === 'fa' ? 'آیا مطمئن هستید؟' : 'Are you sure?';
+            if (confirm(confirmText)) {
                 cards.splice(index, 1);
                 renderCards();
-                saveToLocalStorage();
+                saveToJSON();
             }
         }
 
@@ -1900,7 +2225,7 @@
                 cards.splice(targetIndex, 0, draggedItem);
                 
                 renderCards();
-                saveToLocalStorage();
+                saveToJSON();
             }
             
             this.classList.remove('drag-over');
@@ -1929,24 +2254,30 @@
                 }
             }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
-
+        
         // Toolbar Functions
         function setupEventListeners() {
-            document.getElementById('langBtn').addEventListener('click', () => {
-                currentLanguage = currentLanguage === 'en' ? 'fa' : 'en';
-                const btn = document.getElementById('langBtn');
-                const html = document.documentElement;
+            // document.getElementById('langBtn').addEventListener('click', () => {
+            //     currentLanguage = currentLanguage === 'en' ? 'fa' : 'en';
+            //     const btn = document.getElementById('langBtn');
+            //     const html = document.documentElement;
                 
-                if (currentLanguage === 'fa') {
-                    html.setAttribute('dir', 'rtl');
-                    html.setAttribute('lang', 'fa');
-                    btn.textContent = '🌐 FA';
-                } else {
-                    html.setAttribute('dir', 'ltr');
-                    html.setAttribute('lang', 'en');
-                    btn.textContent = '🌐 EN';
-                }
+            //     if (currentLanguage === 'fa') {
+            //         html.setAttribute('dir', 'rtl');
+            //         html.setAttribute('lang', 'fa');
+            //         btn.textContent = '🌐 FA';
+            //     } else {
+            //         html.setAttribute('dir', 'ltr');
+            //         html.setAttribute('lang', 'en');
+            //         btn.textContent = '🌐 EN';
+            //     }
                 
+            //     localStorage.setItem('language', currentLanguage);
+            // });
+            document.getElementById('langBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                currentLanguage = currentLanguage === 'fa' ? 'en' : 'fa';
+                updateLanguage(currentLanguage);
                 localStorage.setItem('language', currentLanguage);
             });
 
@@ -1961,19 +2292,83 @@
             });
 
             // Toolbar buttons
+            // document.querySelectorAll('.toolbar-btn[data-command]').forEach(btn => {
+            //     btn.addEventListener('click', () => {
+            //         const command = btn.dataset.command;
+            //         const value = btn.dataset.value || null;
+            //         document.execCommand(command, false, value);
+            //     });
+            // });
             document.querySelectorAll('.toolbar-btn[data-command]').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const command = btn.dataset.command;
                     const value = btn.dataset.value || null;
                     document.execCommand(command, false, value);
+                    
+                    setTimeout(() => {
+                        const focusedElement = document.activeElement;
+                        const focusedHeading = focusedElement.closest('.card-heading');
+                        const focusedContent = focusedElement.closest('.card-content');
+                        
+                        if (focusedHeading || focusedContent) {
+                            const cardIndex = focusedElement.closest('.card')?.dataset.index;
+                            if (cardIndex !== undefined) {
+                                if (focusedHeading) {
+                                    cards[cardIndex].heading = focusedHeading.innerHTML;
+                                }
+                                if (focusedContent) {
+                                    cards[cardIndex].content = focusedContent.innerHTML;
+                                }
+                                saveToJSON();
+                            }
+                        }
+                    }, 0);
                 });
             });
 
             // Font family
+            // document.getElementById('fontFamily').addEventListener('change', (e) => {
+            //     document.execCommand('fontName', false, e.target.value);
+            //     saveToJSON();
+            // });
             document.getElementById('fontFamily').addEventListener('change', (e) => {
                 document.execCommand('fontName', false, e.target.value);
+                
+                setTimeout(() => {
+                    const focusedElement = document.activeElement;
+                    const focusedHeading = focusedElement.closest('.card-heading');
+                    const focusedContent = focusedElement.closest('.card-content');
+                    
+                    if (focusedHeading || focusedContent) {
+                        const cardIndex = focusedElement.closest('.card')?.dataset.index;
+                        if (cardIndex !== undefined) {
+                            if (focusedHeading) {
+                                cards[cardIndex].heading = focusedHeading.innerHTML;
+                            }
+                            if (focusedContent) {
+                                cards[cardIndex].content = focusedContent.innerHTML;
+                            }
+                            saveToJSON();
+                        }
+                    }
+                    e.target.value = '';
+                }, 0);
             });
 
+            // const fontSizeSelect = document.getElementById('fontSize');
+            // fontSizeSelect.addEventListener('change', (e) => {
+            //     const size = e.target.value;
+            //     if (size) {
+            //         document.execCommand('fontSize', false, '7');
+            //         const fontElements = document.querySelectorAll('font[size="7"]');
+            //         fontElements.forEach(el => {
+            //             el.removeAttribute('size');
+            //             el.style.fontSize = size + 'px';
+            //         });
+            //     }
+            //     // Reset select to placeholder
+            //     e.target.value = '';
+            // });
             const fontSizeSelect = document.getElementById('fontSize');
             fontSizeSelect.addEventListener('change', (e) => {
                 const size = e.target.value;
@@ -1984,9 +2379,27 @@
                         el.removeAttribute('size');
                         el.style.fontSize = size + 'px';
                     });
+                    
+                    setTimeout(() => {
+                        const focusedElement = document.activeElement;
+                        const focusedHeading = focusedElement.closest('.card-heading');
+                        const focusedContent = focusedElement.closest('.card-content');
+                        
+                        if (focusedHeading || focusedContent) {
+                            const cardIndex = focusedElement.closest('.card')?.dataset.index;
+                            if (cardIndex !== undefined) {
+                                if (focusedHeading) {
+                                    cards[cardIndex].heading = focusedHeading.innerHTML;
+                                }
+                                if (focusedContent) {
+                                    cards[cardIndex].content = focusedContent.innerHTML;
+                                }
+                                saveToJSON();
+                            }
+                        }
+                        e.target.value = '';
+                    }, 0);
                 }
-                // Reset select to placeholder
-                e.target.value = '';
             });
 
             // Colors
@@ -2007,23 +2420,23 @@
             });
 
             // Theme selector
-            document.getElementById('themeSelector').addEventListener('change', (e) => {
-                document.body.dataset.theme = e.target.value;
-                localStorage.setItem('theme', e.target.value);
-            });
+            // document.getElementById('themeSelector').addEventListener('change', (e) => {
+            //     document.body.dataset.theme = e.target.value;
+            //     localStorage.setItem('theme', e.target.value);
+            // });
 
             // Preview button
             document.getElementById('previewBtn').addEventListener('click', togglePreview);
 
             // Export button
-            document.getElementById('exportBtn').addEventListener('click', () => {
-                document.getElementById('exportModal').classList.add('active');
-            });
+            // document.getElementById('exportBtn').addEventListener('click', () => {
+            //     document.getElementById('exportModal').classList.add('active');
+            // });
 
             // Load JSON button
-            document.getElementById('loadJsonBtn').addEventListener('click', () => {
-                document.getElementById('loadJsonModal').classList.add('active');
-            });
+            // document.getElementById('loadJsonBtn').addEventListener('click', () => {
+            //     document.getElementById('loadJsonModal').classList.add('active');
+            // });
 
             // Add card button
             // document.getElementById('addCardBtn').addEventListener('click', () => {
@@ -2049,11 +2462,11 @@
             document.getElementById('publishBtn').addEventListener('click', publishBlog);
 
             // Load saved preferences
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.body.dataset.theme = savedTheme;
-                document.getElementById('themeSelector').value = savedTheme;
-            }
+            // const savedTheme = localStorage.getItem('theme');
+            // if (savedTheme) {
+            //     document.body.dataset.theme = savedTheme;
+            //     document.getElementById('themeSelector').value = savedTheme;
+            // }
             
             const savedLanguage = localStorage.getItem('language');
             if (savedLanguage) {
@@ -2093,6 +2506,31 @@
         }
 
         // Keyboard Shortcuts
+        // function setupKeyboardShortcuts() {
+        //     document.addEventListener('keydown', (e) => {
+        //         if (e.ctrlKey || e.metaKey) {
+        //             switch(e.key.toLowerCase()) {
+        //                 case 'b':
+        //                     e.preventDefault();
+        //                     document.execCommand('bold');
+        //                     break;
+        //                 case 'i':
+        //                     e.preventDefault();
+        //                     document.execCommand('italic');
+        //                     break;
+        //                 case 'u':
+        //                     e.preventDefault();
+        //                     document.execCommand('underline');
+        //                     break;
+        //                 case 's':
+        //                     e.preventDefault();
+        //                     saveToLocalStorage();
+        //                     alert('Content saved!');
+        //                     break;
+        //             }
+        //         }
+        //     });
+        // }
         function setupKeyboardShortcuts() {
             document.addEventListener('keydown', (e) => {
                 if (e.ctrlKey || e.metaKey) {
@@ -2100,31 +2538,80 @@
                         case 'b':
                             e.preventDefault();
                             document.execCommand('bold');
+                            setTimeout(() => {
+                                const focusedElement = document.activeElement;
+                                const focusedHeading = focusedElement.closest('.card-heading');
+                                const focusedContent = focusedElement.closest('.card-content');
+                                
+                                if (focusedHeading || focusedContent) {
+                                    const cardIndex = focusedElement.closest('.card')?.dataset.index;
+                                    if (cardIndex !== undefined) {
+                                        if (focusedHeading) {
+                                            cards[cardIndex].heading = focusedHeading.innerHTML;
+                                        }
+                                        if (focusedContent) {
+                                            cards[cardIndex].content = focusedContent.innerHTML;
+                                        }
+                                        saveToJSON();
+                                    }
+                                }
+                            }, 0);
                             break;
                         case 'i':
                             e.preventDefault();
                             document.execCommand('italic');
+                            setTimeout(() => {
+                                const focusedElement = document.activeElement;
+                                const focusedHeading = focusedElement.closest('.card-heading');
+                                const focusedContent = focusedElement.closest('.card-content');
+                                
+                                if (focusedHeading || focusedContent) {
+                                    const cardIndex = focusedElement.closest('.card')?.dataset.index;
+                                    if (cardIndex !== undefined) {
+                                        if (focusedHeading) {
+                                            cards[cardIndex].heading = focusedHeading.innerHTML;
+                                        }
+                                        if (focusedContent) {
+                                            cards[cardIndex].content = focusedContent.innerHTML;
+                                        }
+                                        saveToJSON();
+                                    }
+                                }
+                            }, 0);
                             break;
                         case 'u':
                             e.preventDefault();
                             document.execCommand('underline');
-                            break;
-                        case 's':
-                            e.preventDefault();
-                            saveToLocalStorage();
-                            alert('Content saved!');
+                            setTimeout(() => {
+                                const focusedElement = document.activeElement;
+                                const focusedHeading = focusedElement.closest('.card-heading');
+                                const focusedContent = focusedElement.closest('.card-content');
+                                
+                                if (focusedHeading || focusedContent) {
+                                    const cardIndex = focusedElement.closest('.card')?.dataset.index;
+                                    if (cardIndex !== undefined) {
+                                        if (focusedHeading) {
+                                            cards[cardIndex].heading = focusedHeading.innerHTML;
+                                        }
+                                        if (focusedContent) {
+                                            cards[cardIndex].content = focusedContent.innerHTML;
+                                        }
+                                        saveToJSON();
+                                    }
+                                }
+                            }, 0);
                             break;
                     }
                 }
             });
         }
-
         // Preview Mode
         function togglePreview() {
             isPreviewMode = !isPreviewMode;
             document.body.classList.toggle('preview-mode');
             const btn = document.getElementById('previewBtn');
-            btn.textContent = isPreviewMode ? '✏️ Edit' : '👁️ Preview';
+            // btn.textContent = isPreviewMode ? '✏️ Edit' : '👁️ Preview';
+            btn.textContent = isPreviewMode ? (currentLanguage === 'fa' ? 'ویرایش' : 'Edit') : (currentLanguage === 'fa' ? 'پیش‌نمایش' : 'Preview');
             
             const authorInfo = document.getElementById('authorInfo');
             const recentPosts = document.getElementById('recentPosts');
@@ -2198,7 +2685,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Content</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 2rem; background: #f8f9fa; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 2rem; background: #f8f9fa; }
         .card { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
         h1 { font-size: 1.75rem; margin-bottom: 1rem; }
         img { max-width: 100%; border-radius: 12px; }
@@ -2279,7 +2766,7 @@
                 })),
                 settings: {
                     theme: document.body.dataset.theme || 'light',
-                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '900px',
+                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '1100px',
                     language: currentLanguage,
                     showAuthorInfo: showAuthorInfo,
                     showRecentPosts: showRecentPosts
