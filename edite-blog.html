@@ -476,7 +476,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             gap: 1rem;
         }
 
@@ -1402,8 +1402,9 @@
                 <div class="section-menu" id="authorMenu">
                     <label class="section-menu-item">
                         <input type="checkbox" id="showAuthorInfo" checked onchange="toggleAuthorVisibility()">
-                        <span>Show in published blog</span>
+                        <span data-label="editProfile">نمایش در گزارش نهایی</span>
                     </label>
+                    <a class="card-menu-item" style="text-decoration: none;" data-label="edit" href="profile.html">ویرایش</a>
                 </div>
             </div>
         </div>
@@ -1451,7 +1452,7 @@
                 <div class="section-menu" id="recentMenu">
                     <label class="section-menu-item">
                         <input type="checkbox" id="showRecentPosts" checked onchange="toggleRecentVisibility()">
-                        <span>Show in published blog</span>
+                        <span data-label="editProfile">نمایش در گزارش نهایی</span>
                     </label>
                 </div>
             </div>
@@ -1520,7 +1521,9 @@
                 download: 'دانلود',
                 loadJson: 'بارگذاری JSON',
                 pasteJson: 'متن JSON را بپوشش دهید',
-                load: 'بارگذاری'
+                load: 'بارگذاری',
+                edit: 'ویرایش',
+                editProfile: 'نمایش در گزارش نهایی'
             },
             en: {
                 home: 'Home',
@@ -1544,7 +1547,9 @@
                 download: 'Download',
                 loadJson: 'Load JSON',
                 pasteJson: 'Paste JSON Array',
-                load: 'Load'
+                load: 'Load',
+                edit: 'Edit Profile',
+                editProfile: 'Show in published blog'
             }
         };
         // State Management
