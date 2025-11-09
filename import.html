@@ -90,7 +90,7 @@
                           <div class="col-12 col-md-2"></div>
                           <div class="col-12 col-md-4">
                             <button type="button" class="btn btn-light w-100 border-0 text-start align-items-center rounded-3 shadow-sm mb-2"
-                            onclick="location.href='paste.html'" style="padding: 0px;">
+                            onclick="addImageToCard()" style="padding: 0px;">
                               <img src="img/Thumbnail-upload.175964bf.svg" alt="Paste" width="60" class="me-3 col-12"
                               style="padding-left: 0px;padding-right: 0px;">
                               <div>
@@ -102,8 +102,9 @@
                                             <i class="fas fa-check fa-sm text-white-20" style="color: #60c860;margin-right: 8px;">
                                             </i>
                                         </div>
-                                        <p class="chakra-text mb-2 css-0">Powerpoint PPTX</p>
-                                    </div><div class="chakra-stack css-sur9b5">
+                                        <p class="chakra-text mb-2 css-0">Image jpg,png</p>
+                                    </div>
+                                    <div class="chakra-stack css-sur9b5">
                                         <div class="css-1oa66e7">
                                             <i class="fas fa-check fa-sm text-white-20" style="color: #60c860;margin-right: 8px;">
                                             </i>
@@ -251,6 +252,186 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script>
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+        const adminUUID = localStorage.getItem('admin_uuid');
+
+        // Store uploaded documents in memory (or you can use localStorage)
+        let uploadedDocuments = [];
+
+        function getAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            };
+        }
+
+        function getFileAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${accessToken}`
+            };
+        }
+
+        async function authFetch(url, options = {}) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                ...options,
+                headers: getAuthHeaders()
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            return await res.json();
+        }
+
+        async function uploadFiles(url, files) {
+            const formData = new FormData();
+            console.log(files);
+            for (let i = 0; i < files.length; i++) {
+                console.log(files[i]);
+                formData.append('files', files[i]);
+            }
+            const res = await authFetch(url, {
+                method: 'POST',
+                body: {
+                    files: formData
+                }
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return await res.json();
+        }
+
+        function addImageToCard() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*,.pdf,.docx';
+            input.multiple = true;
+            
+            input.onchange = async (e) => {
+                const files = e.target.files;
+                if (files && files.length > 0) {
+                    try {
+                        console.log(`Uploading ${files.length} file(s)...`);
+                        
+                        const response = await uploadFiles(`/admin/blogs/upload_temp_documents/`, files);
+                        
+                        console.log('Upload successful:', response);
+                        
+                        // Store the documents for later use
+                        if (response.created_documents) {
+                            uploadedDocuments = [...uploadedDocuments, ...response.created_documents];
+                            console.log('Total uploaded documents:', uploadedDocuments);
+                            
+                            // Display uploaded documents in UI
+                            displayUploadedDocuments();
+                            
+                            // Show success message
+                            showNotification(`${response.created_documents.length} file(s) uploaded successfully!`, 'success');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Upload failed:', error);
+                        showNotification(`Upload failed: ${error.message}`, 'error');
+                    }
+                }
+            };
+            
+            input.click();
+        }
+
+        // Display uploaded documents in UI
+        function displayUploadedDocuments() {
+            const container = document.getElementById('uploaded-docs-container');
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            uploadedDocuments.forEach((doc, index) => {
+                const docElement = document.createElement('div');
+                docElement.className = 'card mb-2';
+                docElement.innerHTML = `
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="card-title mb-1">${doc.title}</h6>
+                                <p class="card-text text-muted small">
+                                    ${doc.text_preview}...
+                                </p>
+                                <small class="text-secondary">ID: ${doc.document_id}</small>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" 
+                                    onclick="removeUploadedDocument('${doc.document_id}')">
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(docElement);
+            });
+        }
+
+        // Remove a document from the list
+        function removeUploadedDocument(documentId) {
+            uploadedDocuments = uploadedDocuments.filter(doc => doc.document_id !== documentId);
+            displayUploadedDocuments();
+            showNotification('Document removed', 'info');
+        }
+
+        // Get all uploaded document IDs (useful when creating a blog)
+        function getUploadedDocumentIds() {
+            return uploadedDocuments.map(doc => doc.document_id);
+        }
+
+        // Clear all uploaded documents
+        function clearUploadedDocuments() {
+            uploadedDocuments = [];
+            displayUploadedDocuments();
+        }
+
+        // Store documents in localStorage for persistence
+        function saveDocumentsToStorage() {
+            localStorage.setItem('temp_uploaded_documents', JSON.stringify(uploadedDocuments));
+        }
+
+        function loadDocumentsFromStorage() {
+            const stored = localStorage.getItem('temp_uploaded_documents');
+            if (stored) {
+                uploadedDocuments = JSON.parse(stored);
+                displayUploadedDocuments();
+            }
+        }
+
+        // Optional: Notification helper function
+        function showNotification(message, type = 'info') {
+            console.log(`[${type.toUpperCase()}] ${message}`);
+            // You can replace this with your notification library (toast, alert, etc.)
+            // Example with Bootstrap toast:
+            /*
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type} alert-dismissible fade show`;
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+            */
+        }
+
+        // When page loads, restore any previous uploads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDocumentsFromStorage();
+        });
+        
+    </script>
 
 </body>
 
