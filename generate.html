@@ -49,7 +49,7 @@ box-shadow: 0 0 0 1px rgb(8 88 247); /* blue glow */
 
 .custom-placeholder {
 position: absolute;
-left: 12px;
+/* left: 12px; */
 font-size: 18px;
 top: 8px;
 padding-top: 11px;
@@ -136,7 +136,7 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                                         
                             <i class="fas fa-star fa-sm text-white-20 ">
                                    </i> 
-                                   Generate
+                                   <span data-label="generate_content_button">Generate</span>
                                </a>
                       </div>
                   
@@ -167,13 +167,13 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                             <i
                                 class="fas fa-home fa-sm text-primary">
                             </i> 
-                            back
+                            <span data-label="back">back</span> 
                         </a>
                     </div>
                     
                     <div class="text-center mt-5 mb-5 text-primary">
-                        <h2 class="fw-bold " style="font-weight: 700;font-size: 3rem;">Generate</h2>
-                        <h2 class="h4 text-muted text-gray-800 " style="font-weight: 500;">What would you like to create today?</h2>
+                        <h2 class="fw-bold " style="font-weight: 700;font-size: 3rem;" data-label="main_text">Generate</h2>
+                        <h2 class="h4 text-muted text-gray-800 " style="font-weight: 500;" data-label="main_text_below">What would you like to create today?</h2>
                     </div>
                     
                     <div class="row justify-content-center">
@@ -183,7 +183,7 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                                     <li class="nav-item dropdown ml-2" >
                                         
                                         <a class="nav-link dropdown-toggle import-btn-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;">
-                                          10 cards
+                                          10 <span data-label="cards">cards</span>
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 330px;overflow-y: scroll;">
                                         <li class="dropdown-header">Tip: cards are like slides</li>
@@ -326,7 +326,7 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                             </div>  
                             <div class="custom-input-wrapper">
                                 <textarea class="custom-input" id="contentEditor"></textarea>
-                                <div class="custom-placeholder" id="customPlaceholder">
+                                <div class="custom-placeholder" id="customPlaceholder" data-label="input">
                                   Describe what you'd like to make
                                 </div>
                                 
@@ -339,7 +339,7 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                                         
                                  <i class="fas fa-star fa-sm text-white-20 ">
                                         </i> 
-                                        Generate Outline
+                                        <span data-label="generate_topics_button">Generate Outline</span>
                                     </a>
                             </div>
                               
@@ -435,6 +435,7 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
         }
         });
     </script>
+    
     <script>
         // --- Variables to store the selections ---
         let selectedCardCount = 10;
@@ -644,7 +645,57 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
 
         }
       </script>
-
+        <script>
+            const translations = {
+                fa: {
+                    back: 'برگشت',
+                    main_text: 'با هوش مصنوعی ایجاد کنید',
+                    main_text_below : 'دوست دارید امروز چه چیزی بسازید؟',
+                    generate_topics_button: 'طرح کلی را ایجاد کنید',
+                    generate_content_button: 'ساخت وبلاگ',
+                    input:'آنچه را که میخواهید بسازید شرح دهید',
+                    cards:'کارت'
+                    
+    
+                },
+                en: {
+                    back: 'Back',
+                    main_text: 'Generate',
+                    main_text_below:'What would you like to create today?',
+                    generate_topics_button: 'Generate Outline',
+                    generate_content_button: 'Generate',
+                    input:"Describe what you'd like to make",
+                    cards:'cards'
+    
+                }
+            };
+        
+            let currentLang = localStorage.getItem('language') || 'fa';
+            
+            function updateLanguage(lang) {
+                currentLang = lang;
+                document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+                if (currentLang === 'fa') {
+                    const customPlaceholder = document.getElementById('customPlaceholder');
+                    customPlaceholder.style.right = '12px';
+                    } else {
+                    const customPlaceholder = document.getElementById('customPlaceholder');
+                    customPlaceholder.style.left = '12px';
+                }
+                localStorage.setItem('language', lang);
+                
+                document.querySelectorAll('[data-label]').forEach(element => {
+                    const label = element.getAttribute('data-label');
+                    if (translations[lang][label]) {
+                        element.textContent = translations[lang][label];
+                    }
+                });
+            }
+        
+            document.addEventListener('DOMContentLoaded', () => {
+                updateLanguage(currentLang);
+            });
+        </script>
 </body>
 
 </html>

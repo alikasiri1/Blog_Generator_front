@@ -198,11 +198,11 @@
             </div>
 
             <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
+            <!-- <div class="sidebar-card d-none d-lg-flex" style="display: none;">
                 <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>
+                <p class="text-center mb-2 text-primary">Creat your first blog in a second</p>
+                <a class="btn btn-success btn-sm" href="create.html">Create First Blog</a>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -690,6 +690,7 @@
         
         function updateLanguage(lang) {
             currentLang = lang;
+            
             localStorage.setItem('language', lang);
             
             document.querySelectorAll('[data-label]').forEach(element => {

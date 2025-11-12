@@ -47,7 +47,7 @@ box-shadow: 0 0 0 1px rgb(8 88 247); /* blue glow */
 
 .custom-placeholder {
 position: absolute;
-left: 12px;
+/* left: 12px; */
 font-size: 18px;
 top: 8px;
 padding-top: 11px;
@@ -94,14 +94,14 @@ justify-content: center;
                             <i
                                 class="fas fa-home  fa-sm text-primary">
                             </i> 
-                            back
+                            <span data-label="back">back</span> 
                         </a>
                     </div>
                     
-                    <div class="text-center mt-5 mb-5 text-primary">
-                        <h2 class="fw-bold " style="font-weight: 700;font-size: 3rem;">Paste in text</h2>
-                        <h2 class="h4 text-muted text-gray-800 " style="font-weight: 500;">What would you like to create?</h2>
-                        <h2 class="h4 text-muted text-gray-800 " style="font-weight: 500;">Paste in the notes, outline or text content you'd like to use</h2>
+                    <div class="text-center mt-5 mb-4 text-primary">
+                        <h2 class="fw-bold mb-3" style="font-weight: 700;font-size: 3rem;" data-label="main_text">Paste in text</h2>
+                        <!-- <h2 class="h4 text-muted text-gray-800 " style="font-weight: 500;" data-label="main_text_below">What would you like to create?</h2> -->
+                        <h2 class="h4 text-muted text-gray-800 " style="font-weight: 500;"data-label="main_text_below_below">Paste in the notes, outline or text content you'd like to use</h2>
                     </div>
                     
                     <div class="row justify-content-center">
@@ -109,7 +109,7 @@ justify-content: center;
                         
                             <div class="custom-input-wrapper">
                                 <textarea class="custom-input" id="contentEditor"></textarea>
-                                <div class="custom-placeholder" id="customPlaceholder">
+                                <div class="custom-placeholder" id="customPlaceholder" data-label="input"> 
                                   Type or Paste in content here
                                 </div>
                               </div>
@@ -119,7 +119,7 @@ justify-content: center;
                                    style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;">
                                           <i class="fas fa-star fa-sm text-white-20 ">
                                           </i> 
-                                          Generate Outline
+                                          <span data-label="generate_topics_button">Generate Outline</span>
                                       </a>
                               </div>
                               <!-- <div id="generateContainer" class="generate-container">
@@ -202,6 +202,59 @@ justify-content: center;
             placeholder.style.opacity = '1';
             generateContainer.style.display = 'none';
         }
+        });
+    </script>
+    <script>
+        const translations = {
+            fa: {
+                back: 'برگشت',
+                main_text: 'متن دلخواهتان را کپی کنید',
+                main_text_below : '',
+                main_text_below_below:"یادداشت‌ها، طرح کلی یا محتوای متنی مورد نظر خود را در زیر جای‌گذاری کنید",
+                generate_topics_button: 'طرح کلی را ایجاد کنید',
+                generate_content_button: 'ساخت وبلاگ',
+                input:'آنچه را که میخواهید بسازید شرح دهید',
+                cards:'کارت'
+                
+
+            },
+            en: {
+                back: 'Back',
+                main_text: 'Paste in text',
+                main_text_below:'What would you like to create?',
+                main_text_below_below:"Paste in the notes, outline or text content you'd like to use",
+                generate_topics_button: 'Generate Outline',
+                generate_content_button: 'Generate',
+                input:"Type or Paste in content here",
+                cards:'cards'
+
+            }
+        };
+    
+        let currentLang = localStorage.getItem('language') || 'fa';
+        
+        function updateLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+            if (currentLang === 'fa') {
+                const customPlaceholder = document.getElementById('customPlaceholder');
+                customPlaceholder.style.right = '12px';
+                } else {
+                const customPlaceholder = document.getElementById('customPlaceholder');
+                customPlaceholder.style.left = '12px';
+            }
+            localStorage.setItem('language', lang);
+            
+            document.querySelectorAll('[data-label]').forEach(element => {
+                const label = element.getAttribute('data-label');
+                if (translations[lang][label]) {
+                    element.textContent = translations[lang][label];
+                }
+            });
+        }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLanguage(currentLang);
         });
     </script>
 </body>
