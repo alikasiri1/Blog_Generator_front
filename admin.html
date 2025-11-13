@@ -652,7 +652,8 @@
                 modal_end_session: 'در زیر اگر برای پایان دادن به جلسه فعلی خود آماده هستید.',
                 modal_logout_btn: 'خروج',
                 blog_card_edit: 'ویرایش',
-                blog_card_delete:'حذف'
+                blog_card_delete:'حذف',
+                blog_card_public : 'انتشار'
                 // modal_generating: 'تولید محتوای وبلاگ',
                 // modal_close: 'بستن',
                 // modal_copy: 'کپی'
@@ -679,7 +680,8 @@
                 modal_end_session: 'below if you are ready to end your current session.',
                 modal_logout_btn: 'Logout',
                 blog_card_edit :'Edit',
-                blog_card_delete:'Delete'
+                blog_card_delete:'Delete',
+                blog_card_public: 'publish'
                 // modal_generating: 'Generating Blog Content',
                 // modal_close: 'Close',
                 // modal_copy: 'Copy'
@@ -893,6 +895,10 @@
                                     <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                                         <li class="dropdown-header text-gray-600">Blog Actions:</li> 
                                         <li><a class="dropdown-item" href="edit-blog.html?title=${blog.slug}" ><span data-label="blog_card_edit"> ویرایش</span></a></li> 
+                                        ${blog.status === 'draft' 
+                                        ? `<li><a class="dropdown-item" href="#" ><span data-label="blog_card_public">انتشار</span></a></li> ` 
+                                        : ``}
+                                        
                                         <li><hr class="dropdown-divider"></li> 
                                         <li><a class="dropdown-item delete-blog" href="#" data-id="${blog.id}" ><span data-label="blog_card_delete"> حذف</span></a></li>
                                     </ul> 

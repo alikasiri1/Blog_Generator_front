@@ -61,6 +61,40 @@ display: none; /* hidden initially */
 margin-top: 8px;
 justify-content: center;
 }
+
+.card-number {
+    width: 50px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: #eff7ff;
+      justify-content: center;
+      font-size: 18px;
+}
+.custom-input-card {
+width: 100%;
+border: none;
+border-radius: 4px;
+height: 67px;
+resize: none;
+padding: 12px;
+padding-top: 18px;
+box-sizing: border-box;
+font-size: 15px;
+transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.custom-input-card:focus {
+outline: none;
+/* border-color: #296ee7; you can remove this if you only want shadow */
+box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
+}
+.custom-input-wrapper-card {
+        position: relative;
+        width: 100%;
+        display: flex;
+        border: 1px solid #f0f0f0; 
+        border-radius: 4px;
+        }
   </style>
 </head>
 
@@ -80,7 +114,44 @@ justify-content: center;
             <div id="content">
 
                 <!-- Topbar -->
-                
+                <nav id="navbar-bottom" class="navbar navbar-expand-lg fixed-bottom shadow-sm" style="background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 10px 0; display: none;">
+                    <div class="container-fluid d-flex justify-content-between align-items-center">
+                  
+                      <!-- Left Section: Brand + Icon -->
+                      <div class="d-flex align-items-center">
+                        <button class="btn btn-light d-flex align-items-center" style="border-radius: 28px; padding: 8px 16px;">
+                          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sparkles" class="me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="18">
+                            <path fill="currentColor" d="M327.5 85.2c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L384 128l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L448 128l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L448 64 426.8 7.5C425.1 3 420.8 0 416 0s-9.1 3-10.8 7.5L384 64 327.5 85.2zM205.1 73.3c-2.6-5.7-8.3-9.3-14.5-9.3s-11.9 3.6-14.5 9.3L123.3 187.3 9.3 240C3.6 242.6 0 248.3 0 254.6s3.6 11.9 9.3 14.5l114.1 52.7L176 435.8c2.6 5.7 8.3 9.3 14.5 9.3s11.9-3.6 14.5-9.3l52.7-114.1 114.1-52.7c5.7-2.6 9.3-8.3 9.3-14.5s-3.6-11.9-9.3-14.5L257.8 187.4 205.1 73.3zM384 384l-56.5 21.2c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L384 448l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L448 448l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L448 384l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L384 384z"></path>
+                          </svg>
+                          <span class="fw-semibold text-dark">460 credits</span>
+                        </button>
+                      </div>
+                  
+                      <!-- Center Section: Info + Button -->
+                      <div class="d-flex align-items-center">
+                        <!-- <p class="mb-0 me-3 font-weight-bold  mr-4">10 cards total</p> -->
+                        <a href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light" style="border-radius: 28px;height: 35px;width: 330px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
+                        onclick="generatecontent()">
+                                        
+                            <i class="fas fa-star fa-sm text-white-20 ">
+                                   </i> 
+                                   <span data-label="generate_content_button">Generate</span>
+                               </a>
+                      </div>
+                  
+                      <!-- Right Section: Auth Links -->
+                      <div class="d-flex align-items-center">
+                        <a href="create.html" class=" d-sm-inline-block btn btn-sm btn-light border-0 shadow-sm">
+                            <i
+                       class="fas fa-question fa-sm text-primary">
+                            </i> 
+                        </a>
+                      </div>
+                        
+                        
+                  
+                    </div>
+                </nav>
                 <!-- End of Topbar -->
 
 
@@ -260,13 +331,20 @@ justify-content: center;
                               </div>
 
                               <div id="generateContainer" class="generate-container row mt-3 mb-4 justify-content-center ml-1">
-                                  <a href="blank.html" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
-                                   style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;">
+                                  <a href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
+                                   style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
+                                   onclick="generateCards()">
                                           <i class="fas fa-star fa-sm text-white-20 ">
                                           </i> 
                                           <span data-label="generate_topics_button">Generate Outline</span>
                                       </a>
                               </div>
+
+                              <div id="carddivcontainer" style="display: none;">
+                                <h4>Outlines</h4>
+                                <div class="card-body shadow " id="cardContainer" style="background-color: #ffffff;border-radius: 5px;">
+                                </div>
+                            </div>
                               <!-- <div id="generateContainer" class="generate-container">
                                 <button type="button" class="chakra-button css-ttvrvp">
                                   
@@ -328,6 +406,8 @@ justify-content: center;
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
     <script>
       const textarea = document.getElementById('contentEditor');
         const placeholder = document.getElementById('customPlaceholder');
@@ -349,6 +429,215 @@ justify-content: center;
         }
         });
     </script>
+    <script>
+        // --- Variables to store the selections ---
+        let selectedCardCount = 10;
+        let selectedLanguage = "فارسی";
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+
+        function getAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            };
+        }
+        // --- Authenticated fetch helper ---
+        async function authFetch(url, options = {}) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                ...options,
+                headers: getAuthHeaders()
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return await res.json();
+        }
+
+        // --- Fetch generated topics from backend ---
+        async function getGeneratedTopics(prompt, cardCount,language) {
+            try {
+                const response = await authFetch(`/admin/blogs/generate_topic/`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        language:language,
+                        num_cards: cardCount,
+                        documents:[]
+                    })
+                });
+
+                console.log("✅ Backend response:", response);
+
+                // Extract topics list from backend response
+                if (response.status === 'success' && Array.isArray(response.topics)) {
+                    return response;
+                } else {
+                    console.warn("⚠️ Unexpected response structure:", response);
+                    return [];
+                }
+
+            } catch (error) {
+                console.error("❌ Error fetching topics:", error);
+                return [];
+            }
+        }
+
+        // --- Function to handle icon update ---
+        function updateDropdownIcons(dropdownItems, clickedItem) {
+            dropdownItems.forEach(item => {
+                const icon = item.querySelector('i');
+                if (icon) {
+                    // Reset all icons to white "space" icon
+                    icon.className = 'fas fa-space fa-sm mr-2';
+                }
+            });
+
+            const clickedIcon = clickedItem.querySelector('i');
+            if (clickedIcon) {
+                clickedIcon.className = 'fas fa-check fa-sm text-primary mr-2';
+            }
+        }
+        // --- Handle CARD COUNT dropdown ---
+        const cardItems = document.querySelectorAll('#pills-tab .nav-item.dropdown:nth-child(1) .dropdown-menu .dropdown-item');
+        const cardDropdownBtn = document.querySelector('#pills-tab .nav-item.dropdown:nth-child(1) > a.nav-link');
+
+        cardItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Extract number (e.g., "3 card" → 3)
+                const text = this.innerText.trim();
+                const match = text.match(/\d+/);
+                selectedCardCount = match ? parseInt(match[0], 10) : null;
+
+                // Update dropdown button text
+                if (cardDropdownBtn) cardDropdownBtn.innerHTML = text;
+
+                // Update icons
+                updateDropdownIcons(cardItems, this);
+
+                console.log("✅ Selected card count:", selectedCardCount);
+            });
+        });
+
+        // --- Handle LANGUAGE dropdown ---
+        const langItems = document.querySelectorAll('#pills-tab .nav-item.dropdown:nth-child(2) .dropdown-menu .dropdown-item');
+        const langDropdownBtn = document.querySelector('#pills-tab .nav-item.dropdown:nth-child(2) > a.nav-link');
+
+        langItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Get selected language text
+                const langName = this.querySelector('p') ? this.querySelector('p').innerText.trim() : this.innerText.trim();
+                selectedLanguage = langName;
+
+                // Update dropdown button text
+                if (langDropdownBtn)
+                    langDropdownBtn.innerHTML = `<i class="fas fa-language fa-sm text-primary mr-2"></i> ${selectedLanguage}`;
+
+                // Update icons
+                updateDropdownIcons(langItems, this);
+
+                console.log("🌍 Selected language:", selectedLanguage);
+            });
+        });
+
+        async function generateCards() {
+          const divcontainer = document.getElementById('carddivcontainer');
+          divcontainer.style.display = 'block';
+          const container = document.getElementById("cardContainer");
+          const textarea_prompt = document.getElementById("contentEditor");
+        //   const count = parseInt(document.getElementById("cardCount").value);
+          const count = selectedCardCount
+          container.innerHTML = ""; // Clear old cards
+    
+          if (!count || count <= 0) {
+            alert("Please enter a valid number of cards!");
+            return;
+          }
+          // 🔹 Send prompt to backend and get list of strings
+         const prompt = textarea_prompt.value //"Generate creative content for cards"; // You can replace this dynamically
+         const language = selectedLanguage
+         const result  = await getGeneratedTopics(prompt, count,language);
+         const generatedTexts = result.topics;
+         localStorage.setItem('currentBlogSlug', result.blog_slug);
+
+          // 🔹 Generate cards and fill them with backend output
+            for (let i = 1; i <= count; i++) {
+                const wrapper = document.createElement("div");
+                wrapper.className = "custom-input-wrapper-card mb-2";
+                // wrapper.style.border = "1px solid black";
+                // wrapper.style.borderRadius = "5px";
+                // wrapper.style.padding = "5px";
+
+                const number = document.createElement("div");
+                number.className = "card-number";
+                number.textContent = i;
+
+                const textarea = document.createElement("textarea");
+                textarea.className = "custom-input-card";
+                textarea.id = `contentEditor_${i}`;
+                textarea.value = generatedTexts[i - 1] || ``;
+
+                wrapper.appendChild(number);
+                wrapper.appendChild(textarea);
+                container.appendChild(wrapper);
+            }
+            const generateContainer = document.getElementById('generateContainer');
+            generateContainer.style.display = 'none';
+            const nav = document.getElementById('navbar-bottom');
+            nav.style.display = 'flex'
+            console.log("🎉 Cards generated successfully!");
+        }
+      
+
+
+        async function generatecontent() {
+            const textareas = document.querySelectorAll('#cardContainer textarea');
+            const textarea_prompt = document.getElementById("contentEditor");
+            const contentList = [];
+
+            textareas.forEach(textarea => {
+                contentList.push(textarea.value);
+            });
+            console.log(contentList);
+            const prompt = textarea_prompt.value
+            const language = selectedLanguage
+            const blogSlug = localStorage.getItem('currentBlogSlug'); // 🔹 Retrieve blog slug
+            if (!blogSlug) {
+                console.error("❌ Missing blogSlug in localStorage. Please generate topics first.");
+                return;
+            }
+
+            try {
+                const response = await authFetch(`/admin/blogs/${blogSlug}/generate_content_by_promt/`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        title:contentList[0],
+                        topics:contentList,
+                        language:language,
+                        documents:[]
+                    })
+                });
+
+                console.log("✅ Backend response:", response);
+
+                window.location.href = `edit-blog.html?title=${response.slug}`;
+                
+
+            } catch (error) {
+                console.error("❌ Error fetching topics:", error);
+                return [];
+            }
+
+        }
+      </script>
     <script>
         const translations = {
             fa: {

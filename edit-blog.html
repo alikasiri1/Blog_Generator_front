@@ -1389,8 +1389,8 @@
         <div id="authorInfo" class="author-info" style="display: flex;">
             <div class="author-avatar">👤</div>
             <div class="author-details">
-                <div class="author-name">John Doe</div>
-                <div class="author-bio">Passionate writer and content creator sharing insights on technology, design, and creativity.</div>
+                <div class="author-name"></div>
+                <div class="author-bio"></div>
                 <div class="author-links">
                     <a href="#" class="author-link">Website</a>
                     <a href="#" class="author-link">Twitter</a>
@@ -1672,6 +1672,51 @@
                 return;
             }
             console.log(blog.content)
+
+            let admin = JSON.parse(localStorage.getItem('adminInfo'));
+            // const userNameSpan = document.querySelector('#userDropdown span');
+            const authorInfo = document.querySelector('#authorInfo');
+
+            // If not found, fetch from backend
+            if (!admin || !admin.user.first_name || !admin.user.last_name) {
+                console.log("Fetching admin info from backend...");
+                admin = await fetchAdminInfo();
+                // Save to localStorage
+                const profile = admin[0];
+                console.log('Profile data:', profile);
+                localStorage.setItem('adminInfo', JSON.stringify(profile));
+                // userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
+                updateAuthorInfo(profile);
+            } else {
+                console.log("Loaded admin info from localStorage:", admin);
+                // userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                updateAuthorInfo(admin);
+            }
+
+            // Function to update author information
+            function updateAuthorInfo(admin) {
+                // Update author name
+                const authorName = document.querySelector('.author-name');
+                authorName.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                
+                // Update author bio (or use email if bio not available)
+                const authorBio = document.querySelector('.author-bio');
+                authorBio.textContent = admin.user.email || 'Content creator';
+                
+                // Update author avatar (using first letter of first name and last name)
+                const authorAvatar = document.querySelector('.author-avatar');
+                const initials = `${admin.user.first_name.charAt(0)}${admin.user.last_name.charAt(0)}`;
+                authorAvatar.textContent = initials;
+                
+                // Optional: Update author links if you have social media data
+                const authorLinks = document.querySelector('.author-links');
+                // If your admin object has social links, update them:
+                // authorLinks.innerHTML = `
+                //     <a href="${admin.website}" class="author-link">Website</a>
+                //     <a href="${admin.twitter}" class="author-link">Twitter</a>
+                //     <a href="${admin.linkedin}" class="author-link">LinkedIn</a>
+                // `;
+            }
             // Convert backend blog content into your card structure
             cards = blog.content.map(section => createCard({
                 heading: section.heading,
