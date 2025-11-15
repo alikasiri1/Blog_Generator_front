@@ -105,6 +105,62 @@ transition: opacity 0.2s ease;
 margin-top: 8px;
 justify-content: center;
 }
+
+/* Loading spinner */
+.loader {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Success box */
+.import-success-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #e6f7e6;
+    border: 1px solid #b5e6b5;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.import-success-icon {
+    width: 24px;
+    height: 24px;
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.import-success-name {
+    margin: 0;
+    font-weight: bold;
+    color: #155724;
+    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.import-success-remove {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: #d33;
+    cursor: pointer;
+    font-weight: bold;
+}
+
     </style>
 </head>
 
@@ -231,15 +287,164 @@ justify-content: center;
                             </button>
                           </div>
                         </div>
+                        <div class="row g-3">
+                            
+                        </div>
+                        <div class="row mb-3 ml-1" style="display: none;" >
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item dropdown ml-2" >
+                                    
+                                    <a class="nav-link dropdown-toggle import-btn-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;">
+                                      10 <span data-label="cards">cards</span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 330px;overflow-y: scroll;">
+                                    <li class="dropdown-header">Tip: cards are like slides</li>
+                                      <li>
+                                        <a class="dropdown-item" href="#">
+                                            
+                                                <span style="align-items: center;display: inline-flex;">
+                                                    <i class="fas fa-space fa-sm  mr-2"></i> 
+                                                </span>
+                                                1 card
 
-                        <div class="custom-input-wrapper">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                                <span style="align-items: center;display: inline-flex;">
+                                                    <i class="fas fa-space fa-sm  mr-2"></i> 
+                                                </span>
+                                                2 card  
+                                        </a>
+                                    </li>
+                                      <li><a class="dropdown-item" href="#">
+                                        <span style="align-items: center;display: inline-flex;">
+                                            <i class="fas fa-space fa-sm  mr-2"></i> 
+                                        </span>
+                                        3 card  
+                                      </a></li>
+                                      <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                        <i class="fas fa-space fa-sm  mr-2"></i> 
+                                    </span>
+                                    4 card  </a></li>
+                                      <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                        <i class="fas fa-space fa-sm  mr-2"></i> 
+                                    </span>
+                                    5 card  </a></li>
+                                      <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                        <i class="fas fa-space fa-sm  mr-2"></i> 
+                                    </span>
+                                    6 card  </a></li>
+                                      <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                        <i class="fas fa-space fa-sm  mr-2"></i> 
+                                    </span>
+                                    7 card  </a></li>
+                                      <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                        <i class="fas fa-space fa-sm  mr-2"></i> 
+                                    </span>
+                                    8 card  </a></li>
+                                      <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                        <i class="fas fa-space fa-sm  mr-2"></i> 
+                                    </span>
+                                    9 card  </a></li>
+                                      <li><a class="dropdown-item" href="#"><span style="align-items: center;display: inline-flex;">
+                                        <i class="fas fa-check fa-sm text-primary mr-2"></i> 
+                                    </span>
+                                    10 card  </a></li>
+                                      
+                                    </ul>
+                                </li>
+                                
+                                <li class="nav-item dropdown ml-2 " >
+                                    
+                                    <a class="nav-link dropdown-toggle import-btn-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;">
+                                        <i class="fas fa-language fa-sm text-primary mr-2"></i> 
+                                        فارسی
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 300px;width: 200px;overflow-y: scroll;">
+                                        <li class="dropdown-header">Language</li>
+                                   
+                                        <li>
+                                            <a class="dropdown-item mb-1" href="#">
+                                                <div class="row">
+                                                    <span style="align-items: center;display: inline-flex;">
+                                                            <i class="fas fa-space fa-sm text-primary mr-2"></i> 
+                                                    </span>
+                                                    <span>
+                                                        <p class="mb-0">English (US)</p>
+                                                        <span class="text-gray-600">English (US)</span>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                        <a class="dropdown-item mb-1" href="#">
+                                            <div class="row">
+                                                <span style="align-items: center;display: inline-flex;">
+                                                        <i class="fas fa-space fa-sm text-primary mr-2"></i> 
+                                                </span>
+                                                <span>
+                                                    <p class="mb-0">English (UK)</p>
+                                                    <span class="text-gray-600">English (UK)</span>
+                                                </span>
+                                            </div>
+                                        </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item mb-1" href="#">
+                                                <div class="row">
+                                                    <span style="align-items: center;display: inline-flex;">
+                                                        <i class="fas fa-check fa-sm text-primary mr-2"></i> 
+                                                    </span>
+                                                    <span>
+                                                        <p class="mb-0">فارسی</p>
+                                                        <span class="text-gray-600">Persian</span>
+                                                </span>
+                                                </div>
+    
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item mb-1" href="#">
+                                                <div class="row">
+                                                    <span style="align-items: center;display: inline-flex;">
+                                                        <i class="fas fa-space fa-sm text-primary mr-2"></i> 
+                                                    </span>
+                                                    <span>
+                                                        <p class="mb-0">العربية</p>
+                                                        <span class="text-gray-600">Arabic</span>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item mb-1" href="#">
+                                                <div class="row">
+                                                    <span style="align-items: center;display: inline-flex;">
+                                                        <i class="fas fa-space fa-sm text-primary mr-2"></i> 
+                                                    </span>
+                                                    <span>
+                                                        <p class="mb-0">Español</p>
+                                                        <span class="text-gray-600">Spanish</span>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+              
+                                    </ul>
+                                </li>
+                                
+                            </ul>
+                        </div>  
+                        <div class="custom-input-wrapper" style="display: none;">
+                            
                             <textarea class="custom-input" id="contentEditor"></textarea>
                             <div class="custom-placeholder" id="customPlaceholder" data-label="input">
                               Describe what you'd like to make
                             </div>
                             
                           </div>
-                          <div id="generateContainer" class="generate-container row mt-3 mb-4 justify-content-center ml-1">
+                          <div id="generateContainer" class="generate-container row mt-3 mb-4 justify-content-center ml-1" style="display: none;">
                             <a href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
                              style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
                              onclick="generateCards()"
@@ -411,6 +616,94 @@ justify-content: center;
             
             return await res.json();
         }
+        document.addEventListener("DOMContentLoaded", function () {
+        const urlInput = document.getElementById("urlInput");
+        const importBtn = document.querySelector('[data-label="import_button"]');
+        const modalBody = document.querySelector("#importModal .modal-body");
+
+        // --- Enable button when URL is entered ---
+        urlInput.addEventListener("input", () => {
+            if (urlInput.value.trim().length > 0) {
+                importBtn.disabled = false;
+            } else {
+                importBtn.disabled = true;
+            }
+        });
+
+        // --- Handle Import Button Click ---
+        importBtn.addEventListener("click", async () => {
+            const url = urlInput.value.trim();
+            if (!url) return;
+
+            // Change button to loading
+            importBtn.disabled = true;
+            const originalText = importBtn.innerHTML;
+            importBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm"></span> Loading...
+            `;
+
+            try {
+                const response =  await authFetch('/admin/blogs/upload_temp_documents_url/', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            url: url
+                        })
+                    });
+                // const data = await response.json();
+                console.log(response.status);
+                if (response.status == "success") {
+                    // Replace modal body content with success UI
+                    document.querySelector('[data-dismiss="modal"]').click();
+                    
+                } else {
+                    alert(response.error || "Error importing URL.");
+                }
+
+            } catch (err) {
+                alert("Network error. Try again.");
+            } finally {
+                // Restore button appearance
+                showSuccessUI(url || "imported_file.pdf");
+                importBtn.disabled = false;
+                importBtn.innerHTML = originalText;
+            }
+        });
+
+        // --- Function: Show Success Result UI ---
+        function showSuccessUI(filename) {
+            document.querySelectorAll('.col-12.col-md-4')[0].style.display = 'none';
+            document.querySelectorAll('.col-12.col-md-4')[1].style.display = 'none';
+            document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'block';
+            document.getElementById('generateContainer').style.display = 'flex'; 
+            document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'block';
+            const resultHTML = `
+
+                 <div class="card col-12  mb-4" style="padding: 15px">
+                    <div class="row " style="direction: ltr;">
+                        <div class="import-success-icon ml-1 mr-1">
+                            <i class="fas fa-check fa-sm">
+                            </i></div>
+                        <a class="import-success-name">${filename}</a>
+                        <button class="import-success-remove" data-label="remove">Remove</button>
+                    </div>
+                </div>
+            
+           `;
+
+           document.querySelectorAll('.row.g-3')[1].innerHTML = resultHTML;
+
+            // Add remove button functionality
+            document.querySelectorAll('.row.g-3')[1].querySelector(".import-success-remove").addEventListener("click", () => {
+                document.querySelectorAll('.row.g-3')[1].innerHTML = ``;
+                document.querySelectorAll('.col-12.col-md-4')[0].style.display = 'block';
+                document.querySelectorAll('.col-12.col-md-4')[1].style.display = 'block';
+                document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'none';
+                document.getElementById('generateContainer').style.display = 'none';
+                document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'none';
+            });
+        }
+    });
+
 
         function addImageToCard() {
             const input = document.createElement('input');
@@ -551,7 +844,8 @@ justify-content: center;
                         cancel_button : "انصراف",
                         upload_file : "آپلود فایلها",
                         import_url : "URL وارد کردن",
-                        import_button:'اسخراج'
+                        import_button:'اسخراج',
+                        remove : 'حذف'
                         
         
                     },
@@ -568,7 +862,8 @@ justify-content: center;
                         modal_title:"Import from URL",
                         upload_file : "Upload files",
                         import_url : "Import From URL",
-                        import_button:'Import'
+                        import_button:'Import',
+                        remove: 'Remove'
         
                     }
                 };
