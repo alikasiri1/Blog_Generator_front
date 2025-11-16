@@ -174,7 +174,7 @@ justify-content: center;
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column" style="background: linear-gradient(0deg, #FFFFFF 0%, #AFE7FC 30%, #A8D1FF 60%, #CDDAFA 85%, #FFFBF2 100%);padding-bottom: 100px;">
+        <div id="content-wrapper" class="d-flex flex-column" style="background: linear-gradient(0deg, #FFFFFF 0%, #AFE7FC 30%, #A8D1FF 60%, #CDDAFA 85%, #FFFBF2 100%);padding-bottom: 160px;">
 
             <!-- Main Content -->
             <div id="content">
@@ -537,6 +537,7 @@ justify-content: center;
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
@@ -565,6 +566,8 @@ justify-content: center;
         const API_ROOT = 'http://127.0.0.1:8000/api';
         const accessToken = localStorage.getItem('access_token');
         const adminUUID = localStorage.getItem('admin_uuid');
+        let selectedCardCount = 10;
+        let selectedLanguage = "فارسی";
 
         // Store uploaded documents in memory (or you can use localStorage)
         let uploadedDocuments = [];
@@ -594,27 +597,36 @@ justify-content: center;
             }
             return await res.json();
         }
+        async function authFileFetch(url, formData) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: formData
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'File upload failed');
+            }
+            return await res.json();
+        }
 
         async function uploadFiles(url, files) {
             const formData = new FormData();
             console.log(files);
             for (let i = 0; i < files.length; i++) {
-                console.log(files[i]);
-                formData.append('files', files[i]);
+                formData.append("files", files[i]);  // همان اسم که backend انتظار دارد
             }
-            const res = await authFetch(url, {
-                method: 'POST',
-                body: {
-                    files: formData
-                }
-            });
+            const res = await authFileFetch(url, formData);
+            console.log(res)
+            // if (!res.ok) {
+            //     const error = await res;
+            //     throw new Error(error.message || 'Request failed');
+            // }
             
-            if (!res.ok) {
-                const error = await res.json();
-                throw new Error(error.message || 'Request failed');
-            }
-            
-            return await res.json();
+            return await res;
         }
         document.addEventListener("DOMContentLoaded", function () {
         const urlInput = document.getElementById("urlInput");
@@ -650,7 +662,7 @@ justify-content: center;
                         })
                     });
                 // const data = await response.json();
-                console.log(response.status);
+                console.log(response);
                 if (response.status == "success") {
                     // Replace modal body content with success UI
                     document.querySelector('[data-dismiss="modal"]').click();
@@ -684,7 +696,7 @@ justify-content: center;
                             <i class="fas fa-check fa-sm">
                             </i></div>
                         <a class="import-success-name">${filename}</a>
-                        <button class="import-success-remove" data-label="remove">Remove</button>
+                        <button class="import-success-remove" data-label="remove">✕</button>
                     </div>
                 </div>
             
@@ -745,39 +757,49 @@ justify-content: center;
 
         // Display uploaded documents in UI
         function displayUploadedDocuments() {
-            const container = document.getElementById('uploaded-docs-container');
-            
+            document.querySelectorAll('.col-12.col-md-4')[0].style.display = 'none';
+            document.querySelectorAll('.col-12.col-md-4')[1].style.display = 'none';
+            document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'block';
+            document.getElementById('generateContainer').style.display = 'flex'; 
+            document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'block';
+            const container = document.querySelectorAll('.row.g-3')[1]
+
             if (!container) return;
-            
             container.innerHTML = '';
-            
+
             uploadedDocuments.forEach((doc, index) => {
-                const docElement = document.createElement('div');
-                docElement.className = 'card mb-2';
-                docElement.innerHTML = `
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="card-title mb-1">${doc.title}</h6>
-                                <p class="card-text text-muted small">
-                                    ${doc.text_preview}...
-                                </p>
-                                <small class="text-secondary">ID: ${doc.document_id}</small>
-                            </div>
-                            <button type="button" class="btn btn-sm btn-danger" 
-                                    onclick="removeUploadedDocument('${doc.document_id}')">
-                                ✕
-                            </button>
+                const resultHTML = `
+                    <div class="card col-12  mb-4" style="padding: 15px">
+                        <div class="row " style="direction: ltr;">
+                            <div class="import-success-icon ml-1 mr-1">
+                                <i class="fas fa-check fa-sm">
+                                </i></div>
+                            <a class="import-success-name">${doc.title}</a>
+                            <button class="import-success-remove" data-label="remove" onclick="removeUploadedDocument('${doc.document_id}')">✕</button>
                         </div>
                     </div>
                 `;
-                container.appendChild(docElement);
-            });
+                container.insertAdjacentHTML('beforeend', resultHTML);
+            
+            });      
         }
 
         // Remove a document from the list
         function removeUploadedDocument(documentId) {
             uploadedDocuments = uploadedDocuments.filter(doc => doc.document_id !== documentId);
+            // If empty → reset UI to initial state
+            if (uploadedDocuments.length === 0) {
+                document.querySelectorAll('.col-12.col-md-4')[0].style.display = 'block';
+                document.querySelectorAll('.col-12.col-md-4')[1].style.display = 'block';
+                document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'none';
+                document.getElementById('generateContainer').style.display = 'none';
+                document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'none';
+
+                const container = document.querySelectorAll('.row.g-3')[1];
+                if (container) container.innerHTML = '';
+                showNotification('Document removed', 'info');
+                return;
+            }
             displayUploadedDocuments();
             showNotification('Document removed', 'info');
         }
@@ -828,72 +850,254 @@ justify-content: center;
             loadDocumentsFromStorage();
         });
         
-    </script>
-            <script>
-                const translations = {
-                    fa: {
-                        back: 'برگشت',
-                        main_text: 'آپلود با هوش مصنوعی',
-                        main_text_below : 'فایلی را که می خواهید تبدیل کنید انتخاب کنید',
-                        generate_topics_button: 'طرح کلی را ایجاد کنید',
-                        generate_content_button: 'ساخت وبلاگ',
-                        input:'آنچه را که میخواهید بسازید شرح دهید',
-                        cards:'کارت',
-                        modal_explain:"با این کار متن از صفحه وبی که وارد می کنید استخراج می شود",
-                        modal_title:"URL وارد کردن",
-                        cancel_button : "انصراف",
-                        upload_file : "آپلود فایلها",
-                        import_url : "URL وارد کردن",
-                        import_button:'اسخراج',
-                        remove : 'حذف'
-                        
-        
-                    },
-                    en: {
-                        back: 'Back',
-                        main_text: 'Import with AI',
-                        main_text_below:"Select the file you'd like to transform",
-                        generate_topics_button: 'Generate Outline',
-                        generate_content_button: 'Generate',
-                        input:"Describe what you'd like to make",
-                        cards:'cards',
-                        cancel_button :'cancel',
-                        modal_explain:"This will extract the text from the webpage you enter.",
-                        modal_title:"Import from URL",
-                        upload_file : "Upload files",
-                        import_url : "Import From URL",
-                        import_button:'Import',
-                        remove: 'Remove'
-        
-                    }
-                };
-            
-                let currentLang = localStorage.getItem('language') || 'fa';
-                
-                function updateLanguage(lang) {
-                    currentLang = lang;
-                    document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
-                    if (currentLang === 'fa') {
-                        const customPlaceholder = document.getElementById('customPlaceholder');
-                        customPlaceholder.style.right = '12px';
-                        } else {
-                        const customPlaceholder = document.getElementById('customPlaceholder');
-                        customPlaceholder.style.left = '12px';
-                    }
-                    localStorage.setItem('language', lang);
-                    
-                    document.querySelectorAll('[data-label]').forEach(element => {
-                        const label = element.getAttribute('data-label');
-                        if (translations[lang][label]) {
-                            element.textContent = translations[lang][label];
-                        }
-                    });
-                }
-            
-                document.addEventListener('DOMContentLoaded', () => {
-                    updateLanguage(currentLang);
+
+        // from generate 
+        // --- Fetch generated topics from backend ---
+        async function getGeneratedTopics(prompt, cardCount,language) {
+            try {
+                const response = await authFetch(`/admin/blogs/generate_topic/`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        language:language,
+                        num_cards: cardCount,
+                        documents:[]
+                    })
                 });
-            </script>
+
+                console.log("✅ Backend response:", response);
+
+                // Extract topics list from backend response
+                if (response.status === 'success' && Array.isArray(response.topics)) {
+                    return response;
+                } else {
+                    console.warn("⚠️ Unexpected response structure:", response);
+                    return [];
+                }
+
+            } catch (error) {
+                console.error("❌ Error fetching topics:", error);
+                return [];
+            }
+        }
+
+        // --- Function to handle icon update ---
+        function updateDropdownIcons(dropdownItems, clickedItem) {
+            dropdownItems.forEach(item => {
+                const icon = item.querySelector('i');
+                if (icon) {
+                    // Reset all icons to white "space" icon
+                    icon.className = 'fas fa-space fa-sm mr-2';
+                }
+            });
+
+            const clickedIcon = clickedItem.querySelector('i');
+            if (clickedIcon) {
+                clickedIcon.className = 'fas fa-check fa-sm text-primary mr-2';
+            }
+        }
+        // --- Handle CARD COUNT dropdown ---
+        const cardItems = document.querySelectorAll('#pills-tab .nav-item.dropdown:nth-child(1) .dropdown-menu .dropdown-item');
+        const cardDropdownBtn = document.querySelector('#pills-tab .nav-item.dropdown:nth-child(1) > a.nav-link');
+
+        cardItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Extract number (e.g., "3 card" → 3)
+                const text = this.innerText.trim();
+                const match = text.match(/\d+/);
+                selectedCardCount = match ? parseInt(match[0], 10) : null;
+
+                // Update dropdown button text
+                if (cardDropdownBtn) cardDropdownBtn.innerHTML = text;
+
+                // Update icons
+                updateDropdownIcons(cardItems, this);
+
+                console.log("✅ Selected card count:", selectedCardCount);
+            });
+        });
+
+        // --- Handle LANGUAGE dropdown ---
+        const langItems = document.querySelectorAll('#pills-tab .nav-item.dropdown:nth-child(2) .dropdown-menu .dropdown-item');
+        const langDropdownBtn = document.querySelector('#pills-tab .nav-item.dropdown:nth-child(2) > a.nav-link');
+
+        langItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Get selected language text
+                const langName = this.querySelector('p') ? this.querySelector('p').innerText.trim() : this.innerText.trim();
+                selectedLanguage = langName;
+
+                // Update dropdown button text
+                if (langDropdownBtn)
+                    langDropdownBtn.innerHTML = `<i class="fas fa-language fa-sm text-primary mr-2"></i> ${selectedLanguage}`;
+
+                // Update icons
+                updateDropdownIcons(langItems, this);
+
+                console.log("🌍 Selected language:", selectedLanguage);
+            });
+        });
+
+        async function generateCards() {
+          const divcontainer = document.getElementById('carddivcontainer');
+          divcontainer.style.display = 'block';
+          const container = document.getElementById("cardContainer");
+          const textarea_prompt = document.getElementById("contentEditor");
+        //   const count = parseInt(document.getElementById("cardCount").value);
+          const count = selectedCardCount
+          container.innerHTML = ""; // Clear old cards
+    
+          if (!count || count <= 0) {
+            alert("Please enter a valid number of cards!");
+            return;
+          }
+          // 🔹 Send prompt to backend and get list of strings
+         const prompt = textarea_prompt.value //"Generate creative content for cards"; // You can replace this dynamically
+         const language = selectedLanguage
+         const result  = await getGeneratedTopics(prompt, count,language);
+         const generatedTexts = result.topics;
+         localStorage.setItem('currentBlogSlug', result.blog_slug);
+
+          // 🔹 Generate cards and fill them with backend output
+            for (let i = 1; i <= count; i++) {
+                const wrapper = document.createElement("div");
+                wrapper.className = "custom-input-wrapper-card mb-2";
+                // wrapper.style.border = "1px solid black";
+                // wrapper.style.borderRadius = "5px";
+                // wrapper.style.padding = "5px";
+
+                const number = document.createElement("div");
+                number.className = "card-number";
+                number.textContent = i;
+
+                const textarea = document.createElement("textarea");
+                textarea.className = "custom-input-card";
+                textarea.id = `contentEditor_${i}`;
+                textarea.value = generatedTexts[i - 1] || ``;
+
+                wrapper.appendChild(number);
+                wrapper.appendChild(textarea);
+                container.appendChild(wrapper);
+            }
+            const generateContainer = document.getElementById('generateContainer');
+            generateContainer.style.display = 'none';
+            const nav = document.getElementById('navbar-bottom');
+            nav.style.display = 'flex'
+            console.log("🎉 Cards generated successfully!");
+        }
+      
+
+
+        async function generatecontent() {
+            const textareas = document.querySelectorAll('#cardContainer textarea');
+            const textarea_prompt = document.getElementById("contentEditor");
+            const contentList = [];
+
+            textareas.forEach(textarea => {
+                contentList.push(textarea.value);
+            });
+            console.log(contentList);
+            const prompt = textarea_prompt.value
+            const language = selectedLanguage
+            const blogSlug = localStorage.getItem('currentBlogSlug'); // 🔹 Retrieve blog slug
+            if (!blogSlug) {
+                console.error("❌ Missing blogSlug in localStorage. Please generate topics first.");
+                return;
+            }
+
+            try {
+                const response = await authFetch(`/admin/blogs/${blogSlug}/generate_content_by_promt/`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        title:contentList[0],
+                        topics:contentList,
+                        language:language,
+                        documents:[]
+                    })
+                });
+
+                console.log("✅ Backend response:", response);
+
+                window.location.href = `edit-blog.html?title=${blogSlug}`;
+                
+
+            } catch (error) {
+                console.error("❌ Error fetching topics:", error);
+                return [];
+            }
+
+        }
+    </script>
+    <script>
+        const translations = {
+            fa: {
+                back: 'برگشت',
+                main_text: 'آپلود با هوش مصنوعی',
+                main_text_below : 'فایلی را که می خواهید تبدیل کنید انتخاب کنید',
+                generate_topics_button: 'طرح کلی را ایجاد کنید',
+                generate_content_button: 'ساخت وبلاگ',
+                input:'آنچه را که میخواهید بسازید شرح دهید',
+                cards:'کارت',
+                modal_explain:"با این کار متن از صفحه وبی که وارد می کنید استخراج می شود",
+                modal_title:"URL وارد کردن",
+                cancel_button : "انصراف",
+                upload_file : "آپلود فایلها",
+                import_url : "URL وارد کردن",
+                import_button:'اسخراج',
+                remove : 'حذف'
+                
+
+            },
+            en: {
+                back: 'Back',
+                main_text: 'Import with AI',
+                main_text_below:"Select the file you'd like to transform",
+                generate_topics_button: 'Generate Outline',
+                generate_content_button: 'Generate',
+                input:"Describe what you'd like to make",
+                cards:'cards',
+                cancel_button :'cancel',
+                modal_explain:"This will extract the text from the webpage you enter.",
+                modal_title:"Import from URL",
+                upload_file : "Upload files",
+                import_url : "Import From URL",
+                import_button:'Import',
+                remove: 'Remove'
+
+            }
+        };
+    
+        let currentLang = localStorage.getItem('language') || 'fa';
+        
+        function updateLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+            if (currentLang === 'fa') {
+                const customPlaceholder = document.getElementById('customPlaceholder');
+                customPlaceholder.style.right = '12px';
+                } else {
+                const customPlaceholder = document.getElementById('customPlaceholder');
+                customPlaceholder.style.left = '12px';
+            }
+            localStorage.setItem('language', lang);
+            
+            document.querySelectorAll('[data-label]').forEach(element => {
+                const label = element.getAttribute('data-label');
+                if (translations[lang][label]) {
+                    element.textContent = translations[lang][label];
+                }
+            });
+        }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLanguage(currentLang);
+        });
+    </script>
 </body>
 
 </html>
