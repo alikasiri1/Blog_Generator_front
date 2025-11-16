@@ -26,7 +26,29 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
     
-
+    <style>
+        .tm-status-circle {
+            display: inline-block;
+            margin-right: 5px;
+            vertical-align: middle;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            margin-top: -3px;
+          }
+        .moving {
+        background-color: #9be64d;
+        box-shadow: 0 0 8px #9be64d, inset 0 0 8px #9be64d;
+        }
+        .pending {
+            background-color: #efc54b;
+            box-shadow: 0 0 8px #efc54b, inset 0 0 8px #efc54b;
+          }
+        .cancelled {
+        background-color: #da534f;
+        box-shadow: 0 0 8px #da534f, inset 0 0 8px #da534f;
+        }
+    </style>
 
 </head>
 
@@ -53,7 +75,7 @@
             <li class="nav-item  ">
                 <a class="nav-link" href="admin.html">
                     <i class="fas fa-fw fa-home"></i>
-                    <span>Blogs</span></a>
+                    <span data-label="sidebar_blogs">Blogs</span></a>
                     <!-- <button id="darkLightBtn">Toggle Dark/Light</button> -->
             </li>
 
@@ -85,13 +107,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="http://127.0.0.1:8001/index.html">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Preview Blogs</span>
+                    <span data-label="sidebar_preview">Preview Blogs</span>
                 </a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="profile.html">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Profile</span>
+                    <span data-label="sidebar_profile">Profile</span>
                 </a>
             </li>
             <!-- Nav Item - Charts -->
@@ -101,7 +123,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="tables.html" onclick="loadBlogs()">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                    <span data-label="sidebar_tables">Tables</span></a>
             </li>
 
             <!-- Divider -->
@@ -177,7 +199,14 @@
                         </li>
 
 
-
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            
+                            <a class="nav-link dropdown-toggle" href="#" id="langToggle" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Switch Language">
+                                <i class="fas fa-globe text-primary"></i>
+                            </a>
+                        </li>
+                        
                         <li class="nav-item dropdown no-arrow mx-1">
                             
                             <a class="nav-link dropdown-toggle" href="#" id="themeToggle" role="button"
@@ -201,20 +230,20 @@
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="profile.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    <span data-label="profile_menu">Profile</span>
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    <span data-label="settings_menu">Settings</span>
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    <span data-label="activity_menu">Activity Log</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    <span data-label="logout_menu">Logout</span>
                                 </a>
                             </div>
                         </li>
@@ -230,7 +259,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <!-- <h1 class="h3 mb-2 text-gray-800" data-label="sidebar_tables">Tables</h1> -->
                     <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                         For more information about DataTables, please visit the <a target="_blank"
                             href="https://datatables.net">official DataTables documentation</a>.</p> -->
@@ -239,7 +268,7 @@
                      
                     <div class="card col-lg-12 shadow mb-4">
                         <div class="card-header-light py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"data-label="data_tables" >جدول وبلاگ ها</h6>
                         </div>
                         <div class="card-body" >
                             <div class="table-responsive" id="dataTable1">
@@ -250,7 +279,7 @@
                                             <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
                                                 <span class="sr-only">Loading...</span>
                                             </div>
-                                            <p class="text-muted">This may take a few seconds</p>
+                                            <p class="text-muted" data-label="loading_msg">This may take a few seconds</p>
                                         </div>
                                     </div>
                                 </div>
@@ -290,17 +319,19 @@
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="border-bottom-width: 0px;">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel" data-label="modal_ready">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                <div class="modal-body text-primary"><span data-label="modal_select">Select</span>
+                    <span class="fw-bold"  data-label="modal_logout_text">logout</span> <span data-label="modal_end_session">below if you are ready to end your current session.</span></div>
+                <div class="modal-footer" style="border-top-width: 0px;">
+                    <!-- <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button> -->
+                    <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" 
+                    style="border-radius: 10px;" href="login.html" data-label="modal_logout_btn">Logout</a>
                 </div>
             </div>
         </div>
@@ -434,10 +465,10 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                    <th>Title</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Actions</th>
+                    <th data-label="title">موضوع</th>
+                    <th data-label="status">وضعیت</th>
+                    <th data-label="created">تولید شده</th>
+                    <th data-label="actions">تغییر</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -453,7 +484,10 @@
                         </td>
                         <td>
                             <div class="tm-status-circle ${blog.status === 'published' ? 'moving' : 'pending'}">
-                            </div>${blog.status === 'published' ? 'Published' : 'Unpublished'}
+                            </div>
+                            <span data-label=${blog.status === 'published' ? "published":"private" }>
+                                ${blog.status === 'published' ? 'منتشر شده' : 'خصوصی'}
+                            </span>
                         </td> 
                         <td>${timeAgo(blog.created_at)}</td>
                         
@@ -464,11 +498,10 @@
                                 Actions
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${blog.id}">
-                            <li><a class="dropdown-item" href="edit-blog.html?title=${blog.slug}">Edit</a></li>
+                            <li><a class="dropdown-item" href="edit-blog.html?title=${blog.slug}" data-label="blog_card_edit">ویرایش</a></li>
                             <li><a class="dropdown-item" href="#">${blog.status === 'published' ? 'Unpublish' : 'Publish'}</a></li>
-                            <li><a class="dropdown-item" href="#">Regenerate</a></li>
                             <div class="dropdown-divider"></div>
-                            <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.slug})'>Delete</a></li>
+                            <li><a class="dropdown-item" href="#" onclick='deleteBlog(${blog.slug})' data-label="blog_card_delete">حذف</a></li>
                             
                             </ul>
                         </div>
@@ -488,6 +521,101 @@
         }
 
     </script>
+
+<script>
+    const translations = {
+        fa: {
+            sidebar_blogs: 'وبلاگ ها',
+            sidebar_preview: 'پیش نمایش وبلاگ ها',
+            sidebar_profile: 'پروفایل',
+            sidebar_tables: 'جداول',
+            profile_menu: 'پروفایل',
+            settings_menu: 'تنظیمات',
+            activity_menu: 'گزارش فعالیت',
+            logout_menu: 'خروج',
+            page_blogs: 'وبلاگ ها',
+            create_new: 'ایجاد جدید',
+            import: 'آپلود کردن',
+            published: 'منتشر شده',
+            private: 'خصوصی',
+            loading_msg: 'این ممکن است چند ثانیه طول بکشد',
+            show_more: 'نمایش بیشتر',
+            modal_ready: 'آیا مایل به خروج هستید؟',
+            modal_select: 'انتخاب کنید',
+            modal_logout_text: 'خروج',
+            modal_end_session: 'در زیر اگر برای پایان دادن به جلسه فعلی خود آماده هستید.',
+            modal_logout_btn: 'خروج',
+            blog_card_edit: 'ویرایش',
+            blog_card_delete:'حذف',
+            blog_card_public : 'انتشار',
+            data_tables :'جدول وبلاگ ها',
+            title: 'موضوع',
+            status:'وضعیت',
+            actions: 'تغییر',
+            created : 'تولید شده'
+            // modal_generating: 'تولید محتوای وبلاگ',
+            // modal_close: 'بستن',
+            // modal_copy: 'کپی'
+        },
+        en: {
+            sidebar_blogs: 'Blogs',
+            sidebar_preview: 'Preview Blogs',
+            sidebar_profile: 'Profile',
+            sidebar_tables: 'Tables',
+            profile_menu: 'Profile',
+            settings_menu: 'Settings',
+            activity_menu: 'Activity Log',
+            logout_menu: 'Logout',
+            page_blogs: 'Blogs',
+            create_new: 'Create New',
+            import: 'Import',
+            published: 'Published',
+            private: 'Private',
+            loading_msg: 'This may take a few seconds',
+            show_more: 'Show More',
+            modal_ready: 'Ready to Leave?',
+            modal_select: 'Select',
+            modal_logout_text: 'logout',
+            modal_end_session: 'below if you are ready to end your current session.',
+            modal_logout_btn: 'Logout',
+            blog_card_edit :'Edit',
+            blog_card_delete:'Delete',
+            blog_card_public: 'publish',
+            data_tables: 'Blogs table',
+            title : 'Title',
+            status:'Status',
+            actions: 'Actions',
+            created : 'Created'
+            // modal_generating: 'Generating Blog Content',
+            // modal_close: 'Close',
+            // modal_copy: 'Copy'
+        }
+    };
+
+    let currentLang = localStorage.getItem('language') || 'fa';
+    
+    function updateLanguage(lang) {
+        currentLang = lang;
+        
+        localStorage.setItem('language', lang);
+        
+        document.querySelectorAll('[data-label]').forEach(element => {
+            const label = element.getAttribute('data-label');
+            if (translations[lang][label]) {
+                element.textContent = translations[lang][label];
+            }
+        });
+    }
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+        const newLang = currentLang === 'fa' ? 'en' : 'fa';
+        updateLanguage(newLang);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateLanguage(currentLang);
+    });
+</script>
 </body>
 
 </html>
