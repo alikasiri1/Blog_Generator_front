@@ -161,6 +161,61 @@ justify-content: center;
     font-weight: bold;
 }
 
+.loading-card {
+    padding: 45px 20px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.07);
+    animation: fadeIn 0.35s ease;
+}
+
+.loading-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.loading-text {
+    color: #777;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+/* Progress Bar Wrapper */
+.progress-wrapper {
+    width: 100%;
+    height: 10px;
+    background-color: #e7e7e7;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated Sliding Bar */
+.progress-bar-slide {
+    height: 100%;
+    /* width: 25%; */
+    background: linear-gradient(90deg, #4285f4, #6aa6ff);
+    border-radius: 10px;
+    animation: slideProgress 1.3s infinite ease-in-out;
+}
+
+/* Smooth fade-in */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sliding animation */
+@keyframes slideProgress {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(20%); }
+    100% { transform: translateX(120%); }
+}
+
+
+
     </style>
 </head>
 
@@ -619,6 +674,7 @@ justify-content: center;
             for (let i = 0; i < files.length; i++) {
                 formData.append("files", files[i]);  // همان اسم که backend انتظار دارد
             }
+            displayloadingDocuments()
             const res = await authFileFetch(url, formData);
             console.log(res)
             // if (!res.ok) {
@@ -664,8 +720,11 @@ justify-content: center;
                 // const data = await response.json();
                 console.log(response);
                 if (response.status == "success") {
-                    // Replace modal body content with success UI
+                    uploadedDocuments = [...uploadedDocuments, ...response.created_documents];
+                    console.log('Total uploaded documents:', uploadedDocuments);
                     document.querySelector('[data-dismiss="modal"]').click();
+                    // showSuccessUI(url || "imported_file.pdf");
+                    displayUploadedDocuments();
                     
                 } else {
                     alert(response.error || "Error importing URL.");
@@ -675,54 +734,22 @@ justify-content: center;
                 alert("Network error. Try again.");
             } finally {
                 // Restore button appearance
-                showSuccessUI(url || "imported_file.pdf");
+                
                 importBtn.disabled = false;
                 importBtn.innerHTML = originalText;
             }
         });
 
-        // --- Function: Show Success Result UI ---
-        function showSuccessUI(filename) {
-            document.querySelectorAll('.col-12.col-md-4')[0].style.display = 'none';
-            document.querySelectorAll('.col-12.col-md-4')[1].style.display = 'none';
-            document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'block';
-            document.getElementById('generateContainer').style.display = 'flex'; 
-            document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'block';
-            const resultHTML = `
-
-                 <div class="card col-12  mb-4" style="padding: 15px">
-                    <div class="row " style="direction: ltr;">
-                        <div class="import-success-icon ml-1 mr-1">
-                            <i class="fas fa-check fa-sm">
-                            </i></div>
-                        <a class="import-success-name">${filename}</a>
-                        <button class="import-success-remove" data-label="remove">✕</button>
-                    </div>
-                </div>
-            
-           `;
-
-           document.querySelectorAll('.row.g-3')[1].innerHTML = resultHTML;
-
-            // Add remove button functionality
-            document.querySelectorAll('.row.g-3')[1].querySelector(".import-success-remove").addEventListener("click", () => {
-                document.querySelectorAll('.row.g-3')[1].innerHTML = ``;
-                document.querySelectorAll('.col-12.col-md-4')[0].style.display = 'block';
-                document.querySelectorAll('.col-12.col-md-4')[1].style.display = 'block';
-                document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'none';
-                document.getElementById('generateContainer').style.display = 'none';
-                document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'none';
-            });
-        }
     });
-
+    function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
         function addImageToCard() {
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*,.pdf,.docx';
             input.multiple = true;
-            
             input.onchange = async (e) => {
                 const files = e.target.files;
                 if (files && files.length > 0) {
@@ -730,7 +757,7 @@ justify-content: center;
                         console.log(`Uploading ${files.length} file(s)...`);
                         
                         const response = await uploadFiles(`/admin/blogs/upload_temp_documents/`, files);
-                        
+                        // await wait(5000);
                         console.log('Upload successful:', response);
                         
                         // Store the documents for later use
@@ -753,6 +780,32 @@ justify-content: center;
             };
             
             input.click();
+        }
+
+        function displayloadingDocuments() {
+            // Hide the two upload boxes
+            const cols = document.querySelectorAll('.col-12.col-md-4');
+            if (cols[0]) cols[0].style.display = 'none';
+            if (cols[1]) cols[1].style.display = 'none';
+
+            // Find container
+            const container = document.querySelectorAll('.row.g-3')[1];
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            const loadingHTML = `
+        <div class="loading-card col-12 text-center">
+            <h4 class="loading-title">Uploading documents…</h4>
+            <p class="loading-text">Please wait while your files are being processed.</p>
+
+            <div class="progress-wrapper">
+                <div class="progress-bar-slide"></div>
+            </div>
+        </div>
+    `;
+
+            container.insertAdjacentHTML('beforeend', loadingHTML);
         }
 
         // Display uploaded documents in UI
