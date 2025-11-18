@@ -52,7 +52,7 @@
             <li class="nav-item  ">
                 <a class="nav-link" href="admin.html">
                     <i class="fas fa-fw fa-home"></i>
-                    <span>Blogs</span></a>
+                    <span data-label="sidebar_blogs">Blogs</span></a>
                     <!-- <button id="darkLightBtn">Toggle Dark/Light</button> -->
             </li>
 
@@ -84,13 +84,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="http://127.0.0.1:8001/index.html">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Preview Blogs</span>
+                    <span data-label="sidebar_preview">Preview Blogs</span>
                 </a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="profile.html">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Profile</span>
+                    <span data-label="sidebar_profile">Profile</span>
                 </a>
             </li>
 
@@ -98,7 +98,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="tables.html" onclick="loadBlogs()">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                    <span data-label="sidebar_tables">Tables</span></a>
             </li>
 
             <!-- Divider -->
@@ -174,6 +174,13 @@
                         </li>
 
 
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            
+                            <a class="nav-link dropdown-toggle" href="#" id="langToggle" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Switch Language">
+                                <i class="fas fa-globe text-primary"></i>
+                            </a>
+                        </li>
 
                         <li class="nav-item dropdown no-arrow mx-1">
                             
@@ -196,22 +203,22 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="profile.html">
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    <span data-label="profile_menu">Profile</span>
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    <span data-label="settings_menu">Settings</span>
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    <span data-label="activity_menu">Activity Log</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    <span data-label="logout_menu">Logout</span>
                                 </a>
                             </div>
                         </li>
@@ -234,7 +241,7 @@
                                     <div class="col-sm-5 col-lg-3 mb-4">
                                         <div class="card shadow" >
                                         <div class="card-body">
-                                            <h3>profile</h3>
+                                            <h3 data-label="profile_menu">profile</h3>
                                             <img src="" class="card-img-top" alt="...">
                                             
                                                 <h5 class="card-title" id="username"></h5>
@@ -248,40 +255,42 @@
                                     <div class="col-lg-9  mb-4">
                                         <div class="card shadow" style="height: 100%;">
                                             <div class="card-body">
-                                                <h3>Account Settings</h3>
+                                                <h3 data-label="account_settings">Account Settings</h3>
                                                 <form action="" class="tm-signup-form row">
                                                     <div class="form-group col-lg-12">
-                                                        <label for="domain">Account domain</label>
+                                                        <label for="domain" data-label="account_domain">Account domain</label>
                                                         <input id="domain" name="domain" type="text" class="form-control validate">
                                                     </div>
                                                     <div class="form-group col-lg-6">
-                                                        <label for="name">Account Name</label>
+                                                        <label for="name"data-label="account_name">Account Name</label>
                                                         <input id="name" name="name" type="text" class="form-control validate">
                                                     </div>
                                                     <div class="form-group col-lg-6">
-                                                        <label for="email">Account Email</label>
+                                                        <label for="email" data-label="account_email">Account Email</label>
                                                         <input id="email" name="email" type="email" class="form-control validate">
                                                     </div>
                                                     <div class="form-group col-lg-6">
-                                                        <label for="password">Password</label>
+                                                        <label for="password" data-label="account_password">Password</label>
                                                         <input id="password" name="password" type="password" class="form-control validate">
                                                     </div>
                                                     <div class="form-group col-lg-6">
-                                                        <label for="password2">Re-enter Password</label>
+                                                        <label for="password2" data-label="account_password2">Re-enter Password</label>
                                                         <input id="password2" name="password2" type="password" class="form-control validate">
                                                     </div>
                                                     <div class="form-group col-lg-6">
-                                                        <label for="phone">Phone</label>
+                                                        <label for="phone"  data-label="account_newpassword">New Password</label>
                                                         <input id="phone" name="phone" type="tel" class="form-control validate">
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                         <label class="tm-hide-sm">&nbsp;</label>
-                                                        <button type="submit" class="btn btn-md btn-block text-uppercase text-light">
+                                                        <button type="submit" class="btn btn-md btn-block text-uppercase text-light"
+                                                        data-label="update_profile">
                                                         Update Your Profile
                                                         </button>
                                                     </div>
                                                     <div class="col-12">
-                                                        <button type="submit" class="btn btn-danger btn-block text-uppercase">
+                                                        <button type="submit" class="btn btn-danger btn-block text-uppercase"
+                                                        data-label="delete_account">
                                                         Delete Your Account
                                                         </button>
                                                     </div>
@@ -321,25 +330,27 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+     <!-- Logout Modal-->
+     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content bg-light">
+             <div class="modal-header" style="border-bottom-width: 0px;">
+                 <h5 class="modal-title text-primary" id="exampleModalLabel" data-label="modal_ready">Ready to Leave?</h5>
+                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">×</span>
+                 </button>
+             </div>
+             <div class="modal-body text-primary"><span data-label="modal_select">Select</span>
+                 <span class="fw-bold"  data-label="modal_logout_text">logout</span> <span data-label="modal_end_session">below if you are ready to end your current session.</span></div>
+             <div class="modal-footer" style="border-top-width: 0px;">
+                 <!-- <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button> -->
+                 <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" 
+                 style="border-radius: 10px;" href="login.html" data-label="modal_logout_btn">Logout</a>
+             </div>
+         </div>
+     </div>
+ </div>
     
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -523,6 +534,102 @@
                 console.error('Update failed:', error);
                 alert(`Update failed: ${error.message}`);
             }
+        });
+    </script>
+    <script>
+        const translations = {
+            fa: {
+                sidebar_blogs: 'وبلاگ ها',
+                sidebar_preview: 'پیش نمایش وبلاگ ها',
+                sidebar_profile: 'پروفایل',
+                sidebar_tables: 'جداول',
+                profile_menu: 'پروفایل',
+                settings_menu: 'تنظیمات',
+                activity_menu: 'گزارش فعالیت',
+                logout_menu: 'خروج',
+                page_blogs: 'وبلاگ ها',
+                create_new: 'ایجاد جدید',
+                import: 'آپلود کردن',
+                published: 'منتشر شده',
+                private: 'خصوصی',
+                loading_msg: 'این ممکن است چند ثانیه طول بکشد',
+                show_more: 'نمایش بیشتر',
+                modal_ready: 'آیا مایل به خروج هستید؟',
+                modal_select: 'انتخاب کنید',
+                modal_logout_text: 'خروج',
+                modal_end_session: 'در زیر اگر برای پایان دادن به جلسه فعلی خود آماده هستید.',
+                modal_logout_btn: 'خروج',
+                blog_card_edit: 'ویرایش',
+                blog_card_delete:'حذف',
+                account_settings: 'تنظیمات حساب',
+                account_domain : 'آدرس دامنه حساب',
+                account_name : 'نام کاربری',
+                account_email : 'ایمیل کاربر',
+                account_password : 'رمز عبور',
+                account_password2 : 'تکرار رمز عبور',
+                account_newpassword: 'رمز عبور جدید',
+                update_profile : 'بروز رسانی پروفایل',
+                delete_account : 'حذف حساب'
+
+            },
+            en: {
+                sidebar_blogs: 'Blogs',
+                sidebar_preview: 'Preview Blogs',
+                sidebar_profile: 'Profile',
+                sidebar_tables: 'Tables',
+                profile_menu: 'Profile',
+                settings_menu: 'Settings',
+                activity_menu: 'Activity Log',
+                logout_menu: 'Logout',
+                page_blogs: 'Blogs',
+                create_new: 'Create New',
+                import: 'Import',
+                published: 'Published',
+                private: 'Private',
+                loading_msg: 'This may take a few seconds',
+                show_more: 'Show More',
+                modal_ready: 'Ready to Leave?',
+                modal_select: 'Select',
+                modal_logout_text: 'logout',
+                modal_end_session: 'below if you are ready to end your current session.',
+                modal_logout_btn: 'Logout',
+                blog_card_edit :'Edit',
+                blog_card_delete:'Delete',
+                account_settings: 'Account Settings',
+                account_domain : 'Account domain',
+                account_name : 'Account Name',
+                account_email : 'Account Email',
+                account_password : 'Password',
+                account_password2 : 'Re-enter Password',
+                account_newpassword: 'New Password',
+                update_profile : 'UPDATE YOUR PROFILE',
+                delete_account : 'DELETE YOUR ACCOUNT'
+
+            }
+        };
+    
+        let currentLang = localStorage.getItem('language') || 'fa';
+        
+        function updateLanguage(lang) {
+            currentLang = lang;
+            
+            localStorage.setItem('language', lang);
+            
+            document.querySelectorAll('[data-label]').forEach(element => {
+                const label = element.getAttribute('data-label');
+                if (translations[lang][label]) {
+                    element.textContent = translations[lang][label];
+                }
+            });
+        }
+    
+        document.getElementById('langToggle').addEventListener('click', () => {
+            const newLang = currentLang === 'fa' ? 'en' : 'fa';
+            updateLanguage(newLang);
+        });
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLanguage(currentLang);
         });
     </script>
 </body>
