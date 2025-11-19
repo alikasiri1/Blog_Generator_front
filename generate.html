@@ -635,7 +635,7 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
 
                 console.log("✅ Backend response:", response);
 
-                window.location.href = `edit-blog.html?title=${blogSlug}`;
+                window.location.href = `edit-blog.html?title=${response.slug}`;
                 
 
             } catch (error) {
