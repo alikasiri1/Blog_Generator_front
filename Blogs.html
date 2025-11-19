@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Blog Generator</title>
+
+  
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet"> -->
+
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+        <!-- Bootstrap Bundle with Popper -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+     <script src="js/bootstrap.bundle.min.js"></script>
+     <style>
+       .css-gc7qqt {
+    position: relative;
+    overflow: visible;
+    width: 180px;
+    height: 180px;
+    isolation: isolate;
+      }
+      .css-1sn7tib {
+    position: absolute;
+    top: 22%;
+    left: 0px;
+    width: 50%;
+    animation: 12s ease-in-out 0s infinite normal none running animation-1vog7pl;
+    pointer-events: none;
+    z-index: 2;
+}
+.css-k5mids {
+    position: absolute;
+    inset: 0px;
+    margin: auto;
+    height: 80%;
+    animation: 5s ease-in-out 0s infinite normal none running animation-1utd9n3;
+    pointer-events: none;
+    z-index: 1;
+}
+.css-5n20n3 {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 80%;
+    animation: 16s ease-in-out 1s infinite normal none running animation-1vog7pl;
+    pointer-events: none;
+    z-index: 0;
+}
+     </style>
+    
+    
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column background-content-wrapper-light">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-1 static-top " style="position: fixed;z-index: 1000;width: 100%;">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <!-- <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-1 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-light" type="button" >
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form> -->
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw text-primary"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm "></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <!-- <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw text-primary"></i>
+
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li> -->
+
+                        <!-- Nav Item - Messages -->
+                        <!-- <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw text-primary"></i>
+
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+   
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li> -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            
+                            <a class="nav-link dropdown-toggle" href="#" id="langToggle" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Switch Language">
+                                <i class="fas fa-globe text-primary"></i>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            
+                            <a class="nav-link dropdown-toggle" href="#" id="themeToggle" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-sun text-primary"></i>
+                            </a>
+                        </li>
+                        
+                        
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="profile.html">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <span data-label="profile_menu">Profile</span>
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <span data-label="settings_menu">Settings</span>
+                                </a>
+                                <!-- <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <span data-label="activity_menu">Activity Log</span>
+                                </a> -->
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <span data-label="logout_menu">Logout</span>
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    
+                    <div class="card-header border-0 py-1 mb-3" style="background-color: inherit;padding-left: 0px;display: flex;margin-top: 75px;">
+                        <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="rectangle-history" class="ml-2 text-primary svg-inline--fa fa-rectangle-history " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="Gammas" style="width: 17px;">
+                                <path fill="currentColor" d="M464 224c0-8.8-7.2-16-16-16L64 208c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-224zm-16-64c35.3 0 64 28.7 64 64l0 224c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 224c0-35.3 28.7-64 64-64l384 0zm-8-80c13.3 0 24 10.7 24 24s-10.7 24-24 24L72 128c-13.3 0-24-10.7-24-24s10.7-24 24-24l368 0zM392 0c13.3 0 24 10.7 24 24s-10.7 24-24 24L120 48c-13.3 0-24-10.7-24-24s10.7-24 24-24L392 0z">
+                                </path>
+                            </svg>
+                        <h5 class="ml-2 m-0 font-weight-bold text-primary" data-label="page_blogs">Blogs</h5>
+                    </div>
+
+                    <!-- Content Row -->
+                    
+                    
+                   
+                    <div class="row">
+                        
+                        <div class="d-flex col-12 justify-content-between align-items-center mb-1" >
+                            <div class="card-header border-0 py-3" style="background-color: inherit;">
+                                <h5 class="m-0 font-weight-bold text-primary"></h5>
+                            </div>
+                            
+                            
+                            
+                        </div>
+                        
+                        <div class="tab-content col-12" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 text-center mt-3"></div>
+                                        <div class="col-4 text-center mt-3">
+                                            <div class="text-center py-5">
+                                                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <p class="text-muted" data-label="loading_msg">This may take a few seconds</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                    <div class="col-12 text-center mb-3" style="justify-items: center;">
+                                        <button id="showMoreUnpublished" class="btn border-0" style="display:none;color: #4e73df;box-shadow: 0 0 0 .0rem rgba(68, 68, 68, 0.25);">Show More</button>
+                                    </div>
+                            </div>
+                        </div>
+
+                            
+                            
+                        
+                    </div>
+
+                    <!-- Content Row -->
+                    
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="border-bottom-width: 0px;">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel" data-label="modal_ready">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-primary"><span data-label="modal_select">Select</span>
+                    <span class="fw-bold"  data-label="modal_logout_text">logout</span> <span data-label="modal_end_session">below if you are ready to end your current session.</span></div>
+                <div class="modal-footer" style="border-top-width: 0px;">
+                    <!-- <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button> -->
+                    <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" 
+                    style="border-radius: 10px;" href="login.html" data-label="modal_logout_btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Structure -->
+    <div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-hidden="true" style="background-color: rgba(0,0,0,0.8);">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" style="background-color: #2a2a2a; border: none; border-radius: 15px;">
+                <div class="modal-header" style="border-bottom: 1px solid #38383a;">
+                    <h5 class="modal-title text-white" id="responseModalLabel">Generating Blog Content</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4" id="modalResponseContent" style="color: #e0e0e0;">
+                    <!-- Content will be inserted here -->
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid #38383a;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px;">Close</button>
+                    <button type="button" class="btn btn-primary" id="copyButton" style="border-radius: 20px;">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
+
+    <!-- Page level custom scripts -->
+    <!-- <script src="js/demo/chart-area-demo.js"></script> -->
+    <!-- <script src="js/demo/chart-pie-demo.js"></script> -->
+    <script>
+        const translations = {
+            fa: {
+                sidebar_blogs: 'وبلاگ ها',
+                sidebar_preview: 'پیش نمایش وبلاگ ها',
+                sidebar_profile: 'پروفایل',
+                sidebar_tables: 'جداول',
+                profile_menu: 'پروفایل',
+                settings_menu: 'تنظیمات',
+                activity_menu: 'گزارش فعالیت',
+                logout_menu: 'خروج',
+                page_blogs: 'وبلاگ ها',
+                create_new: 'ایجاد جدید',
+                import: 'آپلود کردن',
+                published: 'منتشر شده',
+                private: 'خصوصی',
+                loading_msg: 'این ممکن است چند ثانیه طول بکشد',
+                show_more: 'نمایش بیشتر',
+                modal_ready: 'آیا مایل به خروج هستید؟',
+                modal_select: 'انتخاب کنید',
+                modal_logout_text: 'خروج',
+                modal_end_session: 'در زیر اگر برای پایان دادن به جلسه فعلی خود آماده هستید.',
+                modal_logout_btn: 'خروج',
+                blog_card_edit: 'ویرایش',
+                blog_card_delete:'حذف',
+                blog_card_public : 'انتشار'
+                // modal_generating: 'تولید محتوای وبلاگ',
+                // modal_close: 'بستن',
+                // modal_copy: 'کپی'
+            },
+            en: {
+                sidebar_blogs: 'Blogs',
+                sidebar_preview: 'Preview Blogs',
+                sidebar_profile: 'Profile',
+                sidebar_tables: 'Tables',
+                profile_menu: 'Profile',
+                settings_menu: 'Settings',
+                activity_menu: 'Activity Log',
+                logout_menu: 'Logout',
+                page_blogs: 'Blogs',
+                create_new: 'Create New',
+                import: 'Import',
+                published: 'Published',
+                private: 'Private',
+                loading_msg: 'This may take a few seconds',
+                show_more: 'Show More',
+                modal_ready: 'Ready to Leave?',
+                modal_select: 'Select',
+                modal_logout_text: 'logout',
+                modal_end_session: 'below if you are ready to end your current session.',
+                modal_logout_btn: 'Logout',
+                blog_card_edit :'Edit',
+                blog_card_delete:'Delete',
+                blog_card_public: 'publish'
+                // modal_generating: 'Generating Blog Content',
+                // modal_close: 'Close',
+                // modal_copy: 'Copy'
+            }
+        };
+
+        let currentLang = localStorage.getItem('language') || 'fa';
+        
+        function updateLanguage(lang) {
+            currentLang = lang;
+            
+            localStorage.setItem('language', lang);
+            
+            document.querySelectorAll('[data-label]').forEach(element => {
+                const label = element.getAttribute('data-label');
+                if (translations[lang][label]) {
+                    element.textContent = translations[lang][label];
+                }
+            });
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => {
+            const newLang = currentLang === 'fa' ? 'en' : 'fa';
+            updateLanguage(newLang);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLanguage(currentLang);
+        });
+    </script>
+    <script>  
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+        const adminUUID = localStorage.getItem('admin_uuid');
+        const toggleButton = document.getElementById('themeToggle');
+
+        // Define class pairs to toggle: [lightClass, darkClass]
+        const classPairs = [
+            ['bg-light', 'bg-dark'],
+            ['bg-gray-100', 'bg-gray-900'],
+            ['bg-gradient-light', 'bg-gradient-dark'],
+            ['text-gray-100', 'text-gray-900'], // example for text
+            ['btn-light', 'btn-dark'],     
+            ['sidebar-light', 'sidebar-dark'],           
+            ['card-header-light', 'card-header-dark'],
+            ['progress', 'progress-dark'],
+            ['background-content-wrapper-light','background-content-wrapper-dark'],
+            ['text-primary' , 'text-gray-200'],
+            ['fa-moon' , 'fa-sun'],
+            ['card' , 'card-dark'],
+            ['create-btn-light' , 'create-btn-dark'],
+            ['import-btn-light' ,'import-btn-dark' ],
+            ['hover-card-dark' , 'hover-card-light']
+        ];
+
+        toggleButton.addEventListener('click', () => {
+            classPairs.forEach(([lightClass, darkClass]) => {
+                // Toggle classes on all elements that have either class
+                document.querySelectorAll(`.${lightClass}, .${darkClass}`).forEach(el => {
+                    el.classList.toggle(lightClass);
+                    el.classList.toggle(darkClass);
+                });
+            });
+        });
+
+        function getAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            };
+        }
+        function timeAgo(dateString) {
+        const now = new Date();
+        const past = new Date(dateString);
+        const diffMs = now - past; // milliseconds
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+        }
+        
+        async function authFetch(url, options = {}) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                ...options,
+                headers: getAuthHeaders()
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return await res.json();
+        }
+        
+        
+
+                // Global variables
+        let allBlogs = [];
+        const itemsPerPage = 12;
+        let published = 1;
+        let unpublished = 1;
+
+        // Fetch all blogs
+        async function fetchBlogs() {
+            try {
+                allBlogs = await authFetch(`/admin/blogs/`, {
+                    method: 'GET',
+                });
+                console.log(allBlogs);
+                return allBlogs;
+            } catch (error) {
+                console.error('Error loading blogs:', error);
+                throw error;
+            }
+        }
+        async function fetchAdminInfo() {
+            try {
+                admin = await authFetch(`/admin/profile/`, {
+                        method: 'GET',
+                    });
+                return admin;
+            }
+            catch (error) {
+                console.error('Error loading admin info:', error);
+                throw error;
+            }
+        }
+
+        // Filter blogs based on criteria
+        function filterBlogs(tab) {
+            switch(tab) {
+                case 'unpublished': // Not published but has content renderBlogs('unpublished', unpublished);
+                    return allBlogs.filter(blog => 
+                        blog.status !== 'published'
+                    );
+                case 'published': // Published and has content
+                    return allBlogs.filter(blog => 
+                        blog.status === 'published'
+                    );
+                default:
+                    return [];
+            }
+        }
+
+        // Render blogs for a specific tab
+        function renderBlogs(tab, page = 1) {
+            const filteredBlogs = allBlogs //filterBlogs(tab);
+            const startIndex = (page - 1) * itemsPerPage;
+            const blogsToShow = filteredBlogs.slice(0, startIndex + itemsPerPage);
+            console.log(filteredBlogs.length)
+            // console.log()
+            const container = document.querySelector(`#pills-${tab} .row`);
+            container.innerHTML = ''; // Clear existing content
+            
+            if (blogsToShow.length === 0) {
+                container.innerHTML = `
+                
+                    <div class="col-12 text-center py-2">
+                        <div class="row" style="display: ruby-text;">
+                            <div class="css-gc7qqt text-center">
+                                <img alt="Upper cloud" class="chakra-image css-1sn7tib" src="img/cloud.bb46cfda.png">
+                                <img alt="Balloon" class="chakra-image css-k5mids" src="img/balloon.0f0058ec.png">
+                                <img alt="Lower cloud" class="chakra-image css-5n20n3" src="img/cloud.bb46cfda.png">
+                            </div>
+                        </div>
+                        
+                        <p class="h4 text-primary" style="font-weight:bold">No blogs found in this category</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            blogsToShow.forEach(blog => {// col-xl-3
+            const blogCard = `
+                <div class="col-sm-6  col-md-4 col-xl-2 mb-3">
+                    <div class="card doc-card shadow-sm hover-card-light">
+                        <a class="text-decoration-none" href="http://localhost:8003/single.html?title=${blog.slug}">
+                            <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
+                            <div class="card-body">
+                                <h6 class="card-title mb-1 text-gray-900">
+                                ${blog.title}
+                                
+                                </h6>
+                                <!-- corrected bg-primary spelling -->
+                                ${blog.status === 'draft' 
+                                ? `<span class="badge text-muted" ><i class="fa fa-lock me-1"></i> <span data-label="private">خصوصی</span></span>` 
+                                : `<span class="badge text-muted" ><i class="fa fa-globe me-1"></i> <span data-label="published">منتشر شده</span></span>`}
+                            <small class="text-muted mt-1" style="display:block;">Created ${timeAgo(blog.created_at)}</small>
+                            </div>
+                            
+                        </a>
+                    
+                    
+                        
+                    </div>
+                </div>
+            
+
+
+                    
+
+                `; // src="${blog.image_url ||'img/undraw_posting_photo.svg'}" alt="${blog.title}"> 
+                container.insertAdjacentHTML('beforeend', blogCard);
+            });
+            
+            // Show/hide "Show More" button
+            const showMoreBtn = document.querySelector(`#pills-${tab} #showMore${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (showMoreBtn) {
+                showMoreBtn.style.display = (startIndex + itemsPerPage) < filteredBlogs.length ? 'block' : 'none';
+            }
+        }
+
+        // Initialize all tabs
+        async function initializeTabs() {
+            try {
+                // Check for admin info in localStorage
+                let admin = JSON.parse(localStorage.getItem('adminInfo'));
+                const userNameSpan = document.querySelector('#userDropdown span');
+
+                // If not found, fetch from backend
+                if (!admin || !admin.user.first_name || !admin.user.last_name) {
+                    console.log("Fetching admin info from backend...");
+                    admin = await fetchAdminInfo();
+                    // Save to localStorage
+                    const profile = admin[0];
+                    console.log('Profile data:', profile);
+                    localStorage.setItem('adminInfo', JSON.stringify(profile));
+                    userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
+                } else {
+                    console.log("Loaded admin info from localStorage:", admin);
+                    userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                }
+
+                
+                await fetchBlogs();
+                
+                // Initial render for each tab
+                renderBlogs('unpublished', unpublished);
+                
+                
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.querySelector('.row').innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-danger">Failed to load blogs. Please try again later.</div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+
+        // Event listeners for "Show More" buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTabs();
+            
+            document.getElementById('showMorePublished')?.addEventListener('click', () => {
+                published++;
+                renderBlogs('published', published);
+            });
+            
+            document.getElementById('showMoreUnpublished')?.addEventListener('click', () => {
+                unpublished++;
+                renderBlogs('unpublished', unpublished);
+            });
+        });
+
+        function formatContent(content) {
+            // If content is already HTML, return as-is
+            if (content.startsWith('<') && content.endsWith('>')) {
+                return content;
+            }
+            // Otherwise convert plain text to HTML paragraphs
+            return content.split('\n\n').map(para => `<p>${para}</p>`).join('');
+        }
+        
+        async function saveContent(contentData) {
+            try {
+                // Implement your save functionality here
+                await authFetch(`/${adminUUID}/admin/blogs/save/`, {
+                    method: 'POST',
+                    body: JSON.stringify(contentData)
+                });
+                alert('Content saved successfully!');
+            } catch (error) {
+                alert(`Failed to save content: ${error.message}`);
+            }
+        }
+        
+        async function exportContent(contentData) {
+            try {
+                // Implement your export functionality here
+                const response = await authFetch(`/${adminUUID}/admin/blogs/export/`, {
+                    method: 'POST',
+                    body: JSON.stringify(contentData)
+                });
+                window.open(response.download_url, '_blank');
+            } catch (error) {
+                alert(`Failed to export content: ${error.message}`);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
