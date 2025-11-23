@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Editor - JSON to Editable Cards</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- <link href="css/sb-admin-2.css" rel="stylesheet"> -->
+    <style>
+        .nav-item .nav-link {
+          color: #002253;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .nav-item:focus , .nav-item:hover {
+          background-color: #e7f1ff;
+          border-radius: 28px;
+        }
+        @media (min-width: 1300px) {
+          .content {
+            padding-left: 100px;
+            padding-right: 100px;
+          }
+        }
+        @media (min-width: 1300px) {
+          .navbar {
+            padding-left: 100px;
+            padding-right: 100px;
+          }
+        }
+        /* CSS Variables for Theming */
+        :root {
+            --color-bg: #f8f9fa;
+            --color-card-bg: #ffffff;
+            --color-text: #2c3e50;
+            --color-heading: #1a1a1a;
+            --color-primary: #667eea;
+            --color-primary-hover: #5568d3;
+            --color-border: #e1e8ed;
+            --color-shadow: rgba(0, 0, 0, 0.08);
+            --color-toolbar-bg: #ffffff;
+            --color-toolbar-hover: #f0f0f0;
+            
+            --font-heading: 'Georgia', serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --heading-placeholder: "عنوان را وارد کنید...";
+            --content-placeholder: "نوشتن را شروع کنید...";
+            --radius: 16px;
+            --shadow-sm: 0 2px 8px var(--color-shadow);
+            --shadow-md: 0 4px 16px var(--color-shadow);
+            --shadow-lg: 0 8px 32px var(--color-shadow);
+            
+            --container-width: 1100px;
+        }
+
+        /* Theme: Dark */
+        [data-theme="dark"] {
+            --color-bg: #1a1a2e;
+            --color-card-bg: #16213e;
+            --color-text: #e4e4e7;
+            --color-heading: #ffffff;
+            --color-primary: #7c3aed;
+            --color-primary-hover: #6d28d9;
+            --color-border: #2d3748;
+            --color-shadow: rgba(0, 0, 0, 0.3);
+            --color-toolbar-bg: #0f172a;
+            --color-toolbar-hover: #1e293b;
+        }
+
+        /* Theme: Minimalist */
+        [data-theme="minimalist"] {
+            --color-bg: #fafafa;
+            --color-card-bg: #ffffff;
+            --color-text: #333333;
+            --color-heading: #000000;
+            --color-primary: #000000;
+            --color-primary-hover: #333333;
+            --color-border: #d4d4d4;
+            --color-shadow: rgba(0, 0, 0, 0.05);
+            --color-toolbar-bg: #ffffff;
+            --color-toolbar-hover: #f5f5f5;
+            
+            --font-heading: 'Helvetica Neue', Arial, sans-serif;
+            --font-body: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Theme: Warm */
+        [data-theme="warm"] {
+            --color-bg: #fff8f0;
+            --color-card-bg: #ffffff;
+            --color-text: #5c4033;
+            --color-heading: #3e2723;
+            --color-primary: #ff6b35;
+            --color-primary-hover: #e85d2f;
+            --color-border: #f4e4d7;
+            --color-shadow: rgba(255, 107, 53, 0.1);
+            --color-toolbar-bg: #fffbf7;
+            --color-toolbar-hover: #fff0e0;
+            
+            --font-heading: 'Palatino', 'Book Antiqua', serif;
+            --font-body: 'Trebuchet MS', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+        }
+
+        /* RTL support for Farsi */
+        body[dir="rtl"] {
+            direction: rtl;
+        }
+
+        body[dir="rtl"] .toolbar-group {
+            border-right: none;
+            border-left: 1px solid var(--color-border);
+            padding-right: 0;
+            padding-left: 0.5rem;
+        }
+
+        body[dir="rtl"] .toolbar-group:last-child {
+            border-left: none;
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-card-bg);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-heading);
+            font-family: var(--font-heading);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-body);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--color-card-bg);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-toolbar-hover);
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Container */
+        .container {
+            max-width: var(--container-width);
+            margin: 2rem auto;
+            padding: 0 1rem;
+            transition: max-width 0.3s ease;
+            margin-top: 72px;
+        }
+
+        /* Container width control */
+        .width-control {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .width-control-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-heading);
+            white-space: nowrap;
+        }
+
+        .width-slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--color-border);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .width-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .width-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+            border: none;
+        }
+
+        .width-value {
+            font-size: 0.875rem;
+            color: var(--color-text);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Cards Container */
+        .cards-container {
+            background-color: var(--color-card-bg);
+            display: flex;
+            flex-direction: column;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Card divider for inserting new cards */
+        .card-divider {
+            position: relative;
+            height: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.2s ease;
+        }
+
+        /* .card-divider:hover {
+            opacity: 1;
+        } */
+
+        .card-divider-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--color-border);
+        }
+
+        .card-divider-buttons {
+            position: relative;
+            display: flex;
+            /* display: none; */
+            gap: 0.5rem;
+            /* background: var(--color-bg); */
+            padding: 0 1rem;
+            z-index: 1;
+        }
+
+        .insert-card-button {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--color-primary);
+            background: var(--color-card-bg);
+            color: var(--color-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .insert-card-button:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Card */
+        .card {
+            background: var(--color-card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            /* box-shadow: var(--shadow-md); */
+        }
+
+        .card.dragging {
+            opacity: 0.5;
+            cursor: move;
+        }
+
+        .card.drag-over {
+            border-color: var(--color-primary);
+        }
+
+        /* Card top bar with drag handle and menu */
+        .card-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* margin-bottom: 0.5rem; */
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .card:hover .card-top-bar {
+            opacity: 1;
+        }
+
+        .drag-handle {
+            cursor: move;
+            color: var(--color-text);
+            font-size: 1.2rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .drag-handle:hover {
+            background: var(--color-toolbar-hover);
+        }
+
+        .card-menu-wrapper {
+            position: relative;
+        }
+
+        .card-menu-button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--color-text);
+            font-size: 1.2rem;
+        }
+
+        .card-menu-button:hover {
+            background: var(--color-toolbar-hover);
+        }
+
+        .card-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            min-width: 180px;
+            display: none;
+            z-index: 10;
+        }
+
+        body[dir="rtl"] .card-menu {
+            right: auto;
+            left: 0;
+        }
+
+        .card-menu.active {
+            display: block;
+        }
+
+        .card-menu-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            color: var(--color-text);
+        }
+
+        body[dir="rtl"] .card-menu-item {
+            text-align: right;
+        }
+
+        .card-menu-item:hover {
+            background: var(--color-toolbar-hover);
+        }
+
+        .card-menu-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .card-menu-item:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        .card-menu-item.danger {
+            color: #ef4444;
+        }
+
+        /* Card Header */
+        .card-header_ {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
+        }
+
+        .card-heading {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--color-heading);
+            outline: none;
+            flex: 1;
+            border: 2px solid transparent;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+            overflow: auto;
+            overflow-wrap: break-word;
+        }
+
+        .card-heading:focus {
+            border-color: var(--color-primary);
+        }
+
+        .card-heading:empty:before {
+            /* content: 'Enter heading...'; */
+            content: var(--heading-placeholder, "عنوان را وارد کنید...");
+            color: #999;
+        }
+
+        /* Card Actions */
+        .card-actions {
+            display: flex;
+            gap: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .card:hover .card-actions {
+            opacity: 1;
+        }
+
+        .card-action-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: var(--color-toolbar-bg);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--color-text);
+        }
+
+        .card-action-btn:hover {
+            background: var(--color-toolbar-hover);
+            transform: scale(1.1);
+        }
+
+        /* Card Content */
+        .card-content-wrapper {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .card-content-wrapper.image-top,
+        .card-content-wrapper.image-bottom {
+            /* flex-direction: column; */
+        }
+
+        .card-content-wrapper.image-left {
+            flex-direction: row;
+        }
+
+        .card-content-wrapper.image-right {
+            flex-direction: row-reverse;
+        }
+
+        .card-content {
+            outline: none;
+            line-height: 1.8;
+            flex: 1;
+            min-height: 60px;
+            border: 2px solid transparent;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+            overflow: auto;
+            overflow-wrap: break-word;
+            color: var(--color-text);
+        }
+
+        .card-content:focus {
+            border-color: var(--color-primary);
+        }
+
+        .card-content:empty:before {
+            /* content: 'Start writing...'; */
+            content: var(--content-placeholder, "نوشتن را شروع کنید...");
+            color: #999;
+        }
+
+        /* Resizable Image Container */
+        .card-image-container {
+            position: relative;
+            max-width: 100%;
+            min-width: 100px;
+            min-height: 100px;
+        }
+
+        .card-content-wrapper.image-left .card-image-container,
+        .card-content-wrapper.image-right .card-image-container {
+            max-width: 600px;
+            flex-shrink: 0;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .card-content-wrapper.image-left .image-placeholder,
+        .card-content-wrapper.image-right .image-placeholder {
+            height: 150px;
+        }
+
+        .image-remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 2;
+        }
+
+        body[dir="rtl"] .image-remove-btn {
+            right: auto;
+            left: 8px;
+        }
+
+        .card-image-container:hover .image-remove-btn {
+            opacity: 1;
+        }
+
+        /* Resize handles for images */
+        .resize-handle {
+            position: absolute;
+            background: var(--color-primary);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1;
+        }
+
+        .card-image-container:hover .resize-handle {
+            opacity: 1;
+        }
+
+        .resize-handle-e {
+            right: -4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 40px;
+            cursor: ew-resize;
+            border-radius: 4px;
+        }
+
+        .resize-handle-s {
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 8px;
+            cursor: ns-resize;
+            border-radius: 4px;
+        }
+
+        .resize-handle-se {
+            right: -4px;
+            bottom: -4px;
+            width: 12px;
+            height: 12px;
+            cursor: nwse-resize;
+            border-radius: 50%;
+        }
+
+        body[dir="rtl"] .resize-handle-e {
+            right: auto;
+            left: -4px;
+        }
+
+        body[dir="rtl"] .resize-handle-se {
+            right: auto;
+            left: -4px;
+        }
+
+        /* Image Controls */
+        .image-controls {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--color-bg);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .image-controls-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-heading);
+        }
+
+        .image-position-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .image-position-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-border);
+            background: var(--color-card-bg);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            color: var(--color-text);
+        }
+
+        .image-position-btn.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .image-position-btn:hover:not(.active) {
+            border-color: var(--color-primary);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            position: sticky;
+            top: 73px;
+            background: var(--color-toolbar-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-md);
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 0.25rem;
+            padding-right: 0.5rem;
+            border-right: 1px solid var(--color-border);
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--color-toolbar-hover);
+        }
+
+        .toolbar-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .toolbar-select {
+            padding: 0.5rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background: var(--color-card-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            cursor: pointer;
+        }
+
+        .toolbar-input {
+            width: 50px;
+            padding: 0.5rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background: var(--color-card-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+        }
+
+        .color-picker-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .color-picker {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--color-border);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* Add Card Button */
+        .add-card-btn {
+            width: 100%;
+            padding: 1.5rem;
+            border: 2px dashed var(--color-border);
+            background: transparent;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .add-card-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: var(--color-bg);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--color-card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-heading);
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--color-heading);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background: var(--color-card-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+        }
+
+        /* Preview Mode */
+        body.preview-mode .toolbar,
+        body.preview-mode .card-actions,
+        body.preview-mode .add-card-btn,
+        body.preview-mode .image-controls,
+        body.preview-mode .card-divider,
+        body.preview-mode .card-top-bar,
+        body.preview-mode .resize-handle,
+        body.preview-mode .width-control {
+            display: none !important;
+        }
+
+        body.preview-mode .card-heading,
+        body.preview-mode .card-content {
+            border: none;
+            cursor: default;
+        }
+
+        body.preview-mode .card-heading:focus,
+        body.preview-mode .card-content:focus {
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .toolbar {
+                top: auto;
+                position: relative;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card-heading {
+                font-size: 1.5rem;
+            }
+
+            .card-content-wrapper.image-left,
+            .card-content-wrapper.image-right {
+                flex-direction: column;
+            }
+
+            .card-content-wrapper.image-left .card-image-container,
+            .card-content-wrapper.image-right .card-image-container {
+                max-width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: slideIn 0.3s ease;
+        }
+
+        /* Drag Handle - kept from original, but functionality is now on .card-top-bar's .drag-handle */
+        .drag-handle {
+            cursor: move;
+            color: var(--color-text);
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+
+        .card:hover .drag-handle {
+            opacity: 1;
+        }
+
+        /* Author Info and Recent Posts Sections */
+        .author-info, .recent-posts {
+            background: var(--color-card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .author-details {
+            flex: 1;
+        }
+
+        .author-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-heading);
+            margin-bottom: 0.25rem;
+        }
+
+        .author-bio {
+            color: var(--color-text);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .author-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .author-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .author-link:hover {
+            color: var(--color-primary-hover);
+        }
+
+        .recent-posts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .recent-posts-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-heading);
+        }
+
+        .recent-posts-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .recent-posts-link:hover {
+            color: var(--color-primary-hover);
+        }
+
+        .recent-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .recent-post-item {
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .recent-post-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .recent-post-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .recent-post-content {
+            padding: 1rem;
+        }
+
+        .recent-post-title {
+            font-weight: 600;
+            color: var(--color-heading);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .recent-post-excerpt {
+            color: var(--color-text);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .section-toggle-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        body[dir="rtl"] .section-toggle-menu {
+            right: auto;
+            left: 1rem;
+        }
+
+        .section-menu-button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: var(--color-toolbar-bg);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--color-text);
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-menu-button:hover {
+            background: var(--color-toolbar-hover);
+        }
+
+        .section-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            display: none;
+            z-index: 10;
+        }
+
+        body[dir="rtl"] .section-menu {
+            right: auto;
+            left: 0;
+        }
+
+        .section-menu.active {
+            display: block;
+        }
+
+        .section-menu-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            color: var(--color-text);
+        }
+
+        body[dir="rtl"] .section-menu-item {
+            text-align: right;
+        }
+
+        .section-menu-item:hover {
+            background: var(--color-toolbar-hover);
+        }
+
+        .section-menu-item input[type="checkbox"] {
+            margin: 0;
+        }
+
+        /* Hide sections when not visible in preview */
+        body.preview-mode .author-info.hidden,
+        body.preview-mode .recent-posts.hidden {
+            display: none;
+        }
+
+        /* Show toggle menus only in preview mode */
+        body.preview-mode .section-toggle-menu {
+            display: none;
+        }
+        .nav-item .nav-link {
+          color: #002253;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .nav-item:focus , .nav-item:hover {
+          background-color: #e7f1ff;
+          border-radius: 28px;
+        }
+
+    </style>    
+
+</head>
+<body class="preview-mode">
+
+
+
+    <nav class="navbar navbar-expand-lg fixed-top bootstrap-scope" style="background-color: rgba(255, 255, 255, 0.95);direction: ltr;">
+        <div class="container-fluid">
+            <a class="navbar-brand text-primary" href="#">
+              gamma
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" 
+                    aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item ml-2">
+                  <a class="nav-link" aria-current="page" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="home">خانه</a>
+                </li>
+                <li class="nav-item ml-2">
+                  <a class="nav-link" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="link">لینک</a>
+                </li>
+                <li class="nav-item dropdown ml-2">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                     data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;" data-label="dropdown">منو</a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#" data-label="action">عملیات</a></li>
+                    <li><a class="dropdown-item" href="#" data-label="another">عملیات دیگر</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" data-label="something">چیزی دیگر</a></li>
+                  </ul>
+                </li>
+                
+              </ul>
+              <ul class="navbar-nav">
+                  <li class="nav-item ml-2">
+                      <a class="nav-link" id="langBtn" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="lang">🌐 EN</a>
+                    </li>
+                
+                <!-- <li class="nav-item ml-2">
+                  <a class="nav-link" id="publishBtn" href="#" style="background-color: #0540ad;color: #f8f9fc;padding-left: 16px;padding-right: 16px;border-radius: 28px;border: none;box-sizing: unset;cursor:pointer;" data-label="publish">انتشار</a>
+                </li> -->
+                
+              </ul>
+              
+            </div> 
+          </div>
+      </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Container width control -->
+        
+
+       
+        <!-- Add author info section (shown in preview mode) -->
+        <div id="authorInfo" class="author-info" style="display: flex;">
+            <div class="author-avatar">👤</div>
+            <div class="author-details">
+                <div class="author-name"></div>
+                <div class="author-bio"></div>
+                <div class="author-links">
+                    <a href="#" class="author-link">Website</a>
+                    <a href="#" class="author-link">Twitter</a>
+                    <a href="#" class="author-link">LinkedIn</a>
+                </div>
+            </div>
+            <div class="section-toggle-menu">
+                <button class="section-menu-button" onclick="toggleSectionMenu('author')" title="Section options">⋮</button>
+                <div class="section-menu" id="authorMenu">
+                    <label class="section-menu-item">
+                        <input type="checkbox" id="showAuthorInfo" checked onchange="toggleAuthorVisibility()">
+                        <span data-label="editProfile">نمایش در گزارش نهایی</span>
+                    </label>
+                    <a class="card-menu-item" style="text-decoration: none;" data-label="edit" href="profile.html">ویرایش</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards Container -->
+        <div id="cardsContainer" class="cards-container"></div>
+
+        <!-- Add Card Button -->
+        <!-- <button class="add-card-btn" id="addCardBtn">
+            <span style="font-size: 1.5rem;">+</span>
+            Add New Card
+        </button> -->
+
+        <!-- Add recent posts section (shown in preview mode) -->
+        <div id="recentPosts" class="recent-posts" style="display: block;">
+            <div class="recent-posts-header">
+                <h2 class="recent-posts-title">Recent Posts</h2>
+                <a href="#" class="recent-posts-link">See All</a>
+            </div>
+            <div class="recent-posts-grid">
+                <div class="recent-post-item">
+                    <div class="recent-post-image">📝</div>
+                    <div class="recent-post-content">
+                        <div class="recent-post-title">Getting Started with Web Development</div>
+                        <div class="recent-post-excerpt">Learn the fundamentals of building modern websites...</div>
+                    </div>
+                </div>
+                <div class="recent-post-item">
+                    <div class="recent-post-image">🎨</div>
+                    <div class="recent-post-content">
+                        <div class="recent-post-title">Design Principles for Beginners</div>
+                        <div class="recent-post-excerpt">Master the basics of visual design and typography...</div>
+                    </div>
+                </div>
+                <div class="recent-post-item">
+                    <div class="recent-post-image">💡</div>
+                    <div class="recent-post-content">
+                        <div class="recent-post-title">Creative Writing Tips</div>
+                        <div class="recent-post-excerpt">Improve your writing skills with these proven techniques...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-toggle-menu">
+                <button class="section-menu-button" onclick="toggleSectionMenu('recent')" title="Section options">⋮</button>
+                <div class="section-menu" id="recentMenu">
+                    <label class="section-menu-item">
+                        <input type="checkbox" id="showRecentPosts" checked onchange="toggleRecentVisibility()">
+                        <span data-label="editProfile">نمایش در گزارش نهایی</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Export Content</div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Export Format</label>
+                    <select id="exportFormat" class="form-select">
+                        <option value="json">JSON</option>
+                        <option value="html">HTML</option>
+                        <option value="markdown">Markdown</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelExportBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmExportBtn">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JSON Modal -->
+    <div id="loadJsonModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Load JSON Data</div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Paste JSON Array</label>
+                    <textarea id="jsonInput" class="form-select" rows="10" placeholder='[{"heading": "Title", "content": "Content here..."}]'></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelLoadBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmLoadBtn">Load</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script>
+        const translations = {
+            fa: {
+                home: 'خانه',
+                link: 'لینک',
+                dropdown: 'منو',
+                action: 'عملیات',
+                another: 'عملیات دیگر',
+                something: 'چیزی دیگر',
+                theme: '🎨 تم',
+                light: 'روشن',
+                dark: 'تاریک',
+                minimalist: 'حداقل',
+                warm: 'گرم',
+                lang: '🌐 FA',
+                preview: 'پیش‌نمایش',
+                publish: 'انتشار',
+                width: 'عرض ظرف:',
+                export: 'صادرات محتوا',
+                exportFormat: 'فرمت صادرات',
+                cancel: 'لغو',
+                download: 'دانلود',
+                loadJson: 'بارگذاری JSON',
+                pasteJson: 'متن JSON را بپوشش دهید',
+                load: 'بارگذاری',
+                edit: 'ویرایش',
+                editProfile: 'نمایش در گزارش نهایی'
+            },
+            en: {
+                home: 'Home',
+                link: 'Link',
+                dropdown: 'Menu',
+                action: 'Action',
+                another: 'Another action',
+                something: 'Something else',
+                theme: '🎨 Theme',
+                light: 'Light',
+                dark: 'Dark',
+                minimalist: 'Minimalist',
+                warm: 'Warm',
+                lang: '🌐 EN',
+                preview: 'Preview',
+                publish: 'Publish',
+                width: 'Container Width:',
+                export: 'Export Content',
+                exportFormat: 'Export Format',
+                cancel: 'Cancel',
+                download: 'Download',
+                loadJson: 'Load JSON',
+                pasteJson: 'Paste JSON Array',
+                load: 'Load',
+                edit: 'Edit Profile',
+                editProfile: 'Show in published blog'
+            }
+        };
+        // State Management
+        let cards = [];
+        let draggedCard = null;
+        let isPreviewMode = true;
+        let currentLanguage = 'fa';
+        let resizingImage = null;
+        let resizeStartX = 0;
+        let resizeStartY = 0;
+        let resizeStartWidth = 0;
+        let resizeStartHeight = 0;
+        let resizeDirection = null;
+        let showAuthorInfo = true;
+        let showRecentPosts = true;
+
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+        // const adminUUID = localStorage.getItem('admin_uuid');
+
+        function getAuthHeaders() {
+        return {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        };
+        }
+
+        async function authFetch(url, options = {}) {
+        const res = await fetch(`${API_ROOT}${url}`, {
+            ...options,
+            headers: getAuthHeaders()
+        });
+
+        if (res.status === 401) {
+            alert("Session expired. Please log in again.");
+            window.location.href = 'login.html';
+            return;
+        }
+        return res.json();
+        }
+
+        function updateLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+            
+            // Update navbar direction
+            // const navbar = document.querySelector('.navbar');
+            // if (navbar) {
+            //     navbar.style.direction = lang === 'fa' ? 'rtl' : 'ltr';
+            // }
+
+            // Update all elements with data-label attribute
+            document.querySelectorAll('[data-label]').forEach(element => {
+                const label = element.getAttribute('data-label');
+                if (translations[lang][label]) {
+                    element.textContent = translations[lang][label];
+                }
+            });
+
+            // Update placeholders
+            const placeholder = lang === 'fa' ? '"عنوان را وارد کنید..."' : '"Enter heading..."';
+            document.body.style.setProperty('--heading-placeholder', placeholder);
+            const contentPlaceholder = lang === 'fa' ? '"نوشتن را شروع کنید..."' : '"Start writing..."';
+            document.body.style.setProperty('--content-placeholder', contentPlaceholder);
+            // const headingPlaceholder = lang === 'fa' ? 'عنوان را وارد کنید...' : 'Enter heading...';
+            // const contentPlaceholder = lang === 'fa' ? 'نوشتن را شروع کنید...' : 'Start writing...';
+            
+            // Re-render to apply placeholders
+            renderCards();
+        }
+
+        function setTheme(theme) {
+            document.body.dataset.theme = theme;
+            localStorage.setItem('theme', theme);
+        }
+
+		const params = new URLSearchParams(window.location.search);
+		const blogTitle = params.get('title');
+		const account = params.get('account');
+		async function loadBlogDetails() {
+		  if (!blogTitle) return;
+		
+		  const blog = await authFetch(`${}/blogs/${blogTitle}`);
+          return blog
+		}
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // loadFromLocalStorage();
+            // setupEventListeners();
+            // setupKeyboardShortcuts();
+            currentLanguage = 'fa';
+            console.log(currentLanguage);
+            updateLanguage(currentLanguage);
+            console.log(cards.length)
+            // Load sample data if no cards exist
+            // if (cards.length === 3) {
+            loadSampleData();
+            // }
+        });
+
+        // Sample Data
+        async  function loadSampleData() {
+
+            const blog = await  loadBlogDetails()
+            if (!blog || !blog.content) {
+                console.error("No blog data found");
+                return;
+            }
+            console.log(blog.content)
+
+            let admin = JSON.parse(localStorage.getItem('adminInfo'));
+            // const userNameSpan = document.querySelector('#userDropdown span');
+            const authorInfo = document.querySelector('#authorInfo');
+
+            // If not found, fetch from backend
+            if (!admin || !admin.user.first_name || !admin.user.last_name) {
+                console.log("Fetching admin info from backend...");
+                admin = await fetchAdminInfo();
+                // Save to localStorage
+                const profile = admin[0];
+                console.log('Profile data:', profile);
+                localStorage.setItem('adminInfo', JSON.stringify(profile));
+                // userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
+                updateAuthorInfo(profile);
+            } else {
+                console.log("Loaded admin info from localStorage:", admin);
+                // userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                updateAuthorInfo(admin);
+            }
+
+            // Function to update author information
+            function updateAuthorInfo(admin) {
+                // Update author name
+                const authorName = document.querySelector('.author-name');
+                authorName.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                
+                // Update author bio (or use email if bio not available)
+                const authorBio = document.querySelector('.author-bio');
+                authorBio.textContent = admin.user.email || 'Content creator';
+                
+                // Update author avatar (using first letter of first name and last name)
+                const authorAvatar = document.querySelector('.author-avatar');
+                const initials = `${admin.user.first_name.charAt(0)}${admin.user.last_name.charAt(0)}`;
+                authorAvatar.textContent = initials;
+                
+                // Optional: Update author links if you have social media data
+                const authorLinks = document.querySelector('.author-links');
+
+            }
+            // Convert backend blog content into your card structure
+            cards = blog.content.map(section => createCard({
+                heading: section.heading,
+                content: section.body,
+                image: section.media?.url || null,
+                imagePosition: 'top',
+            }));
+            // cards = sampleData.map(data => createCard(data));
+            // renderCards();
+            // saveToJSON();
+            togglePreview();
+        }
+
+       
+
+    
+        function createCard(data = {}) {
+            return {
+                id: Date.now() + Math.random(),
+                heading: data.heading || '',
+                content: data.content || '',
+                image: data.image || null,
+                imagePosition: data.imagePosition || 'top',
+                imageWidth: data.imageWidth || null,
+                imageHeight: data.imageHeight || null
+            };
+        }
+        function saveToJSON() {
+            const blogData = {
+                cards: cards.map(card => ({
+                    heading: card.heading,
+                    content: card.content,
+                    image: card.image,
+                    imagePosition: card.imagePosition,
+                    imageWidth: card.imageWidth,
+                    imageHeight: card.imageHeight
+                })),
+                settings: {
+                    theme: document.body.dataset.theme || 'light',
+                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '1100px',
+                    language: currentLanguage
+                }
+            };
+            localStorage.setItem('blogData', JSON.stringify(blogData));
+        }
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+            
+            cards.forEach((card, index) => {
+                // if (index > 0 || cards.length === 0) {
+                //     const divider = createCardDivider(index);
+                //     container.appendChild(divider);
+                // }
+                
+                const cardElement = createCardElement(card, index);
+                container.appendChild(cardElement);
+            });
+
+        }  
+
+         function createCardElement(card, index) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+            cardDiv.dataset.index = index;
+            
+            const topBar = document.createElement('div');
+            topBar.className = 'card-top-bar';
+
+            cardDiv.appendChild(topBar);
+            
+            const header = document.createElement('div');
+            header.className = 'card-header_';
+            
+            const heading = document.createElement('div');
+            heading.className = 'card-heading';
+            heading.contentEditable = !isPreviewMode;
+            // heading.textContent = card.heading;
+            heading.innerHTML = card.heading;
+            heading.addEventListener('blur', () => {
+                // card.heading = heading.textContent;
+                card.heading = heading.innerHTML;
+                saveToJSON();
+            });
+            
+            header.appendChild(heading);
+            
+            const contentWrapper = document.createElement('div');
+            if (card.imagePosition == "top" || card.imagePosition == "bottom") {
+                contentWrapper.className = `card-content-wrapper`;
+            } else {
+                contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;  
+            }
+
+            const content = document.createElement('div');
+            content.className = 'card-content';
+            content.contentEditable = !isPreviewMode;
+            content.innerHTML = card.content;
+            content.addEventListener('blur', () => {
+                card.content = content.innerHTML;
+                saveToJSON();
+            });
+            
+            contentWrapper.appendChild(content);
+            
+            if (card.image) {
+                const imageContainer = createImageContainer(card, index);
+                if (card.imagePosition == "top") {
+                    cardDiv.appendChild(header);
+                    cardDiv.appendChild(imageContainer);
+                    cardDiv.appendChild(contentWrapper);
+                } else if (card.imagePosition == "bottom") {
+                    cardDiv.appendChild(header); 
+                    cardDiv.appendChild(contentWrapper); 
+                    cardDiv.appendChild(imageContainer);
+                } else {
+                    cardDiv.appendChild(header);
+                    contentWrapper.appendChild(imageContainer);
+                    cardDiv.appendChild(contentWrapper); 
+                }
+            } else {
+                cardDiv.appendChild(header);
+                cardDiv.appendChild(contentWrapper);
+            }
+            
+            return cardDiv;
+        }
+        
+        function createImageContainer(card, index) {
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'card-image-container';
+            imageContainer.dataset.cardIndex = index;
+            
+            // Apply saved dimensions if they exist
+            if (card.imageWidth) {
+                imageContainer.style.width = card.imageWidth + 'px';
+            }
+            if (card.imageHeight) {
+                imageContainer.style.height = card.imageHeight + 'px';
+            }
+            
+            const img = document.createElement('img');
+            img.className = 'card-image';
+            img.src = card.image;
+            img.alt = card.heading;
+            
+        
+            
+            imageContainer.appendChild(img);
+
+            
+            return imageContainer;
+        }
+        
+        function insertCardAt(index) {
+            const newCard = createCard();
+            cards.splice(index, 0, newCard);
+            renderCards();
+            saveToJSON();
+            // saveToLocalStorage();
+        }
+
+
+        // Image Management
+        function addImageToCard(index) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        cards[index].image = event.target.result;
+                        renderCards();
+                        saveToJSON();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function removeImage(index) {
+            cards[index].image = null;
+            cards[index].imageWidth = null;
+            cards[index].imageHeight = null;
+            renderCards();
+            saveToJSON();
+        }
+
+        function changeImagePosition(index, position) {
+            cards[index].imagePosition = position;
+            renderCards();
+            saveToJSON();
+        }
+
+        // Card Actions
+        function duplicateCard(index) {
+            const newCard = { ...cards[index], id: Date.now() + Math.random() };
+            cards.splice(index + 1, 0, newCard);
+            renderCards();
+            saveToJSON();
+        }
+
+        function deleteCard(index) {
+            const confirmText = currentLanguage === 'fa' ? 'آیا مطمئن هستید؟' : 'Are you sure?';
+            if (confirm(confirmText)) {
+                cards.splice(index, 1);
+                renderCards();
+                saveToJSON();
+            }
+        }
+
+        // Drag and Drop
+        function handleDragStart(e) {
+            draggedCard = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            
+            const afterElement = getDragAfterElement(this.parentElement, e.clientY);
+            if (afterElement == null) {
+                this.classList.add('drag-over');
+            }
+            
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            if (draggedCard !== this) {
+                const draggedIndex = parseInt(draggedCard.dataset.index);
+                const targetIndex = parseInt(this.dataset.index);
+                
+                const draggedItem = cards[draggedIndex];
+                cards.splice(draggedIndex, 1);
+                cards.splice(targetIndex, 0, draggedItem);
+                
+                renderCards();
+                saveToJSON();
+            }
+            
+            this.classList.remove('drag-over');
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            this.draggable = false;
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('drag-over');
+            });
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.card:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+        
+        // Toolbar Functions
+        function setupEventListeners() {
+            // document.getElementById('langBtn').addEventListener('click', () => {
+            //     currentLanguage = currentLanguage === 'en' ? 'fa' : 'en';
+            //     const btn = document.getElementById('langBtn');
+            //     const html = document.documentElement;
+                
+            //     if (currentLanguage === 'fa') {
+            //         html.setAttribute('dir', 'rtl');
+            //         html.setAttribute('lang', 'fa');
+            //         btn.textContent = '🌐 FA';
+            //     } else {
+            //         html.setAttribute('dir', 'ltr');
+            //         html.setAttribute('lang', 'en');
+            //         btn.textContent = '🌐 EN';
+            //     }
+                
+            //     localStorage.setItem('language', currentLanguage);
+            // });
+            document.getElementById('langBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                currentLanguage = currentLanguage === 'fa' ? 'en' : 'fa';
+                updateLanguage(currentLanguage);
+                localStorage.setItem('language', currentLanguage);
+            });
+
+            const widthSlider = document.getElementById('widthSlider');
+            const widthValue = document.getElementById('widthValue');
+            
+            
+
+
+     
+            const savedLanguage = localStorage.getItem('language');
+            if (savedLanguage) {
+                currentLanguage = savedLanguage;
+                const html = document.documentElement;
+                const btn = document.getElementById('langBtn');
+                
+                if (currentLanguage === 'fa') {
+                    html.setAttribute('dir', 'rtl');
+                    html.setAttribute('lang', 'fa');
+                    btn.textContent = '🌐 FA';
+                } else {
+                    html.setAttribute('dir', 'ltr');
+                    html.setAttribute('lang', 'en');
+                    btn.textContent = '🌐 EN';
+                }
+            }
+            
+            const savedWidth = localStorage.getItem('containerWidth');
+            if (savedWidth) {
+                document.documentElement.style.setProperty('--container-width', savedWidth + 'px');
+                widthSlider.value = savedWidth;
+                widthValue.textContent = savedWidth + 'px';
+            }
+
+            const savedShowAuthor = localStorage.getItem('showAuthorInfo');
+            if (savedShowAuthor !== null) {
+                showAuthorInfo = savedShowAuthor === 'true';
+                document.getElementById('showAuthorInfo').checked = showAuthorInfo;
+            }
+            
+            const savedShowRecent = localStorage.getItem('showRecentPosts');
+            if (savedShowRecent !== null) {
+                showRecentPosts = savedShowRecent === 'true';
+                document.getElementById('showRecentPosts').checked = showRecentPosts;
+            }
+        }
+
+
+        // Preview Mode
+        function togglePreview() {
+            const authorInfo = document.getElementById('authorInfo');
+            const recentPosts = document.getElementById('recentPosts');
+            if (!showAuthorInfo) {
+                authorInfo.classList.add('hidden');
+                authorInfo.style.display = 'none';
+            }
+            if (!showRecentPosts) {
+                recentPosts.classList.add('hidden');
+                recentPosts.style.display = 'none';
+            }
+           
+            
+            renderCards();
+        }
+
+        // Export Functions
+        function exportContent() {
+            const format = document.getElementById('exportFormat').value;
+            let content, filename, type;
+
+            switch(format) {
+                case 'json':
+                    content = JSON.stringify(cards.map(card => ({
+                        heading: card.heading,
+                        content: card.content,
+                        image: card.image,
+                        imagePosition: card.imagePosition,
+                        imageWidth: card.imageWidth,
+                        imageHeight: card.imageHeight
+                    })), null, 2);
+                    filename = 'blog-content.json';
+                    type = 'application/json';
+                    break;
+                
+                case 'html':
+                    content = generateHTML();
+                    filename = 'blog-content.html';
+                    type = 'text/html';
+                    break;
+                
+                case 'markdown':
+                    content = generateMarkdown();
+                    filename = 'blog-content.md';
+                    type = 'text/markdown';
+                    break;
+            }
+
+            downloadFile(content, filename, type);
+            document.getElementById('exportModal').classList.remove('active');
+        }
+
+        function generateHTML() {
+            let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Content</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 2rem; background: #f8f9fa; }
+        .card { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        h1 { font-size: 1.75rem; margin-bottom: 1rem; }
+        img { max-width: 100%; border-radius: 12px; }
+    </style>
+</head>
+<body>
+`;
+            
+            cards.forEach(card => {
+                html += `    <div class="card">
+        <h1>${card.heading}</h1>
+        ${card.image ? `<img src="${card.image}" alt="${card.heading}">` : ''}
+        <div>${card.content}</div>
+    </div>
+`;
+            });
+            
+            html += `</body>
+</html>`;
+            return html;
+        }
+
+        function generateMarkdown() {
+            let markdown = '';
+            
+            cards.forEach(card => {
+                markdown += `# ${card.heading}\n\n`;
+                if (card.image) {
+                    markdown += `![${card.heading}](${card.image})\n\n`;
+                }
+                markdown += `${card.content}\n\n---\n\n`;
+            });
+            
+            return markdown;
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Load JSON Data
+        function loadJsonData() {
+            const jsonInput = document.getElementById('jsonInput').value;
+            try {
+                const data = JSON.parse(jsonInput);
+                if (Array.isArray(data)) {
+                    cards = data.map(item => createCard(item));
+                    renderCards();
+                    saveToLocalStorage();
+                    document.getElementById('loadJsonModal').classList.remove('active');
+                    document.getElementById('jsonInput').value = '';
+                } else {
+                    alert('Please provide a valid JSON array');
+                }
+            } catch (error) {
+                alert('Invalid JSON format: ' + error.message);
+            }
+        }
+
+        // Publish Blog
+        function publishBlog() {
+            const blogData = {
+                cards: cards.map(card => ({
+                    heading: card.heading,
+                    content: card.content,
+                    image: card.image,
+                    imagePosition: card.imagePosition,
+                    imageWidth: card.imageWidth,
+                    imageHeight: card.imageHeight
+                })),
+                settings: {
+                    theme: document.body.dataset.theme || 'light',
+                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '1100px',
+                    language: currentLanguage,
+                    showAuthorInfo: showAuthorInfo,
+                    showRecentPosts: showRecentPosts
+                }
+            };
+
+            console.log('Publishing blog data:', blogData);
+
+            // Download JSON for testing
+            downloadFile(JSON.stringify(blogData, null, 2), 'blog-publish.json', 'application/json');
+
+            // In production, send to backend:
+            /*
+            fetch('/api/publish', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(blogData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Blog published successfully!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to publish blog');
+            });
+            */
+
+            alert('Blog data prepared for publishing! Check console and downloads.');
+        }
+
+        // Section visibility toggles
+        function toggleSectionMenu(section) {
+            const menuId = section === 'author' ? 'authorMenu' : 'recentMenu';
+            const menu = document.getElementById(menuId);
+            const allMenus = document.querySelectorAll('.section-menu');
+            
+            allMenus.forEach(m => {
+                if (m !== menu) m.classList.remove('active');
+            });
+            
+            menu.classList.toggle('active');
+        }
+
+        function toggleAuthorVisibility() {
+            showAuthorInfo = document.getElementById('showAuthorInfo').checked;
+            localStorage.setItem('showAuthorInfo', showAuthorInfo);
+            
+            const authorInfo = document.getElementById('authorInfo');
+            if (isPreviewMode) {
+                if (showAuthorInfo) {
+                    authorInfo.classList.remove('hidden');
+                } else {
+                    authorInfo.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleRecentVisibility() {
+            showRecentPosts = document.getElementById('showRecentPosts').checked;
+            localStorage.setItem('showRecentPosts', showRecentPosts);
+            
+            const recentPosts = document.getElementById('recentPosts');
+            if (isPreviewMode) {
+                if (showRecentPosts) {
+                    recentPosts.classList.remove('hidden');
+                } else {
+                    recentPosts.classList.add('hidden');
+                }
+            }
+        }
+
+        // Close section menus when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.section-toggle-menu')) {
+                document.querySelectorAll('.section-menu').forEach(m => {
+                    m.classList.remove('active');
+                });
+            }
+        });
+
+        // Local Storage
+        function saveToLocalStorage() {
+            localStorage.setItem('blogCards', JSON.stringify(cards));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('blogCards');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    cards = data.map(item => createCard(item));
+                } catch (error) {
+                    console.error('Error loading from localStorage:', error);
+                    cards = [];
+                }
+            }
+        }
+    </script>
+</body>
+</html>

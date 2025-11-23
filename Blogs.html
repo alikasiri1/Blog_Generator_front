@@ -83,10 +83,15 @@
                 <nav class="navbar navbar-expand navbar-light bg-light topbar mb-1 static-top " style="position: fixed;z-index: 1000;width: 100%;">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
-                    </button>
-
+                    </button> -->
+                    <a class="d-flex align-items-center justify-content-center" href="index.html">
+                        <!-- <div class="sidebar-brand-icon rotate-n-15">
+                            <i class="fas fa-laugh-wink"></i>
+                        </div> -->
+                        <div class=" text-primary fw-bold mx-3">Gamma</div>
+                    </a>
                     <!-- Topbar Search -->
                     <!-- <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -364,23 +369,6 @@
                                                     <span class="placeholder col-12" style="
                                                         height: 270px;border-radius: 0.35rem;
                                                     "></span>
-                                                    <!-- <img src="img/undraw_posting_photo.svg" class="card-img-top" alt="project" style="width: 100%;height: 10rem;"> -->
-                                                    <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                        <title>Placeholder</title>
-                                                        <rect width="100%" height="100%" fill="#868e96">
-                                                        </rect>
-                                                    </svg> -->
-                                                    <!-- <div class="card-body">
-                                                        <h6 class="placeholder-glow card-title mb-1 text-gray-900">
-                                                            <span class="placeholder col-6"></span>
-                                                        </h6>
-                                                        
-                                                        <p class="card-text placeholder-glow">
-                                                            <span class="placeholder col-5"></span>
-                                                            <span class="placeholder col-7"></span>
-                                                        </p>
-                                                    </div> -->
-                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -584,7 +572,21 @@
         const accessToken = localStorage.getItem('access_token');
         const adminUUID = localStorage.getItem('admin_uuid');
         const toggleButton = document.getElementById('themeToggle');
-
+        const params = new URLSearchParams(window.location.search);
+		const account = params.get('account');
+		async function loadBlogDetails() {
+                if (!account) return;
+                
+                const blogs = await fetch(`${API_ROOT}/blogs/${account}`, {
+                method: 'Get',
+                // headers: {
+                //     'Authorization': `Bearer ${accessToken}`
+                // },
+                // body: formData
+                    });//await authFetch(`/blogs/${account}`);
+                return blogs
+            }
+		
         // Define class pairs to toggle: [lightClass, darkClass]
         const classPairs = [
             ['bg-light', 'bg-dark'],
@@ -649,6 +651,19 @@
             
             return await res.json();
         }
+        async function authFetch_public(url, options = {}) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                ...options,
+                //headers: getAuthHeaders()
+            });
+            
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return await res.json();
+        }
         
         
 
@@ -661,7 +676,7 @@
         // Fetch all blogs
         async function fetchBlogs() {
             try {
-                allBlogs = await authFetch(`/admin/blogs/`, {
+                allBlogs = await authFetch_public(`/${account}/blogs/`, {
                     method: 'GET',
                 });
                 console.log(allBlogs);
@@ -683,7 +698,7 @@
                 throw error;
             }
         }
-
+        
         // Filter blogs based on criteria
         function filterBlogs(tab) {
             switch(tab) {
@@ -704,8 +719,8 @@
         function renderBlogs(tab, page = 1) {
             const filteredBlogs = allBlogs //filterBlogs(tab);
             const startIndex = (page - 1) * itemsPerPage;
-            const blogsToShow = filteredBlogs.slice(0, startIndex + itemsPerPage);
-            console.log(filteredBlogs.length)
+            const blogsToShow = allBlogs.slice(0, startIndex + itemsPerPage);
+            //console.log(filteredBlogs.length)
             // console.log()
             const container = document.querySelector(`#pills-${tab} .row`);
             container.innerHTML = ''; // Clear existing content
