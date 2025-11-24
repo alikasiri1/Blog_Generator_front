@@ -716,8 +716,9 @@
         const API_ROOT = 'http://127.0.0.1:8000/api';
         const accessToken = localStorage.getItem('access_token');
         const adminUUID = localStorage.getItem('admin_uuid');
-        const admin_work_domain = localStorage.getItem('work_domain');
+        // const admin_work_domain = localStorage.getItem('work_domain');
         const toggleButton = document.getElementById('themeToggle');
+        const admin = JSON.parse(localStorage.getItem('adminInfo'));
         // let admin = JSON.parse(localStorage.getItem('adminInfo'));
         //         admin.work_domain
 
@@ -868,7 +869,8 @@
             const blogCard = `
                 <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
                     <div class="card doc-card shadow-sm hover-card-light">
-                        <a class="text-decoration-none" href="http://localhost:8003/single.html?title=${blog.slug}">
+                        <a class="text-decoration-none" 
+                        href=${blog.status === 'draft' ? `edit-blog.html?title=${blog.slug}` : `http://localhost:8004/Blog.html?account=${admin.work_domain}&title=${blog.slug}`}>
                             <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
                             <div class="card-body">
                                 <h6 class="card-title mb-1 text-gray-900">
@@ -897,7 +899,8 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                                         <li class="dropdown-header text-gray-600">Blog Actions:</li> 
-                                        <li><a class="dropdown-item" href="edit-blog.html?title=${blog.slug}" ><span data-label="blog_card_edit"> ویرایش</span></a></li> 
+                                        <li><a class="dropdown-item" href="edit-blog.html?title=${blog.slug}" >
+                                            <span data-label="blog_card_edit"> ویرایش</span></a></li> 
                                         ${blog.status === 'draft' 
                                         ? `<li><a class="dropdown-item" href="#" ><span data-label="blog_card_public">انتشار</span></a></li> ` 
                                         : ``}

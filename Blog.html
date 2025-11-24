@@ -1546,7 +1546,7 @@
 		async function loadBlogDetails() {
 		  if (!blogTitle) return;
 		
-		  const blog = await authFetch(`${}/blogs/${blogTitle}`);
+		  const blog = await authFetch(`/${account}/blogs/${blogTitle}`);
           return blog
 		}
         // Initialize
