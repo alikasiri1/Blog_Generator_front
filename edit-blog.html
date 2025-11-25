@@ -1591,6 +1591,67 @@
         return res.json();
         }
 
+        async function authFileFetch(url, formData) {
+            const res = await fetch(`${API_ROOT}${url}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: formData
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || 'File upload failed');
+            }
+            return await res.json();
+        }
+
+        async function uploadFile(url, file, prompt, doc_index) {
+            const formData = new FormData();
+            console.log(file);
+            formData.append("file", file);
+            formData.append("prompt", prompt);
+            formData.append("doc_index", doc_index);
+            formData.forEach((value, key) => {
+                console.log(key, value);
+                });
+            // displayloadingDocuments(doc_index)
+            const res = await authFileFetch(url,formData);
+            console.log(res)
+            // if (!res.ok) {
+            //     const error = await res;
+            //     throw new Error(error.message || 'Request failed');
+            // }
+            
+            return await res;
+        }
+
+        function displayloadingDocuments(index) {
+            // Hide the two upload boxes
+            const cols = document.querySelectorAll('.col-12.col-md-4');
+            if (cols[0]) cols[0].style.display = 'none';
+            if (cols[1]) cols[1].style.display = 'none';
+
+            // Find container
+            const container = document.querySelectorAll('.row.g-3')[1];
+            if (!container) return;
+
+            container.innerHTML = '';
+            let currentLang = localStorage.getItem('language') || 'fa'
+            const loadingHTML = `
+        <div class="loading-card col-12 text-center">
+            <h4 class="loading-title" >${currentLang === "fa" ?' در حال بارگذاری مدارک ...' : 'Uploading documents…'}</h4>
+            <p class="loading-text">${currentLang === "fa" ?'لطفا منتظر بمانید تا فایل‌های شما پردازش شوند' : 'Please wait while your files are being processed.'}</p>
+
+            <div class="progress-wrapper">
+                <div class="progress-bar-slide"></div>
+            </div>
+        </div>
+    `;
+
+            container.insertAdjacentHTML('beforeend', loadingHTML);
+        }
         function updateLanguage(lang) {
             document.documentElement.lang = lang;
             document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
@@ -1770,6 +1831,7 @@
                     language: currentLanguage
                 }
             };
+            console.log(blogData);
             localStorage.setItem('blogData', JSON.stringify(blogData));
         }
         function renderCards() {
@@ -1803,143 +1865,7 @@
             return divider;
         }
 
-        // function createCardElement(card, index) {
-        //     const cardDiv = document.createElement('div');
-        //     cardDiv.className = 'card';
-        //     cardDiv.dataset.index = index;
-            
-        //     const topBar = document.createElement('div');
-        //     topBar.className = 'card-top-bar';
-        //     topBar.innerHTML = `
-        //         <div class="card-actions">
-        //             <div class="card-action-btn drag-handle" draggable="true" title="Drag to reorder">⋮⋮</div>
-        //             <button class="card-action-btn" onclick="addImageToCard(${index})">🖼️</button>
-        //         </div>
-        //         <div class="card-menu-wrapper">
-        //             <button class="card-menu-button" onclick="toggleCardMenu(${index})" title="Card options">⋮</button>
-        //             <div class="card-menu" id="cardMenu${index}">
-        //                 <button class="card-menu-item" onclick="duplicateCard(${index})">📋 Duplicate</button>
-        //                 <button class="card-menu-item danger" onclick="deleteCard(${index})">🗑️ Delete</button>
-        //             </div>
-        //         </div>
-        //     `;
-        //     cardDiv.appendChild(topBar);
-            
-        //     // Card Header
-        //     const header = document.createElement('div');
-        //     header.className = 'card-header_';
-            
-        //     const heading = document.createElement('div');
-        //     heading.className = 'card-heading';
-        //     heading.contentEditable = !isPreviewMode;
-        //     heading.textContent = card.heading;
-        //     heading.addEventListener('blur', () => {
-        //         card.heading = heading.textContent;
-        //         saveToLocalStorage();
-        //     });
-            
-        //     header.appendChild(heading);
-            
-        //     // Card Content Wrapper
-        //     const contentWrapper = document.createElement('div');
-        //     // contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;
-        //     if (card.imagePosition == "top" ||card.imagePosition == "bottom" ){
-        //        contentWrapper.className = `card-content-wrapper`;
-        //     }
-        //     else{
-        //         contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;  
-        //     }
-
-        //     // Image Container (if exists)
-        //     // if (card.image) {
-        //     //     const imageContainer = createImageContainer(card, index);
-        //     //     contentWrapper.appendChild(imageContainer);
-        //     // }
-            
-        //     // Card Content
-        //     const content = document.createElement('div');
-        //     content.className = 'card-content';
-        //     content.contentEditable = !isPreviewMode;
-        //     content.innerHTML = card.content;
-        //     content.addEventListener('blur', () => {
-        //         card.content = content.innerHTML;
-        //         saveToLocalStorage();
-        //     });
-            
-        //     contentWrapper.appendChild(content);
-            
-        //     // Image Controls (if image exists and not in preview mode)
-        //     if (card.image && !isPreviewMode) {
-        //         const imageControls = document.createElement('div');
-        //         imageControls.className = 'image-controls';
-        //         imageControls.innerHTML = `
-        //             <div class="image-controls-label">Image Position</div>
-        //             <div class="image-position-buttons">
-        //                 <button class="image-position-btn ${card.imagePosition === 'top' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'top')">Top</button>
-        //                 <button class="image-position-btn ${card.imagePosition === 'bottom' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'bottom')">Bottom</button>
-        //                 <button class="image-position-btn ${card.imagePosition === 'left' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'left')">Left</button>
-        //                 <button class="image-position-btn ${card.imagePosition === 'right' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'right')">Right</button>
-        //             </div>
-        //         `;
-        //         const imageContainer = createImageContainer(card, index);
-
-        //         if (card.imagePosition == "top" ){
-        //             cardDiv.appendChild(header);
-        //             cardDiv.appendChild(imageContainer);
-        //             cardDiv.appendChild(contentWrapper);
-        //         }
-        //         else if (card.imagePosition == "bottom") {
-        //             cardDiv.appendChild(header); 
-        //             cardDiv.appendChild(contentWrapper); 
-        //             cardDiv.appendChild(imageContainer);
-        //         } 
-        //         else{
-        //             cardDiv.appendChild(header);
-        //             contentWrapper.appendChild(imageContainer);
-        //             cardDiv.appendChild(contentWrapper); 
-        //         }
-        //         // cardDiv.appendChild(header);
-        //         // cardDiv.appendChild(contentWrapper);
-        //         cardDiv.appendChild(imageControls);
-        //     } else {
-        //             if (card.image) {
-        //                 const imageContainer = createImageContainer(card, index);
-        //                 if (card.imagePosition == "top" ){
-        //                 cardDiv.appendChild(header);
-        //                 cardDiv.appendChild(imageContainer);
-        //                 cardDiv.appendChild(contentWrapper);
-        //             }
-        //             else if (card.imagePosition == "bottom") {
-        //                 cardDiv.appendChild(header); 
-        //                 cardDiv.appendChild(contentWrapper); 
-        //                 cardDiv.appendChild(imageContainer);
-        //             } 
-        //             else{
-        //                 cardDiv.appendChild(header);
-        //                 contentWrapper.appendChild(imageContainer);
-        //                 cardDiv.appendChild(contentWrapper); 
-        //             }
-        //         }
-        //         else{
-        //             cardDiv.appendChild(header);
-        //             cardDiv.appendChild(contentWrapper);
-        //         }
-                
-        //     }
-            
-        //     // Drag and Drop - only on drag handle
-        //     const dragHandle = topBar.querySelector('.drag-handle');
-        //     dragHandle.addEventListener('mousedown', () => {
-        //         cardDiv.draggable = true;
-        //     });
-            
-        //     cardDiv.addEventListener('dragstart', handleDragStart);
-        //     cardDiv.addEventListener('dragover', handleDragOver);
-        //     cardDiv.addEventListener('drop', handleDrop);
-        //     cardDiv.addEventListener('dragend', handleDragEnd);
-            
-        //     return cardDiv;
-        // }
+        
 
         function createCardElement(card, index) {
             const cardDiv = document.createElement('div');
@@ -2190,21 +2116,44 @@
         });
 
         // Image Management
-        function addImageToCard(index) {
+        function addImageToCard(index,prompt='None') {
             const input = document.createElement('input');
             input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = (e) => {
+            input.accept = 'image/*,video/*';
+            input.onchange = async (e) => {
                 const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        cards[index].image = event.target.result;
-                        renderCards();
-                        saveToJSON();
-                    };
-                    reader.readAsDataURL(file);
+                if (!file) return;
+
+                // Optionally check file size (e.g., 10MB max)
+                const maxSize = 10 * 1024 * 1024; // 10 MB
+                if (file.size > maxSize) {
+                    alert("File is too large! Max size is 10MB.");
+                    return;
                 }
+
+               const reader = new FileReader();
+                reader.onload = async (event) => {
+                    try {
+                        // Update preview locally
+                        cards[index].image = 'https://cdn.dribbble.com/userupload/20824996/file/original-60b690c00364623636a316402e9d00c8.gif' //event.target.result;
+                        renderCards();
+                        const blogTitle = params.get('title');
+                        // Use your uploadFile function
+                        const response = await uploadFile(`/blogs/${blogTitle}/upload_media/`, file, prompt , index);
+                        console.log('Upload successful:', response);
+                        cards[index].image = response.url 
+                        renderCards();
+                        // Save changes to JSON
+                        saveToJSON();
+                    } catch (err) {
+                        console.error(err);
+                        cards[index].image = ''
+                        renderCards();
+                        alert("Failed to upload file.");
+                        
+                    }
+                };
+                reader.readAsDataURL(file);
             };
             input.click();
         }
