@@ -1245,27 +1245,6 @@
 </head>
 <body>
 
-    <!-- <header class="header">
-        <div class="header-content">
-            <div class="logo">✍️ Blog Editor</div>
-            <div class="header-actions">
-
-                <button id="langBtn" class="btn btn-secondary">🌐 EN</button>
-                <select id="themeSelector" class="btn btn-secondary">
-                    <option value="light">Light Theme</option>
-                    <option value="dark">Dark Theme</option>
-                    <option value="minimalist">Minimalist</option>
-                    <option value="warm">Warm Theme</option>
-                </select>
-                <button id="previewBtn" class="btn btn-secondary">👁️ Preview</button>
-
-                <button id="publishBtn" class="btn btn-primary">🚀 Publish</button>
-                <button id="exportBtn" class="btn btn-secondary">💾 Export</button>
-                <button id="loadJsonBtn" class="btn btn-primary">📂 Load JSON</button>
-            </div>
-        </div>
-    </header> -->
-
     <nav class="navbar navbar-expand-lg fixed-top bootstrap-scope" style="background-color: rgba(255, 255, 255, 0.95);direction: ltr;">
         <div class="container-fluid">
             <a class="navbar-brand text-primary" href="#">
@@ -1779,15 +1758,20 @@
                 // `;
             }
             // Convert backend blog content into your card structure
-            cards = blog.content.map(section => createCard({
-                heading: section.heading,
-                content: section.body,
-                image: section.media?.url || null,
-                imagePosition: 'top',
-            }));
+            cards = blog.content.map(section =>
+                createCard({
+                    heading: section.heading,
+                    content: section.body,
+                    mediaType: section.media?.type || null,
+                    image: section.media?.url || null,
+                    imagePosition: section.media?.Position?.toLowerCase() || 'top',
+                    imageWidth: Number(section.media?.Width) || null,
+                    imageHeight: Number(section.media?.Height) || null,
+                })
+            );
             // cards = sampleData.map(data => createCard(data));
             renderCards();
-            saveToJSON();
+            // saveToJSON();
         }
 
        
@@ -1810,20 +1794,25 @@
                 heading: data.heading || '',
                 content: data.content || '',
                 image: data.image || null,
+                mediaType: data.mediaType || 'image', // ⭐ NEW
                 imagePosition: data.imagePosition || 'top',
                 imageWidth: data.imageWidth || null,
                 imageHeight: data.imageHeight || null
             };
         }
-        function saveToJSON() {
+        async function  saveToJSON() {
             const blogData = {
-                cards: cards.map(card => ({
-                    heading: card.heading,
-                    content: card.content,
-                    image: card.image,
-                    imagePosition: card.imagePosition,
-                    imageWidth: card.imageWidth,
-                    imageHeight: card.imageHeight
+                content: cards.map(card => ({
+                    heading: card.heading || "",
+                    body: card.content || "",
+                    media: {
+                        type: card.mediaType || "image",
+                        // prompt: card.prompt || "None",
+                        url: card.image || null,
+                        Position: (card.imagePosition || "top").toLowerCase(),
+                        Width: card.imageWidth ? Number(card.imageWidth) : null,
+                        Height: card.imageHeight ? Number(card.imageHeight) : null
+                    }
                 })),
                 settings: {
                     theme: document.body.dataset.theme || 'light',
@@ -1831,7 +1820,13 @@
                     language: currentLanguage
                 }
             };
-            console.log(blogData);
+            // console.log(blogData);
+            const blogTitle = params.get('title');
+            response = await authFetch(`/blogs/${blogTitle}/` ,{
+                    method: 'PATCH',
+                    body: JSON.stringify(blogData)
+                });
+            console.log('blog updated', response)
             localStorage.setItem('blogData', JSON.stringify(blogData));
         }
         function renderCards() {
@@ -1936,6 +1931,7 @@
                     </div>
                 `;
                 const imageContainer = createImageContainer(card, index);
+                // const imageContainer = createMediaContainer(card, index);
 
                 if (card.imagePosition == "top") {
                     cardDiv.appendChild(header);
@@ -1954,6 +1950,7 @@
             } else {
                 if (card.image) {
                     const imageContainer = createImageContainer(card, index);
+                    //  const imageContainer = createMediaContainer(card, index);
                     if (card.imagePosition == "top") {
                         cardDiv.appendChild(header);
                         cardDiv.appendChild(imageContainer);
@@ -1985,12 +1982,12 @@
             
             return cardDiv;
         }
-        
         function createImageContainer(card, index) {
+            // console.log(card);
             const imageContainer = document.createElement('div');
             imageContainer.className = 'card-image-container';
             imageContainer.dataset.cardIndex = index;
-            
+
             // Apply saved dimensions if they exist
             if (card.imageWidth) {
                 imageContainer.style.width = card.imageWidth + 'px';
@@ -1998,42 +1995,103 @@
             if (card.imageHeight) {
                 imageContainer.style.height = card.imageHeight + 'px';
             }
-            
-            const img = document.createElement('img');
-            img.className = 'card-image';
-            img.src = card.image;
-            img.alt = card.heading;
-            
+
+            let mediaElement;
+
+            // ---- NEW: support image or video ----
+            if (card.mediaType === 'video') {
+                mediaElement = document.createElement('video');
+                mediaElement.className = 'card-image';
+                mediaElement.src = card.image;
+                mediaElement.controls = true;
+            } else {
+                mediaElement = document.createElement('img');
+                mediaElement.className = 'card-image';
+                mediaElement.src = card.image;
+                mediaElement.alt = card.heading;
+            }
+            // -------------------------------------
+
             const removeBtn = document.createElement('button');
             removeBtn.className = 'image-remove-btn';
             removeBtn.innerHTML = '✕';
             removeBtn.onclick = () => removeImage(index);
-            
+
             const resizeHandleE = document.createElement('div');
             resizeHandleE.className = 'resize-handle resize-handle-e';
             resizeHandleE.dataset.direction = 'e';
-            
+
             const resizeHandleS = document.createElement('div');
             resizeHandleS.className = 'resize-handle resize-handle-s';
             resizeHandleS.dataset.direction = 's';
-            
+
             const resizeHandleSE = document.createElement('div');
             resizeHandleSE.className = 'resize-handle resize-handle-se';
             resizeHandleSE.dataset.direction = 'se';
-            
+
             // Add resize event listeners
             [resizeHandleE, resizeHandleS, resizeHandleSE].forEach(handle => {
                 handle.addEventListener('mousedown', startResize);
             });
-            
-            imageContainer.appendChild(img);
+
+            imageContainer.appendChild(mediaElement);
             imageContainer.appendChild(removeBtn);
             imageContainer.appendChild(resizeHandleE);
             imageContainer.appendChild(resizeHandleS);
             imageContainer.appendChild(resizeHandleSE);
-            
+
             return imageContainer;
         }
+
+
+        // function createImageContainer(card, index) {
+        //     const imageContainer = document.createElement('div');
+        //     imageContainer.className = 'card-image-container';
+        //     imageContainer.dataset.cardIndex = index;
+            
+        //     // Apply saved dimensions if they exist
+        //     if (card.imageWidth) {
+        //         imageContainer.style.width = card.imageWidth + 'px';
+        //     }
+        //     if (card.imageHeight) {
+        //         imageContainer.style.height = card.imageHeight + 'px';
+        //     }
+            
+        //     const img = document.createElement('img');
+        //     img.className = 'card-image';
+        //     img.src = card.image;
+        //     img.alt = card.heading;
+            
+        //     const removeBtn = document.createElement('button');
+        //     removeBtn.className = 'image-remove-btn';
+        //     removeBtn.innerHTML = '✕';
+        //     removeBtn.onclick = () => removeImage(index);
+            
+        //     const resizeHandleE = document.createElement('div');
+        //     resizeHandleE.className = 'resize-handle resize-handle-e';
+        //     resizeHandleE.dataset.direction = 'e';
+            
+        //     const resizeHandleS = document.createElement('div');
+        //     resizeHandleS.className = 'resize-handle resize-handle-s';
+        //     resizeHandleS.dataset.direction = 's';
+            
+        //     const resizeHandleSE = document.createElement('div');
+        //     resizeHandleSE.className = 'resize-handle resize-handle-se';
+        //     resizeHandleSE.dataset.direction = 'se';
+            
+        //     // Add resize event listeners
+        //     [resizeHandleE, resizeHandleS, resizeHandleSE].forEach(handle => {
+        //         handle.addEventListener('mousedown', startResize);
+        //     });
+            
+        //     imageContainer.appendChild(img);
+        //     imageContainer.appendChild(removeBtn);
+        //     imageContainer.appendChild(resizeHandleE);
+        //     imageContainer.appendChild(resizeHandleS);
+        //     imageContainer.appendChild(resizeHandleSE);
+            
+        //     return imageContainer;
+        // }
         
 
 
@@ -2141,6 +2199,7 @@
                         // Use your uploadFile function
                         const response = await uploadFile(`/blogs/${blogTitle}/upload_media/`, file, prompt , index);
                         console.log('Upload successful:', response);
+                        cards[index].mediaType = file.type.startsWith("video") ? "video" : "image";
                         cards[index].image = response.url 
                         renderCards();
                         // Save changes to JSON
@@ -2287,6 +2346,7 @@
                 const width = e.target.value;
                 document.documentElement.style.setProperty('--container-width', width + 'px');
                 widthValue.textContent = width + 'px';
+                saveToJSON()
                 localStorage.setItem('containerWidth', width);
             });
 

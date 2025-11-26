@@ -1557,10 +1557,11 @@
             currentLanguage = 'fa';
             console.log(currentLanguage);
             updateLanguage(currentLanguage);
-            console.log(cards.length)
+            
             // Load sample data if no cards exist
             // if (cards.length === 3) {
             loadSampleData();
+            console.log(cards.length)
             // }
         });
 
@@ -1614,12 +1615,23 @@
 
             }
             // Convert backend blog content into your card structure
-            cards = blog.content.map(section => createCard({
-                heading: section.heading,
-                content: section.body,
-                image: section.media?.url || null,
-                imagePosition: 'top',
-            }));
+            // cards = blog.content.map(section => createCard({
+            //     heading: section.heading,
+            //     content: section.body,
+            //     image: section.media?.url || null,
+            //     imagePosition: 'top',
+            // }));
+            cards = blog.content.map(section =>
+                createCard({
+                    heading: section.heading,
+                    content: section.body,
+                    mediaType: section.media?.type || null,
+                    image: section.media?.url || null,
+                    imagePosition: section.media?.Position?.toLowerCase() || 'top',
+                    imageWidth: Number(section.media?.Width) || null,
+                    imageHeight: Number(section.media?.Height) || null,
+                })
+            );
             // cards = sampleData.map(data => createCard(data));
             // renderCards();
             // saveToJSON();
@@ -1635,6 +1647,7 @@
                 heading: data.heading || '',
                 content: data.content || '',
                 image: data.image || null,
+                mediaType: data.mediaType || 'image', // ⭐ NEW
                 imagePosition: data.imagePosition || 'top',
                 imageWidth: data.imageWidth || null,
                 imageHeight: data.imageHeight || null
@@ -1741,11 +1754,37 @@
             return cardDiv;
         }
         
+        // function createImageContainer(card, index) {
+        //     const imageContainer = document.createElement('div');
+        //     imageContainer.className = 'card-image-container';
+        //     imageContainer.dataset.cardIndex = index;
+            
+        //     // Apply saved dimensions if they exist
+        //     if (card.imageWidth) {
+        //         imageContainer.style.width = card.imageWidth + 'px';
+        //     }
+        //     if (card.imageHeight) {
+        //         imageContainer.style.height = card.imageHeight + 'px';
+        //     }
+            
+        //     const img = document.createElement('img');
+        //     img.className = 'card-image';
+        //     img.src = card.image;
+        //     img.alt = card.heading;
+            
+        
+            
+        //     imageContainer.appendChild(img);
+
+            
+        //     return imageContainer;
+        // }
         function createImageContainer(card, index) {
+            console.log(card);
             const imageContainer = document.createElement('div');
             imageContainer.className = 'card-image-container';
             imageContainer.dataset.cardIndex = index;
-            
+
             // Apply saved dimensions if they exist
             if (card.imageWidth) {
                 imageContainer.style.width = card.imageWidth + 'px';
@@ -1753,20 +1792,25 @@
             if (card.imageHeight) {
                 imageContainer.style.height = card.imageHeight + 'px';
             }
-            
-            const img = document.createElement('img');
-            img.className = 'card-image';
-            img.src = card.image;
-            img.alt = card.heading;
-            
-        
-            
-            imageContainer.appendChild(img);
 
-            
+            let mediaElement;
+
+            // ---- NEW: support image or video ----
+            if (card.mediaType === 'video') {
+                mediaElement = document.createElement('video');
+                mediaElement.className = 'card-image';
+                mediaElement.src = card.image;
+                mediaElement.controls = true;
+            } else {
+                mediaElement = document.createElement('img');
+                mediaElement.className = 'card-image';
+                mediaElement.src = card.image;
+                mediaElement.alt = card.heading;
+            }
+            imageContainer.appendChild(mediaElement);
             return imageContainer;
         }
-        
+
         function insertCardAt(index) {
             const newCard = createCard();
             cards.splice(index, 0, newCard);
