@@ -1249,7 +1249,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bootstrap-scope" style="background-color: rgba(255, 255, 255, 0.95);direction: ltr;">
         <div class="container-fluid">
-            <a class="navbar-brand text-primary" href="#">
+            <a class="navbar-brand" style="color: #0540ad;" href="#">
               gamma
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
@@ -1261,12 +1261,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item ml-2">
-                  <a class="nav-link" aria-current="page" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="home">خانه</a>
+                  <a class="nav-link" aria-current="page" href="admin.html" style="padding-left: 16px;padding-right: 16px;" data-label="home">خانه</a>
                 </li>
-                <li class="nav-item ml-2">
+                <!-- <li class="nav-item ml-2">
                   <a class="nav-link" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="link">لینک</a>
-                </li>
-                <li class="nav-item dropdown ml-2">
+                </li> -->
+                <!-- <li class="nav-item dropdown ml-2">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
                      data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;" data-label="dropdown">منو</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -1275,7 +1275,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#" data-label="something">چیزی دیگر</a></li>
                   </ul>
-                </li>
+                </li> -->
                 
               </ul>
               <ul class="navbar-nav">
@@ -1938,23 +1938,7 @@
         
         // Toolbar Functions
         function setupEventListeners() {
-            // document.getElementById('langBtn').addEventListener('click', () => {
-            //     currentLanguage = currentLanguage === 'en' ? 'fa' : 'en';
-            //     const btn = document.getElementById('langBtn');
-            //     const html = document.documentElement;
-                
-            //     if (currentLanguage === 'fa') {
-            //         html.setAttribute('dir', 'rtl');
-            //         html.setAttribute('lang', 'fa');
-            //         btn.textContent = '🌐 FA';
-            //     } else {
-            //         html.setAttribute('dir', 'ltr');
-            //         html.setAttribute('lang', 'en');
-            //         btn.textContent = '🌐 EN';
-            //     }
-                
-            //     localStorage.setItem('language', currentLanguage);
-            // });
+        
             document.getElementById('langBtn').addEventListener('click', (e) => {
                 e.preventDefault();
                 currentLanguage = currentLanguage === 'fa' ? 'en' : 'fa';
@@ -2024,215 +2008,6 @@
             renderCards();
         }
 
-        // Export Functions
-        function exportContent() {
-            const format = document.getElementById('exportFormat').value;
-            let content, filename, type;
-
-            switch(format) {
-                case 'json':
-                    content = JSON.stringify(cards.map(card => ({
-                        heading: card.heading,
-                        content: card.content,
-                        image: card.image,
-                        imagePosition: card.imagePosition,
-                        imageWidth: card.imageWidth,
-                        imageHeight: card.imageHeight
-                    })), null, 2);
-                    filename = 'blog-content.json';
-                    type = 'application/json';
-                    break;
-                
-                case 'html':
-                    content = generateHTML();
-                    filename = 'blog-content.html';
-                    type = 'text/html';
-                    break;
-                
-                case 'markdown':
-                    content = generateMarkdown();
-                    filename = 'blog-content.md';
-                    type = 'text/markdown';
-                    break;
-            }
-
-            downloadFile(content, filename, type);
-            document.getElementById('exportModal').classList.remove('active');
-        }
-
-        function generateHTML() {
-            let html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Content</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 2rem; background: #f8f9fa; }
-        .card { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-        h1 { font-size: 1.75rem; margin-bottom: 1rem; }
-        img { max-width: 100%; border-radius: 12px; }
-    </style>
-</head>
-<body>
-`;
-            
-            cards.forEach(card => {
-                html += `    <div class="card">
-        <h1>${card.heading}</h1>
-        ${card.image ? `<img src="${card.image}" alt="${card.heading}">` : ''}
-        <div>${card.content}</div>
-    </div>
-`;
-            });
-            
-            html += `</body>
-</html>`;
-            return html;
-        }
-
-        function generateMarkdown() {
-            let markdown = '';
-            
-            cards.forEach(card => {
-                markdown += `# ${card.heading}\n\n`;
-                if (card.image) {
-                    markdown += `![${card.heading}](${card.image})\n\n`;
-                }
-                markdown += `${card.content}\n\n---\n\n`;
-            });
-            
-            return markdown;
-        }
-
-        function downloadFile(content, filename, type) {
-            const blob = new Blob([content], { type });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Load JSON Data
-        function loadJsonData() {
-            const jsonInput = document.getElementById('jsonInput').value;
-            try {
-                const data = JSON.parse(jsonInput);
-                if (Array.isArray(data)) {
-                    cards = data.map(item => createCard(item));
-                    renderCards();
-                    saveToLocalStorage();
-                    document.getElementById('loadJsonModal').classList.remove('active');
-                    document.getElementById('jsonInput').value = '';
-                } else {
-                    alert('Please provide a valid JSON array');
-                }
-            } catch (error) {
-                alert('Invalid JSON format: ' + error.message);
-            }
-        }
-
-        // Publish Blog
-        function publishBlog() {
-            const blogData = {
-                cards: cards.map(card => ({
-                    heading: card.heading,
-                    content: card.content,
-                    image: card.image,
-                    imagePosition: card.imagePosition,
-                    imageWidth: card.imageWidth,
-                    imageHeight: card.imageHeight
-                })),
-                settings: {
-                    theme: document.body.dataset.theme || 'light',
-                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '1100px',
-                    language: currentLanguage,
-                    showAuthorInfo: showAuthorInfo,
-                    showRecentPosts: showRecentPosts
-                }
-            };
-
-            console.log('Publishing blog data:', blogData);
-
-            // Download JSON for testing
-            downloadFile(JSON.stringify(blogData, null, 2), 'blog-publish.json', 'application/json');
-
-            // In production, send to backend:
-            /*
-            fetch('/api/publish', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(blogData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Blog published successfully!');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Failed to publish blog');
-            });
-            */
-
-            alert('Blog data prepared for publishing! Check console and downloads.');
-        }
-
-        // Section visibility toggles
-        function toggleSectionMenu(section) {
-            const menuId = section === 'author' ? 'authorMenu' : 'recentMenu';
-            const menu = document.getElementById(menuId);
-            const allMenus = document.querySelectorAll('.section-menu');
-            
-            allMenus.forEach(m => {
-                if (m !== menu) m.classList.remove('active');
-            });
-            
-            menu.classList.toggle('active');
-        }
-
-        function toggleAuthorVisibility() {
-            showAuthorInfo = document.getElementById('showAuthorInfo').checked;
-            localStorage.setItem('showAuthorInfo', showAuthorInfo);
-            
-            const authorInfo = document.getElementById('authorInfo');
-            if (isPreviewMode) {
-                if (showAuthorInfo) {
-                    authorInfo.classList.remove('hidden');
-                } else {
-                    authorInfo.classList.add('hidden');
-                }
-            }
-        }
-
-        function toggleRecentVisibility() {
-            showRecentPosts = document.getElementById('showRecentPosts').checked;
-            localStorage.setItem('showRecentPosts', showRecentPosts);
-            
-            const recentPosts = document.getElementById('recentPosts');
-            if (isPreviewMode) {
-                if (showRecentPosts) {
-                    recentPosts.classList.remove('hidden');
-                } else {
-                    recentPosts.classList.add('hidden');
-                }
-            }
-        }
-
-        // Close section menus when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.section-toggle-menu')) {
-                document.querySelectorAll('.section-menu').forEach(m => {
-                    m.classList.remove('active');
-                });
-            }
-        });
 
         // Local Storage
         function saveToLocalStorage() {
