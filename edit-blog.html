@@ -64,7 +64,7 @@
             --color-primary-hover: #6d28d9;
             --color-border: #2d3748;
             --color-shadow: rgba(0, 0, 0, 0.3);
-            --color-toolbar-bg: #0f172a;
+            --color-toolbar-bg: #9a9aee;
             --color-toolbar-hover: #1e293b;
         }
 
@@ -1325,6 +1325,46 @@
           border-radius: 28px;
         }
 
+
+        #mediaGeneratorBox {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 9999;
+        }
+        #mediaGeneratorBox textarea {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            padding: 10px;
+            resize: none;
+        }
+        #mediaGeneratorBox button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #mediaCloseBtn {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: -5px;
+        }
+        #mediaCloseBtn:hover {
+            color: red;
+        }
     </style>    
 
 </head>
@@ -1361,7 +1401,8 @@
                 </li> -->
                 <li class="nav-item ml-2 dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" 
-                     data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;" data-label="theme">🎨 تم</a>
+                     data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;" data-label="theme">
+                      تم</a>
                   <ul class="dropdown-menu" aria-labelledby="themeDropdown">
                     <li><a class="dropdown-item" href="#" onclick="setTheme('light')" data-label="light">روشن</a></li>
                     <li><a class="dropdown-item" href="#" onclick="setTheme('dark')" data-label="dark">تاریک</a></li>
@@ -1553,22 +1594,50 @@
         </div>
     </div>
 
-    <!-- Load JSON Modal -->
-    <div id="loadJsonModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">Load JSON Data</div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Paste JSON Array</label>
-                    <textarea id="jsonInput" class="form-select" rows="10" placeholder='[{"heading": "Title", "content": "Content here..."}]'></textarea>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="border-bottom-width: 0px;">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel" data-label="modal_ready">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancelLoadBtn">Cancel</button>
-                <button class="btn btn-primary" id="confirmLoadBtn">Load</button>
+                <div class="modal-body text-primary"><span data-label="modal_select">Select</span>
+                    <span class="fw-bold"  data-label="modal_logout_text">logout</span> <span data-label="modal_end_session">below if you are ready to end your current session.</span></div>
+                <div class="modal-footer" style="border-top-width: 0px;">
+                    <!-- <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button> -->
+                    <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" 
+                    style="border-radius: 10px;" href="login.html" data-label="modal_logout_btn">Logout</a>
+                </div>
             </div>
         </div>
     </div>
+
+
+    <div id="mediaGeneratorBox">
+        <span id="mediaCloseBtn" onclick="closeMediaBox()">×</span>
+        <h4 style="margin: 0 0 10px;">تولید عکس یا ویدئو</h4>
+    
+        <!-- Media Type -->
+        <label><b>نوع:</b></label>
+        <select id="mediaType" style="width: 100%; padding: 8px; border-radius: 6px;">
+            <option value="image">عکس</option>
+            <option value="video">ویدئو</option>
+        </select>
+    
+        <!-- Prompt Text -->
+        <label style="margin-top: 10px;"><b>شرح:</b></label>
+        <textarea id="mediaPrompt" placeholder="شرح عکس یا ویدئو را وارد کنید"></textarea>
+    
+        <button onclick="sendMediaRequest()">تولید</button>
+    
+        <div id="mediaResult" style="margin-top: 10px; font-size: 14px;text-align: center;overflow: auto;"></div>
+    </div>
+
+    <!-- Load JSON Modal -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
         const translations = {
@@ -1638,6 +1707,8 @@
         let resizeDirection = null;
         let showAuthorInfo = true;
         let showRecentPosts = true;
+
+        let selectedCardIndex = null;
 
         const API_ROOT = 'http://127.0.0.1:8000/api/admin';
         const accessToken = localStorage.getItem('access_token');
@@ -1966,7 +2037,12 @@
             topBar.innerHTML = `
                 <div class="card-actions">
                     <div class="card-action-btn drag-handle" draggable="true" title="Drag to reorder">⋮⋮</div>
-                    <button class="card-action-btn" onclick="addImageToCard(${index})">🖼️</button>
+                    <button class="card-action-btn" onclick="addImageToCard(${index})" title="Import Media">
+                        <?xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 122.88 122.151" enable-background="new 0 0 122.88 122.151" xml:space="preserve"><g><path d="M8.676,0h105.529c2.405,0,4.557,0.984,6.124,2.552c1.567,1.567,2.551,3.754,2.551,6.124v104.8 c0,2.405-0.983,4.557-2.551,6.124c-1.568,1.567-3.755,2.552-6.124,2.552H8.676c-2.406,0-4.557-0.984-6.124-2.553 C0.984,118.032,0,115.845,0,113.476V8.675C0,6.27,0.984,4.119,2.552,2.552C4.12,0.984,6.307,0,8.676,0L8.676,0z M9.097,88.323 l35.411-33.9c1.421-1.313,3.645-1.167,4.921,0.255c0.037,0.036,0.037,0.073,0.073,0.073l31.459,37.218l4.812-29.6 c0.328-1.896,2.114-3.208,4.01-2.879c0.729,0.109,1.385,0.474,1.895,0.948l22.07,23.184V10.773c0-0.474-0.183-0.875-0.511-1.166 c-0.291-0.292-0.729-0.511-1.166-0.511H10.737c-0.474,0-0.875,0.182-1.166,0.511c-0.292,0.291-0.511,0.729-0.511,1.166v77.55H9.097 L9.097,88.323z M90.526,19.866c3.464,0,6.635,1.422,8.895,3.682c2.297,2.296,3.682,5.431,3.682,8.895 c0,3.463-1.421,6.634-3.682,8.894c-2.296,2.297-5.431,3.682-8.895,3.682c-3.462,0-6.634-1.421-8.894-3.682 c-2.297-2.296-3.682-5.431-3.682-8.894c0-3.463,1.421-6.634,3.682-8.895C83.929,21.251,87.064,19.866,90.526,19.866L90.526,19.866z"/></g></svg>
+                        </button>
+                    <button class="card-action-btn" onclick="generateImageToCard(${index})" title="Generate Media" >
+                        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 19px;"><g clip-path="url(#prefix__clip0_5_13)" fill-rule="evenodd" clip-rule="evenodd" fill="#000"><path d="M211.648 89.515h-76.651A57.707 57.707 0 0077.291 147.2v242.389a57.707 57.707 0 0057.706 57.707h242.411a57.707 57.707 0 0057.707-57.707V288.128l34.624-23.744v125.227a92.35 92.35 0 01-92.331 92.33H134.997a92.349 92.349 0 01-92.33-92.33v-242.39A92.336 92.336 0 0169.702 81.92a92.33 92.33 0 0165.295-27.05h96.96l-20.309 34.645z"/><path d="M380.16 0c3.093 0 5.717 2.219 6.379 5.248a149.328 149.328 0 0040.533 74.325 149.332 149.332 0 0074.347 40.555c3.029.661 5.248 3.285 5.248 6.4a6.574 6.574 0 01-5.248 6.357 149.338 149.338 0 00-74.326 40.555 149.338 149.338 0 00-40.789 75.413 6.334 6.334 0 01-6.144 5.078 6.334 6.334 0 01-6.144-5.078 149.338 149.338 0 00-40.789-75.413 149.326 149.326 0 00-75.414-40.789 6.338 6.338 0 01-5.077-6.144c0-2.987 2.133-5.547 5.077-6.144a149.336 149.336 0 0075.414-40.79 149.354 149.354 0 0040.554-74.325A6.573 6.573 0 01380.16 0z"/></g><defs><clipPath id="prefix__clip0_5_13"><path fill="#fff" d="M0 0h512v512H0z"/></clipPath></defs></svg>
+                        </button>
                 </div>
                 <div class="card-menu-wrapper">
                     <button class="card-menu-button" onclick="toggleCardMenu(${index})" title="Card options">⋮</button>
@@ -2311,6 +2387,94 @@
             input.click();
         }
 
+        function generateImageToCard(index){
+            selectedCardIndex = index;
+            document.getElementById('mediaGeneratorBox').style.display = 'block';
+                
+        }
+        // Close box
+        function closeMediaBox() {
+            document.getElementById('mediaGeneratorBox').style.display = 'none';
+            document.getElementById('mediaPrompt').value = "";
+            document.getElementById('mediaResult').innerHTML = "";
+        }
+        function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        async function sendMediaRequest() {
+            const mediaType = document.getElementById('mediaType').value;
+            const prompt = document.getElementById('mediaPrompt').value;
+            let media_status = null;
+
+            if (!prompt.trim()) {
+                alert("Please enter a prompt.");
+                return;
+            }
+            document.getElementById('mediaResult').innerHTML = "درحال تولید ...";
+
+            try {
+                // const res = await fetch("/api/generate-media/", {
+                //     method: "POST",
+                //     headers: {"Content-Type": "application/json"},
+                //     body: JSON.stringify({
+                //         index: selectedCardIndex,
+                //         media_type: mediaType,
+                //         prompt: prompt
+                //     })
+                // });
+                const blogTitle = params.get('title');
+                const res = await authFetch(`/blogs/${blogTitle}/generate_media/` , {
+                    method: "POST",
+                    body:JSON.stringify({
+                        prompt: prompt,
+                        section_index: String(selectedCardIndex),
+                        media_type: mediaType,
+                    })
+                });
+
+                const data = await res
+                console.log(data);
+                if (data.task_id) {
+                    cards[selectedCardIndex].image = 'https://cdn.dribbble.com/userupload/20824996/file/original-60b690c00364623636a316402e9d00c8.gif';
+                    renderCards();
+                    // const url = `${API_ROOT}/blogs/${blogTitle}/media_stream/?task_id=123&media_type=${mediaType}`;
+                    // const eventSource = new EventSource(url);
+                    // console.log("SSE connected:", url);
+                    while (true) {
+                        const res = await authFetch(`/blogs/${blogTitle}/media_stream_2/` , {
+                            method: "POST",
+                            body:JSON.stringify({
+                                task_id: data.task_id,
+                                media_type: mediaType,
+                            })
+                        });
+                        console.log(res)
+                        if (res.status === 'completed'){
+                            document.getElementById('mediaResult').innerText = `${res.url}`;
+                            cards[selectedCardIndex].image = res.url
+                            renderCards();
+                            return
+                        }
+                        else if(res.status === 'progress'){
+                            document.getElementById('mediaResult').innerText = `${res.progress}% تولید شده`;
+                        }
+                        else{
+                            document.getElementById('mediaResult').innerText = "Error generating media.";
+                            cards[selectedCardIndex].image = ''
+                            renderCards();
+                            return
+                        }
+                        await sleep(10000);
+                    }
+                } else {
+                    document.getElementById('mediaResult').innerText = "Error generating media.";
+                }
+
+            } catch (error) {
+                document.getElementById('mediaResult').innerText = "Server error.";
+            }
+        }
+        
         function removeImage(index) {
             cards[index].image = null;
             cards[index].imageWidth = null;
@@ -2603,17 +2767,17 @@
             // });
 
             // Modal buttons
-            document.getElementById('cancelExportBtn').addEventListener('click', () => {
-                document.getElementById('exportModal').classList.remove('active');
-            });
+            // document.getElementById('cancelExportBtn').addEventListener('click', () => {
+            //     document.getElementById('exportModal').classList.remove('active');
+            // });
+            
+            // document.getElementById('confirmExportBtn').addEventListener('click', exportContent);
 
-            document.getElementById('confirmExportBtn').addEventListener('click', exportContent);
+            // document.getElementById('cancelLoadBtn').addEventListener('click', () => {
+            //     document.getElementById('loadJsonModal').classList.remove('active');
+            // });
 
-            document.getElementById('cancelLoadBtn').addEventListener('click', () => {
-                document.getElementById('loadJsonModal').classList.remove('active');
-            });
-
-            document.getElementById('confirmLoadBtn').addEventListener('click', loadJsonData);
+            // document.getElementById('confirmLoadBtn').addEventListener('click', loadJsonData);
 
             // Publish button
             document.getElementById('publishBtn').addEventListener('click', publishBlog);
