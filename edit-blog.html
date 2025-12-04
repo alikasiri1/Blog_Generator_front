@@ -1829,6 +1829,7 @@
         function setTheme(theme) {
             document.body.dataset.theme = theme;
             localStorage.setItem('theme', theme);
+            saveToJSON()
         }
 
 		const params = new URLSearchParams(window.location.search);
@@ -1876,8 +1877,33 @@
                 console.error("No blog data found");
                 return;
             }
-            console.log(blog.content)
+            console.log(blog)
+            document.body.dataset.theme = blog.settings.theme;
 
+            currentLanguage = blog.settings.language; 
+            const html = document.documentElement;
+            const btn = document.getElementById('langBtn');
+            if (currentLanguage === 'fa') {
+                    html.setAttribute('dir', 'rtl');
+                    html.setAttribute('lang', 'fa');
+                    btn.textContent = '🌐 FA';
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                btn.textContent = '🌐 EN';
+            }
+            
+            
+            const savedWidth = blog.settings.containerWidth
+            const widthSlider = document.getElementById('widthSlider');
+            const widthValue = document.getElementById('widthValue');
+            if (savedWidth) {
+                document.documentElement.style.setProperty('--container-width', savedWidth );
+                widthSlider.value = savedWidth;
+                widthValue.textContent = savedWidth ;
+            }
+            
+            
             let admin = JSON.parse(localStorage.getItem('adminInfo'));
             // const userNameSpan = document.querySelector('#userDropdown span');
             const authorInfo = document.querySelector('#authorInfo');
@@ -1932,6 +1958,8 @@
                     imagePosition: section.media?.Position?.toLowerCase() || 'top',
                     imageWidth: Number(section.media?.Width) || null,
                     imageHeight: Number(section.media?.Height) || null,
+                    media_task_id:section.media?.media_task_id || '',
+                    prompt : section.media?.prompt || '',
                 })
             );
             // cards = sampleData.map(data => createCard(data));
@@ -1962,7 +1990,9 @@
                 mediaType: data.mediaType || 'image', // ⭐ NEW
                 imagePosition: data.imagePosition || 'top',
                 imageWidth: data.imageWidth || null,
-                imageHeight: data.imageHeight || null
+                imageHeight: data.imageHeight || null,
+                media_task_id: data.media_task_id || '',
+                prompt : data.prompt || '',
             };
         }
         async function  saveToJSON() {
@@ -1976,7 +2006,9 @@
                         url: card.image || null,
                         Position: (card.imagePosition || "top").toLowerCase(),
                         Width: card.imageWidth ? Number(card.imageWidth) : null,
-                        Height: card.imageHeight ? Number(card.imageHeight) : null
+                        Height: card.imageHeight ? Number(card.imageHeight) : null,
+                        media_task_id: card.media_task_id || '',
+                        prompt: card.prompt || ''
                     }
                 })),
                 settings: {
@@ -2789,41 +2821,7 @@
             //     document.getElementById('themeSelector').value = savedTheme;
             // }
             
-            const savedLanguage = localStorage.getItem('language');
-            if (savedLanguage) {
-                currentLanguage = savedLanguage;
-                const html = document.documentElement;
-                const btn = document.getElementById('langBtn');
-                
-                if (currentLanguage === 'fa') {
-                    html.setAttribute('dir', 'rtl');
-                    html.setAttribute('lang', 'fa');
-                    btn.textContent = '🌐 FA';
-                } else {
-                    html.setAttribute('dir', 'ltr');
-                    html.setAttribute('lang', 'en');
-                    btn.textContent = '🌐 EN';
-                }
-            }
             
-            const savedWidth = localStorage.getItem('containerWidth');
-            if (savedWidth) {
-                document.documentElement.style.setProperty('--container-width', savedWidth + 'px');
-                widthSlider.value = savedWidth;
-                widthValue.textContent = savedWidth + 'px';
-            }
-
-            const savedShowAuthor = localStorage.getItem('showAuthorInfo');
-            if (savedShowAuthor !== null) {
-                showAuthorInfo = savedShowAuthor === 'true';
-                document.getElementById('showAuthorInfo').checked = showAuthorInfo;
-            }
-            
-            const savedShowRecent = localStorage.getItem('showRecentPosts');
-            if (savedShowRecent !== null) {
-                showRecentPosts = savedShowRecent === 'true';
-                document.getElementById('showRecentPosts').checked = showRecentPosts;
-            }
         }
 
         // Keyboard Shortcuts
@@ -3085,7 +3083,7 @@
             // // Download JSON for testing
             // downloadFile(JSON.stringify(blogData, null, 2), 'blog-publish.json', 'application/json');
             
-            window.location.href = 'admin.html';
+            window.location.href = `admin.html`;
         }
 
         // Section visibility toggles

@@ -64,7 +64,7 @@
             --color-primary-hover: #6d28d9;
             --color-border: #2d3748;
             --color-shadow: rgba(0, 0, 0, 0.3);
-            --color-toolbar-bg: #0f172a;
+            --color-toolbar-bg: #9a9aee;
             --color-toolbar-hover: #1e293b;
         }
 
@@ -100,6 +100,91 @@
             
             --font-heading: 'Palatino', 'Book Antiqua', serif;
             --font-body: 'Trebuchet MS', sans-serif;
+        }
+
+        /* Theme: Ocean */
+        [data-theme="ocean"] {
+            --color-bg: #e0f4ff;
+            --color-card-bg: #ffffff;
+            --color-text: #1a3a3a;
+            --color-heading: #0d4d5c;
+            --color-primary: #0ea5e9;
+            --color-primary-hover: #0284c7;
+            --color-border: #bae6fd;
+            --color-shadow: rgba(14, 165, 233, 0.1);
+            --color-toolbar-bg: #f0f9ff;
+            --color-toolbar-hover: #e0f2fe;
+            
+            --font-heading: 'Trebuchet MS', sans-serif;
+            --font-body: 'Arial', sans-serif;
+        }
+
+        /* Theme: Forest */
+        [data-theme="forest"] {
+            --color-bg: #f0fdf4;
+            --color-card-bg: #ffffff;
+            --color-text: #1b4332;
+            --color-heading: #081c15;
+            --color-primary: #22c55e;
+            --color-primary-hover: #16a34a;
+            --color-border: #dcfce7;
+            --color-shadow: rgba(34, 197, 94, 0.1);
+            --color-toolbar-bg: #f7fee7;
+            --color-toolbar-hover: #ecfdf5;
+            
+            --font-heading: 'Georgia', serif;
+            --font-body: 'Verdana', sans-serif;
+        }
+
+        /* Theme: Sunset */
+        [data-theme="sunset"] {
+            --color-bg: #fef2f2;
+            --color-card-bg: #ffffff;
+            --color-text: #7c2d12;
+            --color-heading: #431407;
+            --color-primary: #ea580c;
+            --color-primary-hover: #c2410c;
+            --color-border: #fed7aa;
+            --color-shadow: rgba(234, 88, 12, 0.1);
+            --color-toolbar-bg: #fef3c7;
+            --color-toolbar-hover: #fde68a;
+            
+            --font-heading: 'Times New Roman', serif;
+            --font-body: 'Comic Sans MS', cursive;
+        }
+
+        /* Theme: Purple Haze */
+        [data-theme="purple-haze"] {
+            --color-bg: #f5f3ff;
+            --color-card-bg: #ffffff;
+            --color-text: #4c1d95;
+            --color-heading: #2e1065;
+            --color-primary: #a78bfa;
+            --color-primary-hover: #9f7aea;
+            --color-border: #e9d5ff;
+            --color-shadow: rgba(167, 139, 250, 0.1);
+            --color-toolbar-bg: #faf5ff;
+            --color-toolbar-hover: #f3e8ff;
+            
+            --font-heading: 'Palatino', serif;
+            --font-body: 'Georgia', serif;
+        }
+
+        /* Theme: Monochrome */
+        [data-theme="monochrome"] {
+            --color-bg: #f5f5f5;
+            --color-card-bg: #ffffff;
+            --color-text: #424242;
+            --color-heading: #000000;
+            --color-primary: #757575;
+            --color-primary-hover: #616161;
+            --color-border: #e0e0e0;
+            --color-shadow: rgba(0, 0, 0, 0.12);
+            --color-toolbar-bg: #fafafa;
+            --color-toolbar-hover: #eeeeee;
+            
+            --font-heading: 'Arial', sans-serif;
+            --font-body: 'Arial', sans-serif;
         }
 
         * {
@@ -1532,7 +1617,7 @@
             // const contentPlaceholder = lang === 'fa' ? 'نوشتن را شروع کنید...' : 'Start writing...';
             
             // Re-render to apply placeholders
-            renderCards();
+            // renderCards();
         }
 
         function setTheme(theme) {
@@ -1554,9 +1639,9 @@
             // loadFromLocalStorage();
             // setupEventListeners();
             // setupKeyboardShortcuts();
-            currentLanguage = 'fa';
-            console.log(currentLanguage);
-            updateLanguage(currentLanguage);
+            // currentLanguage = 'fa';
+            // console.log(currentLanguage);
+            
             
             // Load sample data if no cards exist
             // if (cards.length === 3) {
@@ -1573,7 +1658,28 @@
                 console.error("No blog data found");
                 return;
             }
-            console.log(blog.content)
+            console.log(blog)
+            
+            document.body.dataset.theme = blog.settings.theme;
+
+            currentLanguage = blog.settings.language; 
+            const html = document.documentElement;
+            const btn = document.getElementById('langBtn');
+            if (currentLanguage === 'fa') {
+                    html.setAttribute('dir', 'rtl');
+                    html.setAttribute('lang', 'fa');
+                    btn.textContent = '🌐 FA';
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                btn.textContent = '🌐 EN';
+            }
+            updateLanguage(currentLanguage);
+            
+            const savedWidth = blog.settings.containerWidth
+            if (savedWidth) {
+                document.documentElement.style.setProperty('--container-width', savedWidth );
+            }
 
             let admin = JSON.parse(localStorage.getItem('adminInfo'));
             // const userNameSpan = document.querySelector('#userDropdown span');
