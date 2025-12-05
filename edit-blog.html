@@ -1964,6 +1964,7 @@
             );
             // cards = sampleData.map(data => createCard(data));
             renderCards();
+            
             // saveToJSON();
         }
 
@@ -2167,8 +2168,18 @@
                         cardDiv.appendChild(contentWrapper); 
                     }
                 } else {
-                    cardDiv.appendChild(header);
-                    cardDiv.appendChild(contentWrapper);
+                    if(card.media_task_id){
+                        const imageContainer = generating_media()
+
+                        cardDiv.appendChild(header);
+                        cardDiv.appendChild(imageContainer);
+                        cardDiv.appendChild(contentWrapper);
+                    }
+                    else{
+                        cardDiv.appendChild(header);
+                        cardDiv.appendChild(contentWrapper);
+                    }
+                    
                 }
             }
             
@@ -2183,6 +2194,12 @@
             cardDiv.addEventListener('dragend', handleDragEnd);
             
             return cardDiv;
+        }
+        function generating_media(){
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'card-image-container';
+            imageContainer.innerHTML = 'generating Media';
+            return imageContainer;
         }
         function createImageContainer(card, index) {
             // console.log(card);

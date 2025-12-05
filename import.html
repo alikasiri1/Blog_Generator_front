@@ -1064,6 +1064,15 @@ justify-content: center;
          const prompt = textarea_prompt.value //"Generate creative content for cards"; // You can replace this dynamically
          const language = selectedLanguage
          const result  = await getGeneratedTopics(prompt, count,language);
+         if (result.status != "success") {
+                console.error("❌ Backend error:", result);
+                return; // DO NOT proceed
+            }
+         if (!result.topics) {
+            console.error("❌ Backend returned no topics:", result);
+            return;
+         } 
+
          const generatedTexts = result.topics;
          localStorage.setItem('currentBlogSlug', result.blog_slug);
 
