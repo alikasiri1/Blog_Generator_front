@@ -46,6 +46,7 @@
             --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             --heading-placeholder: "عنوان را وارد کنید...";
             --content-placeholder: "نوشتن را شروع کنید...";
+            --media-placeholder: "درحال تولید رسانه";
             --radius: 16px;
             --shadow-sm: 0 2px 8px var(--color-shadow);
             --shadow-md: 0 4px 16px var(--color-shadow);
@@ -589,7 +590,9 @@
             content: var(--heading-placeholder, "عنوان را وارد کنید...");
             color: #999;
         }
-
+        .media-placholder:empty::before {
+            content: var(--media-placeholder);
+        }
         /* Card Actions */
         .card-actions {
             display: flex;
@@ -1818,7 +1821,9 @@
             const placeholder = lang === 'fa' ? '"عنوان را وارد کنید..."' : '"Enter heading..."';
             document.body.style.setProperty('--heading-placeholder', placeholder);
             const contentPlaceholder = lang === 'fa' ? '"نوشتن را شروع کنید..."' : '"Start writing..."';
-            document.body.style.setProperty('--content-placeholder', contentPlaceholder);
+            document.body.style.setProperty('--content-placeholder', contentPlaceholder); 
+            const mediaPlaceholder = lang === 'fa' ? '"درحال تولید رسانه"' : '"Generating media in progress"';
+            document.body.style.setProperty('--media-placeholder', mediaPlaceholder);
             // const headingPlaceholder = lang === 'fa' ? 'عنوان را وارد کنید...' : 'Enter heading...';
             // const contentPlaceholder = lang === 'fa' ? 'نوشتن را شروع کنید...' : 'Start writing...';
             
@@ -2044,6 +2049,8 @@
             // Add divider after last card
             const finalDivider = createCardDivider(cards.length);
             container.appendChild(finalDivider);
+
+            pollMediaTasks()
         }
 
         function createCardDivider(insertIndex) {
@@ -2169,7 +2176,7 @@
                     }
                 } else {
                     if(card.media_task_id){
-                        const imageContainer = generating_media()
+                        const imageContainer = generating_media(card.media_task_id)
 
                         cardDiv.appendChild(header);
                         cardDiv.appendChild(imageContainer);
@@ -2195,11 +2202,94 @@
             
             return cardDiv;
         }
-        function generating_media(){
+        function generating_media(task_id){
             const imageContainer = document.createElement('div');
             imageContainer.className = 'card-image-container';
-            imageContainer.innerHTML = 'generating Media';
+            imageContainer.innerHTML = `
+            
+            <div class="col-12 mb-3">
+                <div class="card doc-card hover-card-light border-0">
+                    <div class="text-decoration-none">
+                        <span class="placeholder col-12 d-flex flex-column justify-content-center align-items-center"
+                            style="height: 270px; border-radius: 0.35rem; font-weight: 500; font-size: 1.1rem; gap: 5px;">
+                            <div class="spinner-border" role="status" style="width: 2rem; height: 2rem;color: aliceblue;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="media-placholder mb-0" style="font-weight: 500; font-size: 1.1rem; color:#ffffff"></p>
+                            <p id="${task_id}"style="font-weight: 500; font-size: 1.1rem; color:#ffffff">0%</p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            `;
             return imageContainer;
+        }
+        function pollMediaTasks() {
+            // Loop through each card
+            const blogTitle = params.get('title');
+            cards.forEach((card, index) => {
+                if (card.media_task_id && card.media_task_id.trim() !== "") {
+                    startPolling(card.media_task_id, blogTitle, card.mediaType || "image", index);
+                }
+            });
+        }
+
+        // Polling function for one task_id
+        function startPolling(taskId, blogTitle, mediaType, index) {
+
+            async function checkStatus() {
+                try {
+                    const res = await authFetch(`/blogs/${blogTitle}/media_stream_2/`, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            task_id: taskId,
+                            media_type: mediaType,
+                        }),
+                    });
+
+                    const data = await res ;
+
+                    // Update progress text
+                    const progressEl = document.getElementById(taskId);
+                    // --- Handle states ----
+                    if (data.status === "progress") {
+                        if (progressEl) {
+                            if (data.progress !== undefined) {
+                                progressEl.innerText = `${Math.round(data.progress)}%`;
+                            }
+                        }
+                        // keep polling
+                        setTimeout(checkStatus, 5000);
+                    }
+
+                    else if (data.status === "completed") {
+                        // Replace placeholder with generated image
+                        const placeholder = progressEl?.closest(".card-image-container");
+                        if (placeholder) {
+                            cards[index].image = data.url
+                            cards[index].media_task_id = ''
+                            renderCards();
+                            return;
+                            // placeholder.innerHTML = `
+                            //     <img src="${data.url}" class="img-fluid rounded" alt="generated media">
+                            // `;
+                        }
+                    }
+
+                    else {
+                        if (progressEl) {
+                            progressEl.innerText = "Failed";
+                        }
+                    }
+
+                } catch (err) {
+                    console.error("Error checking media:", err);
+                    setTimeout(checkStatus, 10000); // retry
+                }
+            }
+
+            // First call
+            checkStatus();
         }
         function createImageContainer(card, index) {
             // console.log(card);
@@ -2484,37 +2574,39 @@
                 const data = await res
                 console.log(data);
                 if (data.task_id) {
-                    cards[selectedCardIndex].image = 'https://cdn.dribbble.com/userupload/20824996/file/original-60b690c00364623636a316402e9d00c8.gif';
+                    cards[selectedCardIndex].media_task_id = data.task_id //'https://cdn.dribbble.com/userupload/20824996/file/original-60b690c00364623636a316402e9d00c8.gif';
                     renderCards();
                     // const url = `${API_ROOT}/blogs/${blogTitle}/media_stream/?task_id=123&media_type=${mediaType}`;
                     // const eventSource = new EventSource(url);
                     // console.log("SSE connected:", url);
-                    while (true) {
-                        const res = await authFetch(`/blogs/${blogTitle}/media_stream_2/` , {
-                            method: "POST",
-                            body:JSON.stringify({
-                                task_id: data.task_id,
-                                media_type: mediaType,
-                            })
-                        });
-                        console.log(res)
-                        if (res.status === 'completed'){
-                            document.getElementById('mediaResult').innerText = `${res.url}`;
-                            cards[selectedCardIndex].image = res.url
-                            renderCards();
-                            return
-                        }
-                        else if(res.status === 'progress'){
-                            document.getElementById('mediaResult').innerText = `${res.progress}% تولید شده`;
-                        }
-                        else{
-                            document.getElementById('mediaResult').innerText = "Error generating media.";
-                            cards[selectedCardIndex].image = ''
-                            renderCards();
-                            return
-                        }
-                        await sleep(10000);
-                    }
+                    // while (true) {
+                    //     const res = await authFetch(`/blogs/${blogTitle}/media_stream_2/` , {
+                    //         method: "POST",
+                    //         body:JSON.stringify({
+                    //             task_id: data.task_id,
+                    //             media_type: mediaType,
+                    //         })
+                    //     });
+                    //     console.log(res)
+                    //     if (res.status === 'completed'){
+                    //         document.getElementById('mediaResult').innerText = `${res.url}`;
+                    //         cards[selectedCardIndex].image = res.url
+                    //         renderCards();
+                    //         return
+                    //     }
+                    //     else if(res.status === 'progress'){
+                    //         document.getElementById('mediaResult').innerText = `${res.progress}% تولید شده`;
+                    //     }
+                    //     else{
+                    //         document.getElementById('mediaResult').innerText = "Error generating media.";
+                    //         cards[selectedCardIndex].image = ''
+                    //         renderCards();
+                    //         return
+                    //     }
+                    //     await sleep(10000);
+                    // }
+                
+                    document.getElementById('mediaResult').innerText = ''
                 } else {
                     document.getElementById('mediaResult').innerText = "Error generating media.";
                 }
