@@ -787,18 +787,20 @@
         async function initializeTabs() {
             try {
                 // Check for admin info in localStorage
+                
                 let admin = JSON.parse(localStorage.getItem('adminInfo'));
                 const userNameSpan = document.querySelector('#userDropdown span');
 
                 // If not found, fetch from backend
                 if (!admin || !admin.user.first_name || !admin.user.last_name) {
-                    console.log("Fetching admin info from backend...");
-                    admin = await fetchAdminInfo();
-                    // Save to localStorage
-                    const profile = admin[0];
-                    console.log('Profile data:', profile);
-                    localStorage.setItem('adminInfo', JSON.stringify(profile));
-                    userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
+                    // console.log("Fetching admin info from backend...");
+                    // admin = await fetchAdminInfo();
+                    // // Save to localStorage
+                    // const profile = admin[0];
+                    // console.log('Profile data:', profile);
+                    // localStorage.setItem('adminInfo', JSON.stringify(profile));
+                    // userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
+                    console.log('you neet to login for getting admin information')
                 } else {
                     console.log("Loaded admin info from localStorage:", admin);
                     userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
@@ -806,7 +808,8 @@
 
                 
                 await fetchBlogs();
-                
+                admin = allBlogs[0].admin_info 
+                userNameSpan.textContent = `${admin.first_name} ${admin.last_name}`;
                 // Initial render for each tab
                 renderBlogs('unpublished', unpublished);
                 

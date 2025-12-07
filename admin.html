@@ -779,6 +779,11 @@
                 headers: getAuthHeaders()
             });
             
+            if (res.status === 401) {
+                alert("Session expired. Please log in again.");
+                window.location.href = 'login.html';
+                return;
+            }
             if (!res.ok) {
                 const error = await res.json();
                 throw new Error(error.message || 'Request failed');

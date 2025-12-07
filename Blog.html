@@ -1571,7 +1571,7 @@
 
         function getAuthHeaders() {
         return {
-            'Authorization': `Bearer ${accessToken}`,
+            // 'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/json'
         };
         }
@@ -1579,14 +1579,14 @@
         async function authFetch(url, options = {}) {
         const res = await fetch(`${API_ROOT}${url}`, {
             ...options,
-            headers: getAuthHeaders()
+            // headers: getAuthHeaders()
         });
 
-        if (res.status === 401) {
-            alert("Session expired. Please log in again.");
-            window.location.href = 'login.html';
-            return;
-        }
+        // if (res.status === 401) {
+        //     alert("Session expired. Please log in again.");
+        //     window.location.href = 'login.html';
+        //     return;
+        // }
         return res.json();
         }
 
@@ -1681,39 +1681,41 @@
                 document.documentElement.style.setProperty('--container-width', savedWidth );
             }
 
-            let admin = JSON.parse(localStorage.getItem('adminInfo'));
+            let admin = blog.admin_info //JSON.parse(localStorage.getItem('adminInfo'));
+            console.log("Loaded admin info", admin);
+            updateAuthorInfo(admin);
             // const userNameSpan = document.querySelector('#userDropdown span');
             const authorInfo = document.querySelector('#authorInfo');
 
             // If not found, fetch from backend
-            if (!admin || !admin.user.first_name || !admin.user.last_name) {
-                console.log("Fetching admin info from backend...");
-                admin = await fetchAdminInfo();
-                // Save to localStorage
-                const profile = admin[0];
-                console.log('Profile data:', profile);
-                localStorage.setItem('adminInfo', JSON.stringify(profile));
-                // userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
-                updateAuthorInfo(profile);
-            } else {
-                console.log("Loaded admin info from localStorage:", admin);
-                // userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
-                updateAuthorInfo(admin);
-            }
+            // if (!admin || !admin.user.first_name || !admin.user.last_name) {
+            //     console.log("Fetching admin info from backend...");
+            //     admin = await fetchAdminInfo();
+            //     // Save to localStorage
+            //     const profile = admin[0];
+            //     console.log('Profile data:', profile);
+            //     localStorage.setItem('adminInfo', JSON.stringify(profile));
+            //     // userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
+            //     updateAuthorInfo(profile);
+            // } else {
+            //     console.log("Loaded admin info from localStorage:", admin);
+            //     // userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+            //     updateAuthorInfo(admin);
+            // }
 
             // Function to update author information
             function updateAuthorInfo(admin) {
                 // Update author name
                 const authorName = document.querySelector('.author-name');
-                authorName.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                authorName.textContent = `${admin.first_name} ${admin.last_name}`;
                 
                 // Update author bio (or use email if bio not available)
                 const authorBio = document.querySelector('.author-bio');
-                authorBio.textContent = admin.user.email || 'Content creator';
+                authorBio.textContent = admin.email || 'Content creator';
                 
                 // Update author avatar (using first letter of first name and last name)
                 const authorAvatar = document.querySelector('.author-avatar');
-                const initials = `${admin.user.first_name.charAt(0)}${admin.user.last_name.charAt(0)}`;
+                const initials = `${admin.first_name.charAt(0)}${admin.last_name.charAt(0)}`;
                 authorAvatar.textContent = initials;
                 
                 // Optional: Update author links if you have social media data
