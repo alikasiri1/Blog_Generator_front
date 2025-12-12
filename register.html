@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="icon" href="img/favicons/favicon_light.ico" sizes="32x32" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_dark.svg" media="(prefers-color-scheme: dark)" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_light.svg" media="(prefers-color-scheme: light)" data-next-head="">
     <title>SB Admin 2 - Register</title>
 
     <!-- Custom fonts for this template-->
@@ -47,38 +49,56 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
+                            <form class="user" autocomplete="on">
+                                
+                                <div class="form-group">
+                                    <!-- <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                        placeholder="Email Address"> -->
+                                        <input type="email" 
+                                        class="form-control form-control-user" 
+                                        id="exampleInputEmail"
+                                        name="email" 
+                                        placeholder="Email Address" 
+                                        autocomplete="username" 
+                                        required>
+                                        
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
-                                </div>
+                                    <input type="text" class="form-control form-control-user" id="exampleWorkdomain"
+                                        placeholder="Your Account Name " required>
+                                        
+                                    </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                        <!-- <input type="password" class="form-control form-control-user"
+                                            id="exampleInputPassword" placeholder="Password"> -->
+                                            <input type="password" 
+                                            class="form-control form-control-user" 
+                                            id="exampleInputPassword" 
+                                            name="password" 
+                                            placeholder="Password" 
+                                            autocomplete="new-password" 
+                                            required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                        <!-- <input type="password" class="form-control form-control-user"
+                                            id="exampleRepeatPassword" placeholder="Repeat Password"> -->
+                                            <input type="password" 
+                                            class="form-control form-control-user" 
+                                            id="exampleRepeatPassword" 
+                                            name="password_repeat" 
+                                            placeholder="Repeat Password" 
+                                            autocomplete="new-password" 
+                                            required>
                                     </div>
                                 </div>
                                 <a href="login.html" class="btn btn-md  btn-user btn-block  border-1 text-light mr-2 mb-4">
                                     Register Account
                                 </a>
                                 
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
+                                <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
                                     <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
+                                </a> -->
                                 <!-- <a href="index.html" class="btn btn-facebook btn-user btn-block">
                                     <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
                                 </a> -->
@@ -107,7 +127,147 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        
+            const registerBtn = document.querySelector(".btn-user.btn-block");
+            registerBtn.addEventListener("click", async function (e) {
+                e.preventDefault();
+        
+                // Get form values
+                const username = document.getElementById("exampleUsername").value.trim();
+                const email = document.getElementById("exampleInputEmail").value.trim();
+                const password = document.getElementById("exampleInputPassword").value;
+                const repeatPassword = document.getElementById("exampleRepeatPassword").value;
+        
+                // Simple validation
+                if (!username || !email || !password || !repeatPassword) {
+                    alert("Please fill all fields.");
+                    return;
+                }
+        
+                if (password !== repeatPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+        
+                // work_domain = slug of username
+                const work_domain = username.toLowerCase()
+                                            .trim()
+                                            .replace(/\s+/g, "-")       // spaces → dashes
+                                            .replace(/[^a-z0-9-]/g, ""); // forbid invalid slug chars
+        
+                // Data to backend
+                const data = {
+                    username: username,
+                    email: email,
+                    password: password,
+                    work_domain: work_domain
+                };
+        
+                try {
+                    const response = await fetch("http://localhost:8000/api/register/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+        
+                    const result = await response.json();
+                    console.log(result)
+                    if (!response.ok) {
+                        console.error(result);
+                        alert("Error: " + JSON.stringify(result));
+                        return;
+                    }
+        
+                    alert("Account created successfully!");
+                    window.location.href = "login.html";
+        
+                } catch (error) {
+                    console.error("Network error:", error);
+                    alert("Network error. Check console.");
+                }
+            });
+        
+        });
+    </script> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        
+            const registerBtn = document.querySelector(".btn-user.btn-block");
+        
+            registerBtn.addEventListener("click", async function (e) {
+                e.preventDefault();
+        
+                // Get form values
+                // username field MAY exist (visible username)
+                // const usernameInput = document.getElementById("exampleUsername");
+                // const username = usernameInput ? usernameInput.value.trim() : "";
+        
+                const email = document.getElementById("exampleInputEmail").value.trim();
+                const password = document.getElementById("exampleInputPassword").value;
+                const repeatPassword = document.getElementById("exampleRepeatPassword").value;
+                const username = document.getElementById('exampleWorkdomain').value;
+                // Required fields (email + password)
+                if (!email || !password || !repeatPassword) {
+                    alert("Please fill all required fields.");
+                    return;
+                }
+        
+                if (password !== repeatPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+        
+                // Generate work_domain
+                // Prefer username field if present, otherwise use email local-part
+                let work_domain_source = username ;
+                console.log(work_domain_source)
+                const work_domain = work_domain_source
+                    .toLowerCase()
+                    .trim()
+                    .replace(/\s+/g, "-")          // spaces → dashes
+                    .replace(/[^a-z0-9-]/g, "");    // only valid slug chars
+        
+                // Data sent to backend
+                const data = {
+                    username: username ,   // fallback: use email as username
+                    email: email,
+                    password: password,
+                    work_domain: work_domain
+                };
+        
+                try {
+                    const response = await fetch("http://localhost:8000/api/register/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+        
+                    const result = await response.json();
+                    console.log(result);
+        
+                    if (!response.ok) {
+                        alert("Error: " + JSON.stringify(result));
+                        return;
+                    }
+        
+                    alert("Account created successfully!");
+                    window.location.href = "login.html";
+        
+                } catch (error) {
+                    console.error("Network error:", error);
+                    alert("Network error. Check console.");
+                }
+            });
+        
+        });
+    </script>
+        
 </body>
 
 </html>

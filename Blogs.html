@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="icon" href="img/favicons/favicon_light.ico" sizes="32x32" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_dark.svg" media="(prefers-color-scheme: dark)" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_light.svg" media="(prefers-color-scheme: light)" data-next-head="">
     <title>Blog Generator</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -789,10 +791,11 @@
                 // Check for admin info in localStorage
                 
                 let admin = JSON.parse(localStorage.getItem('adminInfo'));
+                console.log(admin)
                 const userNameSpan = document.querySelector('#userDropdown span');
 
                 // If not found, fetch from backend
-                if (!admin || !admin.user.first_name || !admin.user.last_name) {
+                if (!admin || !admin.user.username) {
                     // console.log("Fetching admin info from backend...");
                     // admin = await fetchAdminInfo();
                     // // Save to localStorage
@@ -803,15 +806,18 @@
                     console.log('you neet to login for getting admin information')
                 } else {
                     console.log("Loaded admin info from localStorage:", admin);
-                    userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                    userNameSpan.textContent = `${admin.user.username}`;
                 }
 
                 
                 await fetchBlogs();
-                admin = allBlogs[0].admin_info 
-                userNameSpan.textContent = `${admin.first_name} ${admin.last_name}`;
+                
                 // Initial render for each tab
                 renderBlogs('unpublished', unpublished);
+                if (allBlogs[0]){
+                    admin = allBlogs[0].admin_info 
+                    userNameSpan.textContent = `${admin.user.username}`;
+                }
                 
                 
                 

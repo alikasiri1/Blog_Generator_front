@@ -10,7 +10,9 @@
     <meta name="author" content="">
 
     <title>Blog Generator</title>
-
+    <link rel="icon" href="img/favicons/favicon_light.ico" sizes="32x32" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_dark.svg" media="(prefers-color-scheme: dark)" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_light.svg" media="(prefers-color-scheme: light)" data-next-head="">
   
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -58,6 +60,12 @@
     animation: 16s ease-in-out 1s infinite normal none running animation-1vog7pl;
     pointer-events: none;
     z-index: 0;
+}
+.text-end{
+    text-align: right;
+}
+.text-start{
+    text-align: left;
 }
      </style>
     
@@ -203,7 +211,14 @@
                 <p class="text-center mb-2 text-primary">Creat your first blog in a second</p>
                 <a class="btn btn-success btn-sm" href="create.html">Create First Blog</a>
             </div> -->
-
+            <div class="mt-3" style="display: flex;align-items: flex-end; -webkit-box-pack: center;justify-content: center;width: 100%;">
+                    <div class="css-34k09d">
+                        <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 222 332" style="width: 32px; height:42px">
+                        <path d="M189.5,303.9c-5.3-4.3-12-6.6-18.5-8.5-15.8-4.4-32.2-6.1-48.5-6.2h0s0,0,0,0,0,0,0,0h0c-16.3,0-32.7,1.8-48.5,6.2-6.5,1.9-13.1,4.2-18.5,8.5-9.7,8.7,2.3,16.3,10.2,19.1,18.1,6.6,37.6,8.9,56.7,8.9h0s0,0,0,0h0c19.2,0,38.7-2.3,56.7-8.9,7.9-2.8,19.9-10.4,10.2-19.1Z" style="fill: #84c1fa;"></path>
+                        <path d="M44,38.5c-16,12.9-28,29-35.6,47.8C.7,105.2-1.5,125.1,1.7,145.5c3.2,20.3,11.5,38.6,24.6,54.2,13.1,15.6,29.4,27.2,48.6,34.5,19.2,7.3,39.7,9.3,60.8,5.9l85.4-13.5-21.8-137.7-99.1,15.7,7.6,47.8,46.7-7.4,6.2,38.9-31.4,5c-11.1,1.8-22,.6-32.2-3.5-10.2-4.1-19-10.5-25.9-19-6.9-8.5-11.4-18.5-13.1-29.7-1.8-11.2-.6-22,3.3-32.3,4-10.2,10.3-19,18.8-26.1,8.5-7.1,18.4-11.5,29.5-13.3l83.8-13.3L185.4.6l-85.4,13.5c-21.1,3.3-40,11.6-56,24.4h0s0,0,0,0Z"  style="fill: #002253;" "></path>
+                    </svg>
+                </div>
+            </div>
         </ul>
         <!-- End of Sidebar -->
 
@@ -415,10 +430,10 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     <span data-label="settings_menu">Settings</span>
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     <span data-label="activity_menu">Activity Log</span>
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -580,7 +595,7 @@
                 <div class="modal-footer" style="border-top-width: 0px;">
                     <!-- <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button> -->
                     <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" 
-                    style="border-radius: 10px;" href="login.html" data-label="modal_logout_btn">Logout</a>
+                     style="border-radius: 10px;"  data-label="modal_logout_btn" onclick="logout()">Logout</a> <!-- href="login.html" -->
                 </div>
             </div>
         </div>
@@ -701,6 +716,21 @@
                     element.textContent = translations[lang][label];
                 }
             });
+            document.getElementById('pills-tabContent').style.direction = currentLang === 'fa' ? 'rtl' : 'ltr';
+            document.getElementById('created_at').style.direction = currentLang === 'fa' ? 'rtl' : 'ltr'; 
+            // document.getElementById('blog_description').style.textAlign = currentLang === 'fa' ? 'right' : 'left';
+            const titles = document.querySelectorAll('.card-body');
+            titles.forEach(title => {
+                if (currentLang === 'fa') {
+                    title.classList.remove('text-start');
+                    title.classList.add('text-end');   // right align
+                } else {
+                    title.classList.remove('text-end');
+                    title.classList.add('text-start'); // left align
+                }
+            });
+            
+            
         }
 
         document.getElementById('langToggle').addEventListener('click', () => {
@@ -772,7 +802,12 @@
         if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
         return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
         }
-        
+        function logout(){
+            localStorage.removeItem('adminInfo');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('admin_uuid');
+            window.location.href = 'index.html';
+        }
         async function authFetch(url, options = {}) {
             const res = await fetch(`${API_ROOT}${url}`, {
                 ...options,
@@ -877,7 +912,7 @@
                         <a class="text-decoration-none" 
                         href=${blog.status === 'draft' ? `edit-blog.html?title=${blog.slug}` : `http://localhost:8004/Blog.html?account=${admin.work_domain}&title=${blog.slug}`}>
                             <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
-                            <div class="card-body">
+                            <div class="card-body text-end" >
                                 <h6 class="card-title mb-1 text-gray-900">
                                 ${blog.title}
                                 
@@ -893,9 +928,11 @@
                     
                         <div class="card-body" style="padding-top: 0px;">
                             <!-- last viewed + dropdown side by side -->
-                            <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div class="d-flex align-items-center justify-content-between mt-2" id="created_at">
                                 <a class="text-decoration-none" href="/docs/btwknjkc1rh763i">
-                                <small class="text-muted">Created ${timeAgo(blog.created_at)}</small>
+                                <small class="text-muted" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                                    Created ${timeAgo(blog.created_at)}
+                                    </small>
                                 </a>
                                 <div class="dropdown no-arrow"> 
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -903,7 +940,7 @@
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                        <li class="dropdown-header text-gray-600">Blog Actions:</li> 
+                                        <li class="dropdown-header text-gray-600">Blog Actions</li> 
                                         <li><a class="dropdown-item" href="edit-blog.html?title=${blog.slug}" >
                                             <span data-label="blog_card_edit"> ویرایش</span></a></li> 
                                         ${blog.status === 'draft' 
@@ -939,24 +976,30 @@
         async function initializeTabs() {
             try {
                 // Check for admin info in localStorage
-                let admin = JSON.parse(localStorage.getItem('adminInfo'));
+                // let admin = JSON.parse(localStorage.getItem('adminInfo'));
                 const userNameSpan = document.querySelector('#userDropdown span');
-                
+                admin = await fetchAdminInfo();
+                admin = admin[0];
+                console.log(admin)
+                localStorage.setItem('adminInfo', JSON.stringify(admin));
+                const previewUrl = `Blogs.html?account=${admin.work_domain}`;
+                document.querySelector('a.nav-link span[data-label="sidebar_preview"]').parentElement.setAttribute('href', previewUrl);
+                userNameSpan.textContent = `${admin.user.username}`;
                 // If not found, fetch from backend
-                if (!admin || !admin.user.first_name || !admin.user.last_name) {
-                    console.log("Fetching admin info from backend...");
-                    admin = await fetchAdminInfo();
-                    // Save to localStorage
-                    const profile = admin[0];
-                    console.log('Profile data:', profile);
-                    localStorage.setItem('adminInfo', JSON.stringify(profile));
-                    userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
-                } else {
-                    console.log("Loaded admin info from localStorage:", admin);
-                    const previewUrl = `Blogs.html?account=${admin.work_domain}`;
-                    document.querySelector('a.nav-link span[data-label="sidebar_preview"]').parentElement.setAttribute('href', previewUrl);
-                    userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
-                }
+                // if (!admin || !admin.user.username ) {
+                //     console.log("Fetching admin info from backend...");
+                //     admin = await fetchAdminInfo();
+                //     // Save to localStorage
+                //     const profile = admin[0];
+                //     console.log('Profile data:', profile);
+                //     localStorage.setItem('adminInfo', JSON.stringify(profile));
+                //     userNameSpan.textContent = `${profile.user.username}`;
+                // } else {
+                //     console.log("Loaded admin info from localStorage:", admin);
+                //     const previewUrl = `Blogs.html?account=${admin.work_domain}`;
+                //     document.querySelector('a.nav-link span[data-label="sidebar_preview"]').parentElement.setAttribute('href', previewUrl);
+                //     userNameSpan.textContent = `${admin.user.username}`;
+                // }
 
                 
                 await fetchBlogs();

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Editor - JSON to Editable Cards</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
+    <link rel="icon" href="img/favicons/favicon_light.ico" sizes="32x32" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_dark.svg" media="(prefers-color-scheme: dark)" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_light.svg" media="(prefers-color-scheme: light)" data-next-head="">
     <!-- <link href="css/sb-admin-2.css" rel="stylesheet"> -->
     <style>
         .nav-item .nav-link {
@@ -1967,9 +1969,10 @@
                     prompt : section.media?.prompt || '',
                 })
             );
-            await generate_first_media()
+            
             // cards = sampleData.map(data => createCard(data));
             renderCards();
+            await generate_first_media()
             
             // saveToJSON();
         }
@@ -2022,7 +2025,8 @@
                     theme: document.body.dataset.theme || 'light',
                     containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '1100px',
                     language: currentLanguage
-                }
+                },
+                image_url : cards[0].image,
             };
             // console.log(blogData);
             const blogTitle = params.get('title');
@@ -2036,16 +2040,22 @@
         function renderCards() {
             const container = document.getElementById('cardsContainer');
             container.innerHTML = '';
-            
+            let card_index = null;
             cards.forEach((card, index) => {
                 if (index > 0 || cards.length === 0) {
                     const divider = createCardDivider(index);
                     container.appendChild(divider);
                 }
-                
+                if (card.prompt && !card.media_task_id && !card.image && card.mediaType){
+                    card_index = index
+                    card.media_task_id = "fake"   
+                }
                 const cardElement = createCardElement(card, index);
                 container.appendChild(cardElement);
             });
+            if(card_index != null){
+                cards[card_index].media_task_id = ''
+            }
             
             // Add divider after last card
             const finalDivider = createCardDivider(cards.length);
@@ -2070,42 +2080,47 @@
             for (let index = 0; index < cards.length; index++) {
                 const card = cards[index];
                 if (card.prompt && !card.media_task_id && !card.image && card.mediaType){
-                    let url;
-                    let body_input;
-                    if (card.mediaType === "image") {
-                        url = "https://generate-media.onrender.com/gpt4o/generate";
-                        body_input = JSON.stringify({
-                            prompt: card.prompt,
-                            size: "1:1",
-                            nVariants: 1
-                        })
-                    } else if (card.mediaType === "video") {
-                        url = "https://generate-media.onrender.com/runway/generate";
-                        body_input = JSON.stringify({
-                            prompt: card.prompt,
-                            duration:5,
-                            quality :'720p',
-                            aspectRatio:'16:9',
-                            waterMark:''
-                        })
-                    }
+                    // let url;
+                    // let body_input;
+                    // if (card.mediaType === "image") {
+                    //     url = "https://generate-media.onrender.com/gpt4o/generate";
+                    //     body_input = JSON.stringify({
+                    //         prompt: card.prompt,
+                    //         size: "3:2",
+                    //         nVariants: 1
+                    //     })
+                    // } else if (card.mediaType === "video") {
+                    //     url = "https://generate-media.onrender.com/runway/generate";
+                    //     body_input = JSON.stringify({
+                    //         prompt: card.prompt,
+                    //         duration:5,
+                    //         quality :'720p',
+                    //         aspectRatio:'16:9',
+                    //         waterMark:''
+                    //     })
+                    // }
 
-                    console.log(card.mediaType)
-                    const res = await fetch( url, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: body_input
-                        // headers: getAuthHeaders()
-                    });
-                    const data = await res.json()
-                    console.log(data);
-                    if (data.taskId) {
-                        card.media_task_id = data.taskId;
-                        saveToJSON();
-                    }
+                    // console.log(card.mediaType)
+                    // const res = await fetch( url, {
+                    //     method: "POST",
+                    //     headers: {
+                    //         "Content-Type": "application/json"
+                    //     },
+                    //     body: body_input
+                    //     // headers: getAuthHeaders()
+                    // });
+                    // const data = await res.json()
+                    // console.log(data);
+                    // card.media_task_id = data;
+                    card.media_task_id = "bb35343c54c127bf5b0364644c8ff5c6"
+                    saveToJSON();
+                    renderCards();
+                    // if (data.taskId) {
+                    //     card.media_task_id = data.taskId;
+                    //     saveToJSON();
+                    // }
                 }
+                
             }
         }
 
@@ -2309,7 +2324,7 @@
                         if (data.successFlag === 0) {
                             if (progressEl) {
                                 if (data.progress !== undefined) {
-                                    progressEl.innerText = `${Math.round(data.progress)}%`;
+                                    progressEl.innerText = `${data.progress}%`;
                                 }
                             }
                             // keep polling
@@ -2650,7 +2665,7 @@
                 //         method: "POST",
                 //         body:JSON.stringify({
                 //             prompt: prompt,
-                //             size : "1:1",
+                //             size : "3:2",
                 //             nVariants:1
                 //         })
                 //         // headers: getAuthHeaders()
@@ -2663,7 +2678,7 @@
                     url = "https://generate-media.onrender.com/gpt4o/generate";
                     body_input = JSON.stringify({
                         prompt: prompt,
-                        size: "1:1",
+                        size: "3:2",
                         nVariants: 1
                     })
                 } else if (mediaType === "video") {

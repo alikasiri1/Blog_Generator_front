@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="icon" href="img/favicons/favicon_light.ico" sizes="32x32" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_dark.svg" media="(prefers-color-scheme: dark)" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_light.svg" media="(prefers-color-scheme: light)" data-next-head="">
     <title>SB Admin 2 - Login</title>
 
     <!-- Custom fonts for this template-->
@@ -56,13 +58,14 @@
                                     </div>
                                     <form class="user" id="loginForm">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                          <input type="email" class="form-control form-control-user"
+                                          id="exampleInputEmail" aria-describedby="emailHelp"
+                                          placeholder="Enter Email Address..." autocomplete="email" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                          <input type="password" class="form-control form-control-user"
+                                          id="exampleInputPassword" placeholder="Password"
+                                          autocomplete="current-password" required>
                                         </div>
                                         <!-- <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -183,7 +186,7 @@
               const response = await fetch('http://127.0.0.1:8000/api/token/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ email:username, password:password })
               });
               
               if (!response.ok) {

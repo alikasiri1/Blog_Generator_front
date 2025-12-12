@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="icon" href="img/favicons/favicon_light.ico" sizes="32x32" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_dark.svg" media="(prefers-color-scheme: dark)" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_light.svg" media="(prefers-color-scheme: light)" data-next-head="">
     <title>SB Admin 2 - Blank</title>
 
     <!-- Custom fonts for this template-->
@@ -131,8 +133,8 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                       <!-- Center Section: Info + Button -->
                       <div class="d-flex align-items-center">
                         <!-- <p class="mb-0 me-3 font-weight-bold  mr-4">10 cards total</p> -->
-                        <a href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light" style="border-radius: 28px;height: 35px;width: 330px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
-                        onclick="generatecontent()">
+                        <a id="generate_content_Btn" href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light" style="border-radius: 28px;height: 35px;width: 330px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
+                            onclick="generatecontent()">
                                         
                             <i class="fas fa-star fa-sm text-white-20 ">
                                    </i> 
@@ -332,7 +334,7 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                                 
                               </div>
                               <div id="generateContainer" class="generate-container row mt-3 mb-4 justify-content-center ml-1">
-                                <a href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
+                                <!-- <a href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
                                  style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
                                  onclick="generateCards()"
                                  >
@@ -340,7 +342,14 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                                  <i class="fas fa-star fa-sm text-white-20 ">
                                         </i> 
                                         <span data-label="generate_topics_button">Generate Outline</span>
+                                    </a> -->
+                                    <a id="generateBtn" href="#" class="font-weight-bold text-lg border-0 d-sm-inline-block btn btn-md btn-light mr-2 mb-2 text-light"
+                                    style="border-radius: 28px;height: 35px;width: 200.637px;padding-bottom: 5px;padding-top: 5px;background-color: #0540ad;border: none;box-sizing: unset;"
+                                    onclick="generateCards()">
+                                    <i class="fas fa-star fa-sm text-white-20"></i>
+                                    <span data-label="generate_topics_button">Generate Outline</span>
                                     </a>
+
                             </div>
                               
                             <div id="carddivcontainer" style="display: none;">
@@ -555,6 +564,22 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
         });
 
         async function generateCards() {
+            // document.querySelector('a[onclick="generateCards()"]').innerHTML = ` 
+            //     <div class="spinner-border text-primary mb-3" role="status" style="width: 28px;height: 28px;">
+            //         <span class="sr-only">Loading...</span>
+            //     </div>`
+            // ---- 1. Disable button immediately ----
+            const btn = document.getElementById("generateBtn");
+            btn.style.pointerEvents = "none";    // disable click
+            btn.style.opacity = "0.7";           // visual feedback
+            const originalHTML = btn.innerHTML;   // save original content
+
+            // ---- 2. Replace with spinner ----
+            btn.innerHTML = `
+                <div class="spinner-border text-light" role="status" style="width: 24px; height: 24px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            `;
           const divcontainer = document.getElementById('carddivcontainer');
           divcontainer.style.display = 'block';
           const container = document.getElementById("cardContainer");
@@ -595,10 +620,13 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                 wrapper.appendChild(textarea);
                 container.appendChild(wrapper);
             }
-            const generateContainer = document.getElementById('generateContainer');
-            generateContainer.style.display = 'none';
-            const nav = document.getElementById('navbar-bottom');
-            nav.style.display = 'flex'
+            // ---- 3. Restore original button ----
+            btn.innerHTML = originalHTML;
+            btn.style.pointerEvents = "auto"; // re-enable click
+            btn.style.opacity = "1";
+            // hide container
+            document.getElementById('generateContainer').style.display = 'none';
+            document.getElementById('navbar-bottom').style.display = 'flex';
             console.log("🎉 Cards generated successfully!");
         }
       
@@ -607,6 +635,15 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
         async function generatecontent() {
             const textareas = document.querySelectorAll('#cardContainer textarea');
             const textarea_prompt = document.getElementById("contentEditor");
+            const btn = document.getElementById("generate_content_Btn");
+            btn.style.pointerEvents = "none";    // disable click
+            btn.style.opacity = "0.7";           // visual feedback
+            const originalHTML = btn.innerHTML;   // save original content
+            btn.innerHTML = `
+                <div class="spinner-border text-light" role="status" style="width: 24px; height: 24px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            `;
             const contentList = [];
 
             textareas.forEach(textarea => {
@@ -634,7 +671,10 @@ box-shadow: 0 0 0 1px rgb(148, 173, 223); /* blue glow */
                 });
 
                 console.log("✅ Backend response:", response);
-
+                // ---- 3. Restore original button ----
+                btn.innerHTML = originalHTML;
+                btn.style.pointerEvents = "auto"; // re-enable click
+                btn.style.opacity = "1";
                 window.location.href = `edit-blog.html?title=${response.slug}`;
                 
 
