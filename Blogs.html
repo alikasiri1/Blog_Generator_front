@@ -62,6 +62,19 @@
     pointer-events: none;
     z-index: 0;
 }
+
+.container-fluid {
+    padding-left: 10.5rem;
+    padding-right: 10.5rem;
+}
+
+
+@media (max-width: 992px) {
+    .container-fluid {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
      </style>
     
     
@@ -306,11 +319,33 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" > <!--style="padding-left: 10.5rem;padding-right: 10.5rem;"-->
 
                     <!-- Page Heading -->
+                    <div class="col-12 mb-4" style="margin-top: 70px;">
+                        <div class="card-body">
                     
-                    <div class="card-header border-0 py-1 mb-3" style="background-color: inherit;padding-left: 0px;display: flex;margin-top: 75px;">
+                            <div class="row">
+                                <div class="col-sm-6  col-md-3 col-xl-2">
+                                    
+                                    <img src="img/undraw_profile_1.svg" class="card-img-top" alt="...">
+        
+                                        
+                                        
+                                        <!-- <a href="#" class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" style="border-radius: 10px;">Go somewhere</a> -->
+                                </div>
+                                <div class="col-sm-6  col-md-9 col-xl-10 mt-4">
+                                    <h3 class="card-title text-gray-900" id="username"><span class="placeholder col-3"></span></h3>
+                                    <h6 class="text-gray-900" id="work_domain" ><a href="#" ><span class="placeholder col-2"></span>@food-blog </a>• 10 Blogs </h6>
+                                    <p class="card-text text-gray-900" id="bio_info"><span class="placeholder col-12"></span></p>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div id="tabs-divider" class="style-scope ytd-tabbed-page-header"></div>
+                    <div class="card-header border-0 py-1 mb-3" style="background-color: inherit;padding-left: 0px;display: flex;">
                         <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="rectangle-history" class="ml-2 text-primary svg-inline--fa fa-rectangle-history " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="Gammas" style="width: 17px;">
                                 <path fill="currentColor" d="M464 224c0-8.8-7.2-16-16-16L64 208c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-224zm-16-64c35.3 0 64 28.7 64 64l0 224c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 224c0-35.3 28.7-64 64-64l384 0zm-8-80c13.3 0 24 10.7 24 24s-10.7 24-24 24L72 128c-13.3 0-24-10.7-24-24s10.7-24 24-24l368 0zM392 0c13.3 0 24 10.7 24 24s-10.7 24-24 24L120 48c-13.3 0-24-10.7-24-24s10.7-24 24-24L392 0z">
                                 </path>
@@ -339,7 +374,7 @@
                             <div class="tab-pane fade show active" id="pills-unpublished" role="tabpanel" aria-labelledby="pills-unpublished-tab">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-sm-6  col-md-4 col-xl-2 mb-3">
+                                        <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
                                             <div class="card doc-card shadow-sm hover-card-light border-0">
                                                 <div class="text-decoration-none placeholder-glow" >
                                                     <span class="placeholder col-12" style="
@@ -365,7 +400,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6  col-md-4 col-xl-2 mb-3">
+                                        <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
                                             <div class="card doc-card shadow-sm hover-card-light border-0">
                                                 <div class="text-decoration-none placeholder-glow" >
                                                     <span class="placeholder col-12" style="
@@ -747,7 +782,7 @@
             
             blogsToShow.forEach(blog => {// col-xl-3
             const blogCard = `
-                <div class="col-sm-6  col-md-4 col-xl-2 mb-3">
+                <div class="col-sm-6  col-md-4 col-xl-3 mb-3">
                     <div class="card doc-card shadow-sm hover-card-light">
                         <a class="text-decoration-none" href="http://localhost:8004/Blog.html?account=${account}&title=${blog.slug}">
                             <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
@@ -816,7 +851,7 @@
                 renderBlogs('unpublished', unpublished);
                 if (allBlogs[0]){
                     admin = allBlogs[0].admin_info 
-                    userNameSpan.textContent = `${admin.user.username}`;
+                    document.getElementById('username').textContent = `${admin.first_name} ${admin.last_name}`; 
                 }
                 
                 
