@@ -4,7 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Editor - JSON to Editable Cards</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="icon" href="img/favicons/favicon_light.ico" sizes="32x32" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_dark.svg" media="(prefers-color-scheme: dark)" data-next-head="">
+    <link rel="icon" type="image/svg+xml" href="img/favicon_light.svg" media="(prefers-color-scheme: light)" data-next-head="">
+    <!-- <link href="css/sb-admin-2.css" rel="stylesheet"> -->
     <style>
+        .nav-item .nav-link {
+          color: #002253;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .nav-item:focus , .nav-item:hover {
+          background-color: #e7f1ff;
+          border-radius: 28px;
+        }
+        @media (min-width: 1300px) {
+          .content {
+            padding-left: 100px;
+            padding-right: 100px;
+          }
+        }
+        @media (min-width: 1300px) {
+          .navbar {
+            padding-left: 100px;
+            padding-right: 100px;
+          }
+        }
         /* CSS Variables for Theming */
         :root {
             --color-bg: #f8f9fa;
@@ -20,13 +46,14 @@
             
             --font-heading: 'Georgia', serif;
             --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            
+            --heading-placeholder: "عنوان را وارد کنید...";
+            --content-placeholder: "نوشتن را شروع کنید...";
             --radius: 16px;
             --shadow-sm: 0 2px 8px var(--color-shadow);
             --shadow-md: 0 4px 16px var(--color-shadow);
             --shadow-lg: 0 8px 32px var(--color-shadow);
             
-            --container-width: 900px;
+            --container-width: 1100px;
         }
 
         /* Theme: Dark */
@@ -39,7 +66,7 @@
             --color-primary-hover: #6d28d9;
             --color-border: #2d3748;
             --color-shadow: rgba(0, 0, 0, 0.3);
-            --color-toolbar-bg: #0f172a;
+            --color-toolbar-bg: #9a9aee;
             --color-toolbar-hover: #1e293b;
         }
 
@@ -75,6 +102,91 @@
             
             --font-heading: 'Palatino', 'Book Antiqua', serif;
             --font-body: 'Trebuchet MS', sans-serif;
+        }
+
+        /* Theme: Ocean */
+        [data-theme="ocean"] {
+            --color-bg: #e0f4ff;
+            --color-card-bg: #ffffff;
+            --color-text: #1a3a3a;
+            --color-heading: #0d4d5c;
+            --color-primary: #0ea5e9;
+            --color-primary-hover: #0284c7;
+            --color-border: #bae6fd;
+            --color-shadow: rgba(14, 165, 233, 0.1);
+            --color-toolbar-bg: #f0f9ff;
+            --color-toolbar-hover: #e0f2fe;
+            
+            --font-heading: 'Trebuchet MS', sans-serif;
+            --font-body: 'Arial', sans-serif;
+        }
+
+        /* Theme: Forest */
+        [data-theme="forest"] {
+            --color-bg: #f0fdf4;
+            --color-card-bg: #ffffff;
+            --color-text: #1b4332;
+            --color-heading: #081c15;
+            --color-primary: #22c55e;
+            --color-primary-hover: #16a34a;
+            --color-border: #dcfce7;
+            --color-shadow: rgba(34, 197, 94, 0.1);
+            --color-toolbar-bg: #f7fee7;
+            --color-toolbar-hover: #ecfdf5;
+            
+            --font-heading: 'Georgia', serif;
+            --font-body: 'Verdana', sans-serif;
+        }
+
+        /* Theme: Sunset */
+        [data-theme="sunset"] {
+            --color-bg: #fef2f2;
+            --color-card-bg: #ffffff;
+            --color-text: #7c2d12;
+            --color-heading: #431407;
+            --color-primary: #ea580c;
+            --color-primary-hover: #c2410c;
+            --color-border: #fed7aa;
+            --color-shadow: rgba(234, 88, 12, 0.1);
+            --color-toolbar-bg: #fef3c7;
+            --color-toolbar-hover: #fde68a;
+            
+            --font-heading: 'Times New Roman', serif;
+            --font-body: 'Comic Sans MS', cursive;
+        }
+
+        /* Theme: Purple Haze */
+        [data-theme="purple-haze"] {
+            --color-bg: #f5f3ff;
+            --color-card-bg: #ffffff;
+            --color-text: #4c1d95;
+            --color-heading: #2e1065;
+            --color-primary: #a78bfa;
+            --color-primary-hover: #9f7aea;
+            --color-border: #e9d5ff;
+            --color-shadow: rgba(167, 139, 250, 0.1);
+            --color-toolbar-bg: #faf5ff;
+            --color-toolbar-hover: #f3e8ff;
+            
+            --font-heading: 'Palatino', serif;
+            --font-body: 'Georgia', serif;
+        }
+
+        /* Theme: Monochrome */
+        [data-theme="monochrome"] {
+            --color-bg: #f5f5f5;
+            --color-card-bg: #ffffff;
+            --color-text: #424242;
+            --color-heading: #000000;
+            --color-primary: #757575;
+            --color-primary-hover: #616161;
+            --color-border: #e0e0e0;
+            --color-shadow: rgba(0, 0, 0, 0.12);
+            --color-toolbar-bg: #fafafa;
+            --color-toolbar-hover: #eeeeee;
+            
+            --font-heading: 'Arial', sans-serif;
+            --font-body: 'Arial', sans-serif;
         }
 
         * {
@@ -194,6 +306,7 @@
             margin: 2rem auto;
             padding: 0 1rem;
             transition: max-width 0.3s ease;
+            margin-top: 72px;
         }
 
         /* Container width control */
@@ -253,24 +366,28 @@
 
         /* Cards Container */
         .cards-container {
+            /* background-color: var(--color-card-bg); */
             display: flex;
             flex-direction: column;
+            border-radius: var(--radius);
+            /* margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm); */
         }
 
         /* Card divider for inserting new cards */
         .card-divider {
             position: relative;
-            height: 24px;
+            height: 0px;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            /* transition: opacity 0.05s ease; */
+            opacity: 1;
+            transition: opacity 0.2s ease;
         }
 
-        .card-divider:hover {
+        /* .card-divider:hover {
             opacity: 1;
-        }
+        } */
 
         .card-divider-line {
             position: absolute;
@@ -282,6 +399,7 @@
         .card-divider-buttons {
             position: relative;
             display: flex;
+            /* display: none; */
             gap: 0.5rem;
             /* background: var(--color-bg); */
             padding: 0 1rem;
@@ -289,8 +407,8 @@
         }
 
         .insert-card-button {
-            width: 32px;
-            height: 32px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             border: 2px solid var(--color-primary);
             background: var(--color-card-bg);
@@ -320,7 +438,7 @@
         }
 
         .card:hover {
-            box-shadow: var(--shadow-md);
+            /* box-shadow: var(--shadow-md); */
         }
 
         .card.dragging {
@@ -337,7 +455,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            /* margin-bottom: 0.5rem; */
             opacity: 0;
             transition: opacity 0.2s ease;
         }
@@ -441,11 +559,11 @@
         }
 
         /* Card Header */
-        .card-header {
+        .card-header_ {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             gap: 1rem;
         }
 
@@ -460,6 +578,8 @@
             padding: 0.25rem;
             border-radius: 4px;
             transition: border-color 0.2s ease;
+            overflow: auto;
+            overflow-wrap: break-word;
         }
 
         .card-heading:focus {
@@ -467,7 +587,8 @@
         }
 
         .card-heading:empty:before {
-            content: 'Enter heading...';
+            /* content: 'Enter heading...'; */
+            content: var(--heading-placeholder, "عنوان را وارد کنید...");
             color: #999;
         }
 
@@ -484,8 +605,8 @@
         }
 
         .card-action-btn {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border: none;
             background: var(--color-toolbar-bg);
             border-radius: 6px;
@@ -511,7 +632,7 @@
 
         .card-content-wrapper.image-top,
         .card-content-wrapper.image-bottom {
-            flex-direction: column;
+            /* flex-direction: column; */
         }
 
         .card-content-wrapper.image-left {
@@ -531,6 +652,9 @@
             padding: 0.5rem;
             border-radius: 4px;
             transition: border-color 0.2s ease;
+            overflow: auto;
+            overflow-wrap: break-word;
+            color: var(--color-text);
         }
 
         .card-content:focus {
@@ -538,7 +662,8 @@
         }
 
         .card-content:empty:before {
-            content: 'Start writing...';
+            /* content: 'Start writing...'; */
+            content: var(--content-placeholder, "نوشتن را شروع کنید...");
             color: #999;
         }
 
@@ -1192,99 +1317,81 @@
         body.preview-mode .section-toggle-menu {
             display: none;
         }
-    </style>
+        .nav-item .nav-link {
+          color: #002253;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .nav-item:focus , .nav-item:hover {
+          background-color: #e7f1ff;
+          border-radius: 28px;
+        }
+
+    </style>    
+
 </head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">✍️ Blog Editor</div>
-            <div class="header-actions">
-                <!-- Language switcher -->
-                <button id="langBtn" class="btn btn-secondary">🌐 EN</button>
-                <select id="themeSelector" class="btn btn-secondary">
-                    <option value="light">Light Theme</option>
-                    <option value="dark">Dark Theme</option>
-                    <option value="minimalist">Minimalist</option>
-                    <option value="warm">Warm Theme</option>
-                </select>
-                <button id="previewBtn" class="btn btn-secondary">👁️ Preview</button>
-                <!-- Add publish button -->
-                <button id="publishBtn" class="btn btn-primary">🚀 Publish</button>
-                <button id="exportBtn" class="btn btn-secondary">💾 Export</button>
-                <button id="loadJsonBtn" class="btn btn-primary">📂 Load JSON</button>
-            </div>
-        </div>
-    </header>
+<body class="preview-mode">
+
+
+
+    <nav class="navbar navbar-expand-lg fixed-top bootstrap-scope" style="background-color: rgba(255, 255, 255, 0.95);direction: ltr;">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="color: #0540ad;" href="#">
+              gamma
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" 
+                    aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item ml-2">
+                  <a class="nav-link" aria-current="page" href="admin.html" style="padding-left: 16px;padding-right: 16px;" data-label="home">خانه</a>
+                </li>
+                <!-- <li class="nav-item ml-2">
+                  <a class="nav-link" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="link">لینک</a>
+                </li> -->
+                <!-- <li class="nav-item dropdown ml-2">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                     data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;" data-label="dropdown">منو</a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#" data-label="action">عملیات</a></li>
+                    <li><a class="dropdown-item" href="#" data-label="another">عملیات دیگر</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" data-label="something">چیزی دیگر</a></li>
+                  </ul>
+                </li> -->
+                
+              </ul>
+              <ul class="navbar-nav">
+                  <li class="nav-item ml-2">
+                      <a class="nav-link" id="langBtn" href="#" style="padding-left: 16px;padding-right: 16px;" data-label="lang">🌐 EN</a>
+                    </li>
+                
+                <!-- <li class="nav-item ml-2">
+                  <a class="nav-link" id="publishBtn" href="#" style="background-color: #0540ad;color: #f8f9fc;padding-left: 16px;padding-right: 16px;border-radius: 28px;border: none;box-sizing: unset;cursor:pointer;" data-label="publish">انتشار</a>
+                </li> -->
+                
+              </ul>
+              
+            </div> 
+          </div>
+      </nav>
 
     <!-- Main Container -->
     <div class="container">
         <!-- Container width control -->
-        <div class="width-control">
-            <span class="width-control-label">Container Width:</span>
-            <input type="range" class="width-slider" id="widthSlider" min="600" max="1400" value="900" step="50">
-            <span class="width-value" id="widthValue">900px</span>
-        </div>
+        
 
-        <!-- Toolbar -->
-        <div id="toolbar" class="toolbar">
-            <div class="toolbar-group">
-                <button class="toolbar-btn" data-command="bold" title="Bold (Ctrl+B)"><strong>B</strong></button>
-                <button class="toolbar-btn" data-command="italic" title="Italic (Ctrl+I)"><em>I</em></button>
-                <button class="toolbar-btn" data-command="underline" title="Underline (Ctrl+U)"><u>U</u></button>
-            </div>
-            <div class="toolbar-group">
-                <button class="toolbar-btn" data-command="formatBlock" data-value="h1" title="Heading 1">H1</button>
-                <button class="toolbar-btn" data-command="formatBlock" data-value="h2" title="Heading 2">H2</button>
-                <button class="toolbar-btn" data-command="formatBlock" data-value="h3" title="Heading 3">H3</button>
-                <button class="toolbar-btn" data-command="formatBlock" data-value="p" title="Paragraph">P</button>
-            </div>
-            <div class="toolbar-group">
-                <button class="toolbar-btn" data-command="justifyLeft" title="Align Left">⬅️</button>
-                <button class="toolbar-btn" data-command="justifyCenter" title="Align Center">↔️</button>
-                <button class="toolbar-btn" data-command="justifyRight" title="Align Right">➡️</button>
-                <button class="toolbar-btn" data-command="justifyFull" title="Justify">↕️</button>
-            </div>
-            <div class="toolbar-group">
-                <button class="toolbar-btn" data-command="insertUnorderedList" title="Bullet List">• List</button>
-                <button class="toolbar-btn" data-command="insertOrderedList" title="Numbered List">1. List</button>
-            </div>
-            <div class="toolbar-group">
-                <select class="toolbar-select" id="fontFamily">
-                    <option value="Arial">Arial</option>
-                    <option value="Georgia">Georgia</option>
-                    <option value="'Times New Roman'">Times New Roman</option>
-                    <option value="'Courier New'">Courier New</option>
-                    <option value="Verdana">Verdana</option>
-                </select>
-                <!-- Replace number input with select dropdown for font size -->
-                <select class="toolbar-select" id="fontSize" title="Font Size">
-                    <option value="">Size</option>
-                    <option value="12">Small</option>
-                    <option value="16">Normal</option>
-                    <option value="24">Large</option>
-                    <option value="32">Huge</option>
-                </select>
-            </div>
-            <!-- <div class="toolbar-group">
-                <div class="color-picker-wrapper">
-                    <input type="color" class="color-picker" id="textColor" value="#2c3e50" title="Text Color">
-                </div>
-                <div class="color-picker-wrapper">
-                    <input type="color" class="color-picker" id="bgColor" value="#ffffff" title="Background Color">
-                </div>
-            </div> -->
-            <div class="toolbar-group">
-                <button class="toolbar-btn" id="linkBtn" title="Insert Link">🔗</button>
-            </div>
-        </div>
-
+       
         <!-- Add author info section (shown in preview mode) -->
         <div id="authorInfo" class="author-info" style="display: flex;">
             <div class="author-avatar">👤</div>
             <div class="author-details">
-                <div class="author-name">John Doe</div>
-                <div class="author-bio">Passionate writer and content creator sharing insights on technology, design, and creativity.</div>
+                <div class="author-name"></div>
+                <div class="author-bio"></div>
                 <div class="author-links">
                     <a href="#" class="author-link">Website</a>
                     <a href="#" class="author-link">Twitter</a>
@@ -1296,8 +1403,9 @@
                 <div class="section-menu" id="authorMenu">
                     <label class="section-menu-item">
                         <input type="checkbox" id="showAuthorInfo" checked onchange="toggleAuthorVisibility()">
-                        <span>Show in published blog</span>
+                        <span data-label="editProfile">نمایش در گزارش نهایی</span>
                     </label>
+                    <a class="card-menu-item" style="text-decoration: none;" data-label="edit" href="profile.html">ویرایش</a>
                 </div>
             </div>
         </div>
@@ -1306,10 +1414,10 @@
         <div id="cardsContainer" class="cards-container"></div>
 
         <!-- Add Card Button -->
-        <button class="add-card-btn" id="addCardBtn">
+        <!-- <button class="add-card-btn" id="addCardBtn">
             <span style="font-size: 1.5rem;">+</span>
             Add New Card
-        </button>
+        </button> -->
 
         <!-- Add recent posts section (shown in preview mode) -->
         <div id="recentPosts" class="recent-posts" style="display: block;">
@@ -1345,7 +1453,7 @@
                 <div class="section-menu" id="recentMenu">
                     <label class="section-menu-item">
                         <input type="checkbox" id="showRecentPosts" checked onchange="toggleRecentVisibility()">
-                        <span>Show in published blog</span>
+                        <span data-label="editProfile">نمایش در گزارش نهایی</span>
                     </label>
                 </div>
             </div>
@@ -1389,199 +1497,404 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
+        const translations = {
+            fa: {
+                home: 'خانه',
+                link: 'لینک',
+                dropdown: 'منو',
+                action: 'عملیات',
+                another: 'عملیات دیگر',
+                something: 'چیزی دیگر',
+                theme: '🎨 تم',
+                light: 'روشن',
+                dark: 'تاریک',
+                minimalist: 'حداقل',
+                warm: 'گرم',
+                lang: '🌐 FA',
+                preview: 'پیش‌نمایش',
+                publish: 'انتشار',
+                width: 'عرض ظرف:',
+                export: 'صادرات محتوا',
+                exportFormat: 'فرمت صادرات',
+                cancel: 'لغو',
+                download: 'دانلود',
+                loadJson: 'بارگذاری JSON',
+                pasteJson: 'متن JSON را بپوشش دهید',
+                load: 'بارگذاری',
+                edit: 'ویرایش',
+                editProfile: 'نمایش در گزارش نهایی'
+            },
+            en: {
+                home: 'Home',
+                link: 'Link',
+                dropdown: 'Menu',
+                action: 'Action',
+                another: 'Another action',
+                something: 'Something else',
+                theme: '🎨 Theme',
+                light: 'Light',
+                dark: 'Dark',
+                minimalist: 'Minimalist',
+                warm: 'Warm',
+                lang: '🌐 EN',
+                preview: 'Preview',
+                publish: 'Publish',
+                width: 'Container Width:',
+                export: 'Export Content',
+                exportFormat: 'Export Format',
+                cancel: 'Cancel',
+                download: 'Download',
+                loadJson: 'Load JSON',
+                pasteJson: 'Paste JSON Array',
+                load: 'Load',
+                edit: 'Edit Profile',
+                editProfile: 'Show in published blog'
+            }
+        };
         // State Management
         let cards = [];
         let draggedCard = null;
-        let isPreviewMode = false;
-        let currentLanguage = 'en';
+        let isPreviewMode = true;
+        let currentLanguage = 'fa';
         let resizingImage = null;
         let resizeStartX = 0;
         let resizeStartY = 0;
         let resizeStartWidth = 0;
         let resizeStartHeight = 0;
-        let resizeDirection = '';
+        let resizeDirection = null;
         let showAuthorInfo = true;
         let showRecentPosts = true;
 
+        const API_ROOT = 'http://127.0.0.1:8000/api';
+        const accessToken = localStorage.getItem('access_token');
+        // const adminUUID = localStorage.getItem('admin_uuid');
+
+        function getAuthHeaders() {
+        return {
+            // 'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        };
+        }
+
+        async function authFetch(url, options = {}) {
+        const res = await fetch(`${API_ROOT}${url}`, {
+            ...options,
+            // headers: getAuthHeaders()
+        });
+
+        // if (res.status === 401) {
+        //     alert("Session expired. Please log in again.");
+        //     window.location.href = 'login.html';
+        //     return;
+        // }
+        return res.json();
+        }
+
+        function updateLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+            
+            // Update navbar direction
+            // const navbar = document.querySelector('.navbar');
+            // if (navbar) {
+            //     navbar.style.direction = lang === 'fa' ? 'rtl' : 'ltr';
+            // }
+
+            // Update all elements with data-label attribute
+            document.querySelectorAll('[data-label]').forEach(element => {
+                const label = element.getAttribute('data-label');
+                if (translations[lang][label]) {
+                    element.textContent = translations[lang][label];
+                }
+            });
+
+            // Update placeholders
+            const placeholder = lang === 'fa' ? '"عنوان را وارد کنید..."' : '"Enter heading..."';
+            document.body.style.setProperty('--heading-placeholder', placeholder);
+            const contentPlaceholder = lang === 'fa' ? '"نوشتن را شروع کنید..."' : '"Start writing..."';
+            document.body.style.setProperty('--content-placeholder', contentPlaceholder);
+            // const headingPlaceholder = lang === 'fa' ? 'عنوان را وارد کنید...' : 'Enter heading...';
+            // const contentPlaceholder = lang === 'fa' ? 'نوشتن را شروع کنید...' : 'Start writing...';
+            
+            // Re-render to apply placeholders
+            // renderCards();
+        }
+
+        function setTheme(theme) {
+            document.body.dataset.theme = theme;
+            localStorage.setItem('theme', theme);
+        }
+
+		const params = new URLSearchParams(window.location.search);
+		const blogTitle = params.get('title');
+		const account = params.get('account');
+		async function loadBlogDetails() {
+		  if (!blogTitle) return;
+		
+		  const blog = await authFetch(`/${account}/blogs/${blogTitle}`);
+          return blog
+		}
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            loadFromLocalStorage();
-            setupEventListeners();
-            setupKeyboardShortcuts();
-            console.log(cards.length)
+            // loadFromLocalStorage();
+            // setupEventListeners();
+            // setupKeyboardShortcuts();
+            // currentLanguage = 'fa';
+            // console.log(currentLanguage);
+            
+            
             // Load sample data if no cards exist
             // if (cards.length === 3) {
             loadSampleData();
+            console.log(cards.length)
             // }
         });
 
         // Sample Data
-        function loadSampleData() {
-            const sampleData = [
-                {
-                    heading: "Create Relevant Content",
-                    content: "You'll be posting loads of engaging content, so be sure to keep your blog organized with Categories that also allow readers to explore more of what interests them. Each category of your blog has its own page that's fully customizable. Add a catchy title, a brief description and a beautiful image to the category page header to truly make it your own."
-                },
-                {
-                    heading: "Use Hashtags Effectively",
-                    content: "You can also add tags (#vacation #dream #summer) throughout your posts to reach more people, and help readers search for relevant content. Using hashtags can expand your post reach and help people find the content that matters to them. Go ahead, #hashtag away."
-                },
-                {
-                    heading: "Share Your Story",
-                    content: "Every blog post is an opportunity to connect with your audience. Share your experiences, insights, and lessons learned. Be authentic and let your personality shine through your writing."
-                }
-            ];
+        async  function loadSampleData() {
+
+            const blog = await  loadBlogDetails()
+            if (!blog || !blog.content) {
+                console.error("No blog data found");
+                return;
+            }
+            console.log(blog)
             
-            cards = sampleData.map(data => createCard(data));
-            renderCards();
-            saveToLocalStorage();
+            document.body.dataset.theme = blog.settings.theme;
+
+            currentLanguage = blog.settings.language; 
+            const html = document.documentElement;
+            const btn = document.getElementById('langBtn');
+            if (currentLanguage === 'fa') {
+                    html.setAttribute('dir', 'rtl');
+                    html.setAttribute('lang', 'fa');
+                    btn.textContent = '🌐 FA';
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                btn.textContent = '🌐 EN';
+            }
+            updateLanguage(currentLanguage);
+            
+            const savedWidth = blog.settings.containerWidth
+            if (savedWidth) {
+                document.documentElement.style.setProperty('--container-width', savedWidth );
+            }
+
+            let admin = blog.admin_info //JSON.parse(localStorage.getItem('adminInfo'));
+            console.log("Loaded admin info", admin);
+            updateAuthorInfo(admin);
+            // const userNameSpan = document.querySelector('#userDropdown span');
+            const authorInfo = document.querySelector('#authorInfo');
+
+            // If not found, fetch from backend
+            // if (!admin || !admin.user.first_name || !admin.user.last_name) {
+            //     console.log("Fetching admin info from backend...");
+            //     admin = await fetchAdminInfo();
+            //     // Save to localStorage
+            //     const profile = admin[0];
+            //     console.log('Profile data:', profile);
+            //     localStorage.setItem('adminInfo', JSON.stringify(profile));
+            //     // userNameSpan.textContent = `${profile.user.first_name} ${profile.user.last_name}`;
+            //     updateAuthorInfo(profile);
+            // } else {
+            //     console.log("Loaded admin info from localStorage:", admin);
+            //     // userNameSpan.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+            //     updateAuthorInfo(admin);
+            // }
+
+            // Function to update author information
+            function updateAuthorInfo(admin) {
+                // Update author name
+                const authorName = document.querySelector('.author-name');
+                authorName.textContent = `${admin.first_name} ${admin.last_name}`;
+                
+                // Update author bio (or use email if bio not available)
+                const authorBio = document.querySelector('.author-bio');
+                authorBio.textContent = admin.email || 'Content creator';
+                
+                // Update author avatar (using first letter of first name and last name)
+                const authorAvatar = document.querySelector('.author-avatar');
+                const initials = `${admin.first_name.charAt(0)}${admin.last_name.charAt(0)}`;
+                authorAvatar.textContent = initials;
+                
+                // Optional: Update author links if you have social media data
+                const authorLinks = document.querySelector('.author-links');
+
+            }
+            // Convert backend blog content into your card structure
+            // cards = blog.content.map(section => createCard({
+            //     heading: section.heading,
+            //     content: section.body,
+            //     image: section.media?.url || null,
+            //     imagePosition: 'top',
+            // }));
+            cards = blog.content.map(section =>
+                createCard({
+                    heading: section.heading,
+                    content: section.body,
+                    mediaType: section.media?.type || null,
+                    image: section.media?.url || null,
+                    imagePosition: section.media?.Position?.toLowerCase() || 'top',
+                    imageWidth: Number(section.media?.Width) || null,
+                    imageHeight: Number(section.media?.Height) || null,
+                })
+            );
+            // cards = sampleData.map(data => createCard(data));
+            // renderCards();
+            // saveToJSON();
+            togglePreview();
         }
 
-        // Card Management
+       
+
+    
         function createCard(data = {}) {
             return {
                 id: Date.now() + Math.random(),
                 heading: data.heading || '',
                 content: data.content || '',
                 image: data.image || null,
+                mediaType: data.mediaType || 'image', // ⭐ NEW
                 imagePosition: data.imagePosition || 'top',
                 imageWidth: data.imageWidth || null,
                 imageHeight: data.imageHeight || null
             };
         }
-
+        function saveToJSON() {
+            const blogData = {
+                cards: cards.map(card => ({
+                    heading: card.heading,
+                    content: card.content,
+                    image: card.image,
+                    imagePosition: card.imagePosition,
+                    imageWidth: card.imageWidth,
+                    imageHeight: card.imageHeight
+                })),
+                settings: {
+                    theme: document.body.dataset.theme || 'light',
+                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '1100px',
+                    language: currentLanguage
+                }
+            };
+            localStorage.setItem('blogData', JSON.stringify(blogData));
+        }
         function renderCards() {
             const container = document.getElementById('cardsContainer');
             container.innerHTML = '';
             
             cards.forEach((card, index) => {
-                if (index > 0 || cards.length === 0) {
-                    const divider = createCardDivider(index);
-                    container.appendChild(divider);
-                }
+                // if (index > 0 || cards.length === 0) {
+                //     const divider = createCardDivider(index);
+                //     container.appendChild(divider);
+                // }
                 
                 const cardElement = createCardElement(card, index);
                 container.appendChild(cardElement);
             });
-            
-            // Add divider after last card
-            const finalDivider = createCardDivider(cards.length);
-            container.appendChild(finalDivider);
-        }
 
-        function createCardDivider(insertIndex) {
-            const divider = document.createElement('div');
-            divider.className = 'card-divider';
-            divider.innerHTML = `
-                <div class="card-divider-line"></div>
-                <div class="card-divider-buttons">
-                    <button class="insert-card-button" onclick="insertCardAt(${insertIndex})" title="Insert card">+</button>
-                </div>
-            `;
-            return divider;
-        }
+        }  
 
-        function createCardElement(card, index) {
+         function createCardElement(card, index) {
             const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
+            cardDiv.className = 'card mb-5';
             cardDiv.dataset.index = index;
             
             const topBar = document.createElement('div');
             topBar.className = 'card-top-bar';
-            topBar.innerHTML = `
-                <div class="card-actions">
-                    <div class="card-action-btn drag-handle" draggable="true" title="Drag to reorder">⋮⋮</div>
-                    <button class="card-action-btn" onclick="addImageToCard(${index})">🖼️</button>
-                </div>
-                <div class="card-menu-wrapper">
-                    <button class="card-menu-button" onclick="toggleCardMenu(${index})" title="Card options">⋮</button>
-                    <div class="card-menu" id="cardMenu${index}">
-                        <button class="card-menu-item" onclick="duplicateCard(${index})">📋 Duplicate</button>
-                        <button class="card-menu-item danger" onclick="deleteCard(${index})">🗑️ Delete</button>
-                    </div>
-                </div>
-            `;
+
             cardDiv.appendChild(topBar);
             
-            // Card Header
             const header = document.createElement('div');
-            header.className = 'card-header';
+            header.className = 'card-header_';
             
             const heading = document.createElement('div');
             heading.className = 'card-heading';
             heading.contentEditable = !isPreviewMode;
-            heading.textContent = card.heading;
+            // heading.textContent = card.heading;
+            heading.innerHTML = card.heading;
             heading.addEventListener('blur', () => {
-                card.heading = heading.textContent;
-                saveToLocalStorage();
+                // card.heading = heading.textContent;
+                card.heading = heading.innerHTML;
+                saveToJSON();
             });
             
             header.appendChild(heading);
             
-            // Card Content Wrapper
             const contentWrapper = document.createElement('div');
-            contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;
-            
-            // Image Container (if exists)
-            if (card.image) {
-                const imageContainer = createImageContainer(card, index);
-                contentWrapper.appendChild(imageContainer);
+            if (card.imagePosition == "top" || card.imagePosition == "bottom") {
+                contentWrapper.className = `card-content-wrapper`;
+            } else {
+                contentWrapper.className = `card-content-wrapper image-${card.imagePosition}`;  
             }
-            
-            // Card Content
+
             const content = document.createElement('div');
             content.className = 'card-content';
             content.contentEditable = !isPreviewMode;
             content.innerHTML = card.content;
             content.addEventListener('blur', () => {
                 card.content = content.innerHTML;
-                saveToLocalStorage();
+                saveToJSON();
             });
             
             contentWrapper.appendChild(content);
             
-            // Image Controls (if image exists and not in preview mode)
-            if (card.image && !isPreviewMode) {
-                const imageControls = document.createElement('div');
-                imageControls.className = 'image-controls';
-                imageControls.innerHTML = `
-                    <div class="image-controls-label">Image Position</div>
-                    <div class="image-position-buttons">
-                        <button class="image-position-btn ${card.imagePosition === 'top' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'top')">Top</button>
-                        <button class="image-position-btn ${card.imagePosition === 'bottom' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'bottom')">Bottom</button>
-                        <button class="image-position-btn ${card.imagePosition === 'left' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'left')">Left</button>
-                        <button class="image-position-btn ${card.imagePosition === 'right' ? 'active' : ''}" onclick="changeImagePosition(${index}, 'right')">Right</button>
-                    </div>
-                `;
-                cardDiv.appendChild(header);
-                cardDiv.appendChild(contentWrapper);
-                cardDiv.appendChild(imageControls);
+            if (card.image) {
+                const imageContainer = createImageContainer(card, index);
+                if (card.imagePosition == "top") {
+                    cardDiv.appendChild(header);
+                    cardDiv.appendChild(imageContainer);
+                    cardDiv.appendChild(contentWrapper);
+                } else if (card.imagePosition == "bottom") {
+                    cardDiv.appendChild(header); 
+                    cardDiv.appendChild(contentWrapper); 
+                    cardDiv.appendChild(imageContainer);
+                } else {
+                    cardDiv.appendChild(header);
+                    contentWrapper.appendChild(imageContainer);
+                    cardDiv.appendChild(contentWrapper); 
+                }
             } else {
                 cardDiv.appendChild(header);
                 cardDiv.appendChild(contentWrapper);
             }
             
-            // Drag and Drop - only on drag handle
-            const dragHandle = topBar.querySelector('.drag-handle');
-            dragHandle.addEventListener('mousedown', () => {
-                cardDiv.draggable = true;
-            });
-            
-            cardDiv.addEventListener('dragstart', handleDragStart);
-            cardDiv.addEventListener('dragover', handleDragOver);
-            cardDiv.addEventListener('drop', handleDrop);
-            cardDiv.addEventListener('dragend', handleDragEnd);
-            
             return cardDiv;
         }
+        
+        // function createImageContainer(card, index) {
+        //     const imageContainer = document.createElement('div');
+        //     imageContainer.className = 'card-image-container';
+        //     imageContainer.dataset.cardIndex = index;
+            
+        //     // Apply saved dimensions if they exist
+        //     if (card.imageWidth) {
+        //         imageContainer.style.width = card.imageWidth + 'px';
+        //     }
+        //     if (card.imageHeight) {
+        //         imageContainer.style.height = card.imageHeight + 'px';
+        //     }
+            
+        //     const img = document.createElement('img');
+        //     img.className = 'card-image';
+        //     img.src = card.image;
+        //     img.alt = card.heading;
+            
+        
+            
+        //     imageContainer.appendChild(img);
 
+            
+        //     return imageContainer;
+        // }
         function createImageContainer(card, index) {
+            console.log(card);
             const imageContainer = document.createElement('div');
             imageContainer.className = 'card-image-container';
             imageContainer.dataset.cardIndex = index;
-            
+
             // Apply saved dimensions if they exist
             if (card.imageWidth) {
                 imageContainer.style.width = card.imageWidth + 'px';
@@ -1589,117 +1902,33 @@
             if (card.imageHeight) {
                 imageContainer.style.height = card.imageHeight + 'px';
             }
-            
-            const img = document.createElement('img');
-            img.className = 'card-image';
-            img.src = card.image;
-            img.alt = card.heading;
-            
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'image-remove-btn';
-            removeBtn.innerHTML = '✕';
-            removeBtn.onclick = () => removeImage(index);
-            
-            const resizeHandleE = document.createElement('div');
-            resizeHandleE.className = 'resize-handle resize-handle-e';
-            resizeHandleE.dataset.direction = 'e';
-            
-            const resizeHandleS = document.createElement('div');
-            resizeHandleS.className = 'resize-handle resize-handle-s';
-            resizeHandleS.dataset.direction = 's';
-            
-            const resizeHandleSE = document.createElement('div');
-            resizeHandleSE.className = 'resize-handle resize-handle-se';
-            resizeHandleSE.dataset.direction = 'se';
-            
-            // Add resize event listeners
-            [resizeHandleE, resizeHandleS, resizeHandleSE].forEach(handle => {
-                handle.addEventListener('mousedown', startResize);
-            });
-            
-            imageContainer.appendChild(img);
-            imageContainer.appendChild(removeBtn);
-            imageContainer.appendChild(resizeHandleE);
-            imageContainer.appendChild(resizeHandleS);
-            imageContainer.appendChild(resizeHandleSE);
-            
+
+            let mediaElement;
+
+            // ---- NEW: support image or video ----
+            if (card.mediaType === 'video') {
+                mediaElement = document.createElement('video');
+                mediaElement.className = 'card-image';
+                mediaElement.src = card.image;
+                mediaElement.controls = true;
+            } else {
+                mediaElement = document.createElement('img');
+                mediaElement.className = 'card-image';
+                mediaElement.src = card.image;
+                mediaElement.alt = card.heading;
+            }
+            imageContainer.appendChild(mediaElement);
             return imageContainer;
-        }
-
-        function startResize(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            resizingImage = e.target.parentElement;
-            resizeDirection = e.target.dataset.direction;
-            resizeStartX = e.clientX;
-            resizeStartY = e.clientY;
-            resizeStartWidth = resizingImage.offsetWidth;
-            resizeStartHeight = resizingImage.offsetHeight;
-            
-            document.addEventListener('mousemove', doResize);
-            document.addEventListener('mouseup', stopResize);
-        }
-
-        function doResize(e) {
-            if (!resizingImage) return;
-            
-            const deltaX = e.clientX - resizeStartX;
-            const deltaY = e.clientY - resizeStartY;
-            
-            if (resizeDirection === 'e') {
-                const newWidth = Math.max(100, resizeStartWidth + deltaX);
-                resizingImage.style.width = newWidth + 'px';
-            } else if (resizeDirection === 's') {
-                const newHeight = Math.max(100, resizeStartHeight + deltaY);
-                resizingImage.style.height = newHeight + 'px';
-            } else if (resizeDirection === 'se') {
-                const newWidth = Math.max(100, resizeStartWidth + deltaX);
-                const newHeight = Math.max(100, resizeStartHeight + deltaY);
-                resizingImage.style.width = newWidth + 'px';
-                resizingImage.style.height = newHeight + 'px';
-            }
-        }
-
-        function stopResize() {
-            if (resizingImage) {
-                const cardIndex = parseInt(resizingImage.dataset.cardIndex);
-                cards[cardIndex].imageWidth = resizingImage.offsetWidth;
-                cards[cardIndex].imageHeight = resizingImage.offsetHeight;
-                saveToLocalStorage();
-            }
-            
-            resizingImage = null;
-            document.removeEventListener('mousemove', doResize);
-            document.removeEventListener('mouseup', stopResize);
         }
 
         function insertCardAt(index) {
             const newCard = createCard();
             cards.splice(index, 0, newCard);
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
+            // saveToLocalStorage();
         }
 
-        function toggleCardMenu(index) {
-            const menu = document.getElementById(`cardMenu${index}`);
-            const allMenus = document.querySelectorAll('.card-menu');
-            
-            allMenus.forEach(m => {
-                if (m !== menu) m.classList.remove('active');
-            });
-            
-            menu.classList.toggle('active');
-        }
-
-        // Close menus when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.card-menu-wrapper')) {
-                document.querySelectorAll('.card-menu').forEach(m => {
-                    m.classList.remove('active');
-                });
-            }
-        });
 
         // Image Management
         function addImageToCard(index) {
@@ -1713,7 +1942,7 @@
                     reader.onload = (event) => {
                         cards[index].image = event.target.result;
                         renderCards();
-                        saveToLocalStorage();
+                        saveToJSON();
                     };
                     reader.readAsDataURL(file);
                 }
@@ -1726,13 +1955,13 @@
             cards[index].imageWidth = null;
             cards[index].imageHeight = null;
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
         }
 
         function changeImagePosition(index, position) {
             cards[index].imagePosition = position;
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
         }
 
         // Card Actions
@@ -1740,14 +1969,15 @@
             const newCard = { ...cards[index], id: Date.now() + Math.random() };
             cards.splice(index + 1, 0, newCard);
             renderCards();
-            saveToLocalStorage();
+            saveToJSON();
         }
 
         function deleteCard(index) {
-            if (confirm('Are you sure you want to delete this card?')) {
+            const confirmText = currentLanguage === 'fa' ? 'آیا مطمئن هستید؟' : 'Are you sure?';
+            if (confirm(confirmText)) {
                 cards.splice(index, 1);
                 renderCards();
-                saveToLocalStorage();
+                saveToJSON();
             }
         }
 
@@ -1786,7 +2016,7 @@
                 cards.splice(targetIndex, 0, draggedItem);
                 
                 renderCards();
-                saveToLocalStorage();
+                saveToJSON();
             }
             
             this.classList.remove('drag-over');
@@ -1815,132 +2045,24 @@
                 }
             }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
-
+        
         // Toolbar Functions
         function setupEventListeners() {
-            document.getElementById('langBtn').addEventListener('click', () => {
-                currentLanguage = currentLanguage === 'en' ? 'fa' : 'en';
-                const btn = document.getElementById('langBtn');
-                const html = document.documentElement;
-                
-                if (currentLanguage === 'fa') {
-                    html.setAttribute('dir', 'rtl');
-                    html.setAttribute('lang', 'fa');
-                    btn.textContent = '🌐 FA';
-                } else {
-                    html.setAttribute('dir', 'ltr');
-                    html.setAttribute('lang', 'en');
-                    btn.textContent = '🌐 EN';
-                }
-                
+        
+            document.getElementById('langBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                currentLanguage = currentLanguage === 'fa' ? 'en' : 'fa';
+                updateLanguage(currentLanguage);
                 localStorage.setItem('language', currentLanguage);
             });
 
             const widthSlider = document.getElementById('widthSlider');
             const widthValue = document.getElementById('widthValue');
             
-            widthSlider.addEventListener('input', (e) => {
-                const width = e.target.value;
-                document.documentElement.style.setProperty('--container-width', width + 'px');
-                widthValue.textContent = width + 'px';
-                localStorage.setItem('containerWidth', width);
-            });
-
-            // Toolbar buttons
-            document.querySelectorAll('.toolbar-btn[data-command]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const command = btn.dataset.command;
-                    const value = btn.dataset.value || null;
-                    document.execCommand(command, false, value);
-                });
-            });
-
-            // Font family
-            document.getElementById('fontFamily').addEventListener('change', (e) => {
-                document.execCommand('fontName', false, e.target.value);
-            });
-
-            const fontSizeSelect = document.getElementById('fontSize');
-            fontSizeSelect.addEventListener('change', (e) => {
-                const size = e.target.value;
-                if (size) {
-                    document.execCommand('fontSize', false, '7');
-                    const fontElements = document.querySelectorAll('font[size="7"]');
-                    fontElements.forEach(el => {
-                        el.removeAttribute('size');
-                        el.style.fontSize = size + 'px';
-                    });
-                }
-                // Reset select to placeholder
-                e.target.value = '';
-            });
-
-            // Colors
-            // document.getElementById('textColor').addEventListener('change', (e) => {
-            //     document.execCommand('foreColor', false, e.target.value);
-            // });
-
-            // document.getElementById('bgColor').addEventListener('change', (e) => {
-            //     document.execCommand('backColor', false, e.target.value);
-            // });
-
-            // Link button
-            document.getElementById('linkBtn').addEventListener('click', () => {
-                const url = prompt('Enter URL:');
-                if (url) {
-                    document.execCommand('createLink', false, url);
-                }
-            });
-
-            // Theme selector
-            document.getElementById('themeSelector').addEventListener('change', (e) => {
-                document.body.dataset.theme = e.target.value;
-                localStorage.setItem('theme', e.target.value);
-            });
-
-            // Preview button
-            document.getElementById('previewBtn').addEventListener('click', togglePreview);
-
-            // Export button
-            document.getElementById('exportBtn').addEventListener('click', () => {
-                document.getElementById('exportModal').classList.add('active');
-            });
-
-            // Load JSON button
-            document.getElementById('loadJsonBtn').addEventListener('click', () => {
-                document.getElementById('loadJsonModal').classList.add('active');
-            });
-
-            // Add card button
-            document.getElementById('addCardBtn').addEventListener('click', () => {
-                cards.push(createCard());
-                renderCards();
-                saveToLocalStorage();
-            });
-
-            // Modal buttons
-            document.getElementById('cancelExportBtn').addEventListener('click', () => {
-                document.getElementById('exportModal').classList.remove('active');
-            });
-
-            document.getElementById('confirmExportBtn').addEventListener('click', exportContent);
-
-            document.getElementById('cancelLoadBtn').addEventListener('click', () => {
-                document.getElementById('loadJsonModal').classList.remove('active');
-            });
-
-            document.getElementById('confirmLoadBtn').addEventListener('click', loadJsonData);
-
-            // Publish button
-            document.getElementById('publishBtn').addEventListener('click', publishBlog);
-
-            // Load saved preferences
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.body.dataset.theme = savedTheme;
-                document.getElementById('themeSelector').value = savedTheme;
-            }
             
+
+
+     
             const savedLanguage = localStorage.getItem('language');
             if (savedLanguage) {
                 currentLanguage = savedLanguage;
@@ -1978,277 +2100,24 @@
             }
         }
 
-        // Keyboard Shortcuts
-        function setupKeyboardShortcuts() {
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey || e.metaKey) {
-                    switch(e.key.toLowerCase()) {
-                        case 'b':
-                            e.preventDefault();
-                            document.execCommand('bold');
-                            break;
-                        case 'i':
-                            e.preventDefault();
-                            document.execCommand('italic');
-                            break;
-                        case 'u':
-                            e.preventDefault();
-                            document.execCommand('underline');
-                            break;
-                        case 's':
-                            e.preventDefault();
-                            saveToLocalStorage();
-                            alert('Content saved!');
-                            break;
-                    }
-                }
-            });
-        }
 
         // Preview Mode
         function togglePreview() {
-            isPreviewMode = !isPreviewMode;
-            document.body.classList.toggle('preview-mode');
-            const btn = document.getElementById('previewBtn');
-            btn.textContent = isPreviewMode ? '✏️ Edit' : '👁️ Preview';
-            
             const authorInfo = document.getElementById('authorInfo');
             const recentPosts = document.getElementById('recentPosts');
-            
-            if (isPreviewMode) {
-                // authorInfo.style.display = 'flex';
-                // recentPosts.style.display = 'block';
-                
-                // Apply visibility settings
-                if (!showAuthorInfo) {
-                    authorInfo.classList.add('hidden');
-                    authorInfo.style.display = 'none';
-                }
-                if (!showRecentPosts) {
-                    recentPosts.classList.add('hidden');
-                    recentPosts.style.display = 'none';
-                }
-            } else {
-                authorInfo.style.display = 'flex';
-                recentPosts.style.display = 'block';
-                // authorInfo.style.display = 'none';
-                // recentPosts.style.display = 'none';
-                authorInfo.classList.remove('hidden');
-                recentPosts.classList.remove('hidden');
+            if (!showAuthorInfo) {
+                authorInfo.classList.add('hidden');
+                authorInfo.style.display = 'none';
             }
+            if (!showRecentPosts) {
+                recentPosts.classList.add('hidden');
+                recentPosts.style.display = 'none';
+            }
+           
             
             renderCards();
         }
 
-        // Export Functions
-        function exportContent() {
-            const format = document.getElementById('exportFormat').value;
-            let content, filename, type;
-
-            switch(format) {
-                case 'json':
-                    content = JSON.stringify(cards.map(card => ({
-                        heading: card.heading,
-                        content: card.content,
-                        image: card.image,
-                        imagePosition: card.imagePosition,
-                        imageWidth: card.imageWidth,
-                        imageHeight: card.imageHeight
-                    })), null, 2);
-                    filename = 'blog-content.json';
-                    type = 'application/json';
-                    break;
-                
-                case 'html':
-                    content = generateHTML();
-                    filename = 'blog-content.html';
-                    type = 'text/html';
-                    break;
-                
-                case 'markdown':
-                    content = generateMarkdown();
-                    filename = 'blog-content.md';
-                    type = 'text/markdown';
-                    break;
-            }
-
-            downloadFile(content, filename, type);
-            document.getElementById('exportModal').classList.remove('active');
-        }
-
-        function generateHTML() {
-            let html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Content</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 2rem; background: #f8f9fa; }
-        .card { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-        h1 { font-size: 1.75rem; margin-bottom: 1rem; }
-        img { max-width: 100%; border-radius: 12px; }
-    </style>
-</head>
-<body>
-`;
-            
-            cards.forEach(card => {
-                html += `    <div class="card">
-        <h1>${card.heading}</h1>
-        ${card.image ? `<img src="${card.image}" alt="${card.heading}">` : ''}
-        <div>${card.content}</div>
-    </div>
-`;
-            });
-            
-            html += `</body>
-</html>`;
-            return html;
-        }
-
-        function generateMarkdown() {
-            let markdown = '';
-            
-            cards.forEach(card => {
-                markdown += `# ${card.heading}\n\n`;
-                if (card.image) {
-                    markdown += `![${card.heading}](${card.image})\n\n`;
-                }
-                markdown += `${card.content}\n\n---\n\n`;
-            });
-            
-            return markdown;
-        }
-
-        function downloadFile(content, filename, type) {
-            const blob = new Blob([content], { type });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Load JSON Data
-        function loadJsonData() {
-            const jsonInput = document.getElementById('jsonInput').value;
-            try {
-                const data = JSON.parse(jsonInput);
-                if (Array.isArray(data)) {
-                    cards = data.map(item => createCard(item));
-                    renderCards();
-                    saveToLocalStorage();
-                    document.getElementById('loadJsonModal').classList.remove('active');
-                    document.getElementById('jsonInput').value = '';
-                } else {
-                    alert('Please provide a valid JSON array');
-                }
-            } catch (error) {
-                alert('Invalid JSON format: ' + error.message);
-            }
-        }
-
-        // Publish Blog
-        function publishBlog() {
-            const blogData = {
-                cards: cards.map(card => ({
-                    heading: card.heading,
-                    content: card.content,
-                    image: card.image,
-                    imagePosition: card.imagePosition,
-                    imageWidth: card.imageWidth,
-                    imageHeight: card.imageHeight
-                })),
-                settings: {
-                    theme: document.body.dataset.theme || 'light',
-                    containerWidth: document.documentElement.style.getPropertyValue('--container-width') || '900px',
-                    language: currentLanguage,
-                    showAuthorInfo: showAuthorInfo,
-                    showRecentPosts: showRecentPosts
-                }
-            };
-
-            console.log('Publishing blog data:', blogData);
-
-            // Download JSON for testing
-            downloadFile(JSON.stringify(blogData, null, 2), 'blog-publish.json', 'application/json');
-
-            // In production, send to backend:
-            /*
-            fetch('/api/publish', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(blogData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Blog published successfully!');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Failed to publish blog');
-            });
-            */
-
-            alert('Blog data prepared for publishing! Check console and downloads.');
-        }
-
-        // Section visibility toggles
-        function toggleSectionMenu(section) {
-            const menuId = section === 'author' ? 'authorMenu' : 'recentMenu';
-            const menu = document.getElementById(menuId);
-            const allMenus = document.querySelectorAll('.section-menu');
-            
-            allMenus.forEach(m => {
-                if (m !== menu) m.classList.remove('active');
-            });
-            
-            menu.classList.toggle('active');
-        }
-
-        function toggleAuthorVisibility() {
-            showAuthorInfo = document.getElementById('showAuthorInfo').checked;
-            localStorage.setItem('showAuthorInfo', showAuthorInfo);
-            
-            const authorInfo = document.getElementById('authorInfo');
-            if (isPreviewMode) {
-                if (showAuthorInfo) {
-                    authorInfo.classList.remove('hidden');
-                } else {
-                    authorInfo.classList.add('hidden');
-                }
-            }
-        }
-
-        function toggleRecentVisibility() {
-            showRecentPosts = document.getElementById('showRecentPosts').checked;
-            localStorage.setItem('showRecentPosts', showRecentPosts);
-            
-            const recentPosts = document.getElementById('recentPosts');
-            if (isPreviewMode) {
-                if (showRecentPosts) {
-                    recentPosts.classList.remove('hidden');
-                } else {
-                    recentPosts.classList.add('hidden');
-                }
-            }
-        }
-
-        // Close section menus when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.section-toggle-menu')) {
-                document.querySelectorAll('.section-menu').forEach(m => {
-                    m.classList.remove('active');
-                });
-            }
-        });
 
         // Local Storage
         function saveToLocalStorage() {

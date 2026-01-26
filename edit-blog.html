@@ -367,18 +367,18 @@
 
         /* Cards Container */
         .cards-container {
-            background-color: var(--color-card-bg);
+            /* background-color: var(--color-card-bg); */
             display: flex;
             flex-direction: column;
             border-radius: var(--radius);
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-sm);
+            /* margin-bottom: 1.5rem; */
+            /* box-shadow: var(--shadow-sm); */
         }
 
         /* Card divider for inserting new cards */
         .card-divider {
             position: relative;
-            height: 0px;
+            height: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -456,7 +456,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* margin-bottom: 0.5rem; */
+            /* margin-bottom: 0.5rem;  */
             opacity: 0;
             transition: opacity 0.2s ease;
         }
@@ -1857,12 +1857,24 @@
             console.log(currentLanguage);
             updateLanguage(currentLanguage);
             console.log(cards.length)
+            
             // Load sample data if no cards exist
             // if (cards.length === 3) {
             loadSampleData();
             // }
         });
-
+        async function fetchAdminInfo() {
+            try {
+                admin = await authFetch(`/admin/profile/`, {
+                        method: 'GET',
+                    });
+                return admin;
+            }
+            catch (error) {
+                console.error('Error loading admin info:', error);
+                throw error;
+            }
+        }
         // Sample Data
         async  function loadSampleData() {
             // const sampleData = [
@@ -1916,7 +1928,7 @@
             const authorInfo = document.querySelector('#authorInfo');
 
             // If not found, fetch from backend
-            if (!admin || !admin.user.first_name || !admin.user.last_name) {
+            if (!admin) {
                 console.log("Fetching admin info from backend...");
                 admin = await fetchAdminInfo();
                 // Save to localStorage
@@ -1935,7 +1947,7 @@
             function updateAuthorInfo(admin) {
                 // Update author name
                 const authorName = document.querySelector('.author-name');
-                authorName.textContent = `${admin.user.first_name} ${admin.user.last_name}`;
+                authorName.textContent = `${admin.user.username}`;
                 
                 // Update author bio (or use email if bio not available)
                 const authorBio = document.querySelector('.author-bio');
@@ -1971,6 +1983,7 @@
             );
             
             // cards = sampleData.map(data => createCard(data));
+            
             renderCards();
             await generate_first_media()
             
@@ -2066,7 +2079,7 @@
 
         function createCardDivider(insertIndex) {
             const divider = document.createElement('div');
-            divider.className = 'card-divider';
+            divider.className = 'card-divider ';
             divider.innerHTML = `
                 <div class="card-divider-line"></div>
                 <div class="card-divider-buttons">
@@ -2126,7 +2139,7 @@
 
         function createCardElement(card, index) {
             const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
+            cardDiv.className = 'card mb-5';
             cardDiv.dataset.index = index;
             
             const topBar = document.createElement('div');

@@ -18,6 +18,8 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
@@ -226,6 +228,16 @@ justify-content: center;
       font-size: 18px;
 }
 
+.option-btn.active {
+    border: 2px solid #0d6efd;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 700px;
+    margin: 1.75rem auto;
+  }
+}
     </style>
 </head>
 
@@ -399,9 +411,27 @@ justify-content: center;
                         <div class="row g-3">
                             
                         </div>
-                        <div class="row mb-3 ml-1" style="display: none;" >
+                        <div id="web_type" class=" mb-3" style="display: none;">
+                            <div class="d-flex gap-3 flex-wrap" style="flex-direction: column-reverse;">
+                          
+                              <button class="btn btn-sm btn-light border-0 flex-column d-flex option-btn "
+                                      data-type="presentation">
+                                  <!-- <i class="fa-solid fa-rectangle-history fa-2x mb-1"></i> -->
+                                  <i class="bi bi-easel"></i>
+                                  <span>ارائه</span>
+                              </button>
+                          
+                              <button class="btn btn-sm btn-light border-0 flex-column d-flex option-btn active"
+                                      data-type="webpage">
+                                  <!-- <i class="fa-duotone fa-browser fa-2x mb-1"></i> -->
+                                  <i class="bi bi-globe"></i>
+                                  <span>صفحه وب</span>
+                              </button>
+                            </div>
+                          </div>
+                        <div class="row mb-3 ml-1" style="display: none;justify-content: space-between;">
                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                                <li class="nav-item dropdown ml-2" >
+                                <li class="nav-item dropdown ml-2" style="display: none;">
                                     
                                     <a class="nav-link dropdown-toggle import-btn-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;">
                                     10 <span data-label="cards">cards</span>
@@ -544,6 +574,14 @@ justify-content: center;
                                 </li>
                                 
                             </ul>
+                            <ul class="nav nav-pills" id="pills-tab-2" role="tablist">
+                                <li>
+                                    <a class="nav-link  import-btn-light" href="#" id="prompt_setting" role="button" data-toggle="modal" data-target="#settingModal" aria-expanded="false" style="padding-left: 16px;padding-right: 16px;">
+                                        <i class="fas fa-cogs fa-sm text-primary mr-2"></i> 
+                                        تنظیمات
+                                    </a>
+                                </li>
+                            </ul>  
                         </div>  
                         <div class="custom-input-wrapper" style="display: none;">
                             
@@ -652,6 +690,80 @@ justify-content: center;
         </div>
     </div>
 
+    <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" style="direction: ltr;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="border-bottom-width: 0px;">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel" data-label="modal_ready">تنظیمات پرامپت</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <p style="margin-bottom: 0px;padding-right: 31px;text-align: end;">پس از اعمال تغییرات بر روی دکمه ذخیره کلیک کنید</p>
+                <div class="modal-header" style="border-bottom-width: 0px;justify-content: end;padding-bottom: 0px;">
+                    <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" id="default_button"
+                     style="border-radius: 10px;"  data-label="modal_logout_btn" onclick="default_button()">دیفالت</a>
+                     <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" id="customize_button"
+                     style="border-radius: 10px;"  data-label="modal_logout_btn" onclick="customize_button()">شخصی سازی</a>
+                </div>
+                <div class="modal-body text-primary">
+                    <span>SYSTEM</span>
+                    <textarea class="custom-input" id="system" style="height: 100px;font-size: smaller;resize: block;"></textarea>
+
+                    <span>DOCUMENT INTERPRETATION</span>
+                    <textarea class="custom-input" id="DOCUMENT_INTERPRETATION" style="height: 150px;font-size: smaller;resize: block;"></textarea>
+
+                    <span>STRICT_OUTPUT && CONTENT REQUIREMENTS</span>
+                    <textarea class="custom-input" id="STRICT_OUTPUT_and_CONTENT_REQUIREMENTS" style="height: 310px;font-size: smaller;resize: block;"></textarea>
+
+                    <!-- <span>CONTENT REQUIREMENTS</span>
+                    <textarea class="custom-input" id="CONTENT_REQUIREMENTS" style="height: 150px;font-size: small;resize: block;"></textarea> -->
+
+                    <span>STRUCTURE RULES && STYLE CONSTRAINTS</span>
+                    <textarea class="custom-input" id="STRUCTURE_RULES_and_STYLE_CONSTRAINTS" style="height: 210px;font-size: smaller;resize: block;"></textarea>
+
+                    <!-- <span>STYLE CONSTRAINTS</span>
+                    <textarea class="custom-input" id="STYLE_CONSTRAINTS" style="height: 150px;font-size: small;resize: block;"></textarea> -->
+
+                    <span>IMAGE PROMPT</span>
+                    <textarea class="custom-input" id="IMAGE_PROMPT" style="height: 150px;font-size: smaller;resize: block;"></textarea>
+
+                </div>
+                <div class="modal-footer" style="border-top-width: 0px;">
+                    <!-- <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button> -->
+                    <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" id="save_prompt"
+                     style="border-radius: 10px;"  data-label="modal_logout_btn" onclick="save_prompt()">ذخیره</a> <!-- href="login.html" -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="document_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" style="direction: ltr;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="border-bottom-width: 0px;">
+                    <h5 class="modal-title text-primary" id="document_name" data-label="modal_ready">خلاصه سند</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-primary" >
+                    <div class="card" id="document_content" style="padding: 2rem;">
+                    
+                    </div>
+                </div>
+                <!-- <div class="modal-footer" style="border-top-width: 0px;">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="d-sm-inline-block btn btn-md   border-1 text-light mr-2 mb-2" id="save_prompt"
+                     style="border-radius: 10px;"  data-label="modal_logout_btn" onclick="save_prompt()">ذخیره</a> 
+                </div> -->
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -662,6 +774,26 @@ justify-content: center;
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script>
+        document.querySelectorAll(".option-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const selectedType = this.dataset.type;
+            console.log("User selected:", selectedType);
+            if (selectedType === "webpage") {
+                document.querySelector(".nav-item.dropdown.ml-2").style.display = 'none';
+                const divcontainer = document.getElementById('carddivcontainer');
+                divcontainer.style.display = 'none';
+                document.getElementById('navbar-bottom').style.display = 'none';
+            }
+            else if (selectedType === "presentation") {
+                document.querySelector(".nav-item.dropdown.ml-2").style.display = 'block';
+            }
+            // Example: highlight selected
+            document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+    </script>
     <script>
         const textarea = document.getElementById('contentEditor');
           const placeholder = document.getElementById('customPlaceholder');
@@ -750,6 +882,20 @@ justify-content: center;
             
             return await res;
         }
+
+        async function fetchAdminInfo() {
+            try {
+                admin = await authFetch(`/admin/profile/`, {
+                        method: 'GET',
+                    });
+                return admin;
+            }
+            catch (error) {
+                console.error('Error loading admin info:', error);
+                throw error;
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
         const urlInput = document.getElementById("urlInput");
         const importBtn = document.querySelector('[data-label="import_button"]');
@@ -879,7 +1025,8 @@ justify-content: center;
             document.querySelectorAll('.col-12.col-md-4')[1].style.display = 'none';
             document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'block';
             document.getElementById('generateContainer').style.display = 'flex'; 
-            document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'block';
+            document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'flex';
+            document.getElementById('web_type').style.display = "block";
             const container = document.querySelectorAll('.row.g-3')[1]
 
             if (!container) return;
@@ -892,7 +1039,7 @@ justify-content: center;
                             <div class="import-success-icon ml-1 mr-1">
                                 <i class="fas fa-check fa-sm">
                                 </i></div>
-                            <a class="import-success-name">${doc.title}</a>
+                            <a class="import-success-name" onclick="showdocument(${index})" style="cursor: pointer;" data-toggle="modal" data-target="#document_modal">${doc.title} </a>
                             <button class="import-success-remove" data-label="remove" onclick="removeUploadedDocument('${doc.document_id}')">✕</button>
                         </div>
                     </div>
@@ -901,6 +1048,131 @@ justify-content: center;
             
             });      
         }
+
+        function showdocument(index){
+            // const documentmodal = document.getElementById("document_modal")
+            const document_content = document.getElementById("document_content")
+            // const document_name = document.getElementById("document_name")
+            console.log(uploadedDocuments[index])
+            document_content.textContent = uploadedDocuments[index]['summarize_text']
+            
+        }
+
+        async function loading_settings() {
+                console.log("Fetching admin info from backend...");
+                admin = await fetchAdminInfo();
+                // Save to localStorage
+                const profile = admin[0];
+                console.log('Profile data:', profile);
+                localStorage.setItem('adminInfo', JSON.stringify(profile));
+
+                document.getElementById('system').value = profile.webpage_prompt.system;
+                document.getElementById('DOCUMENT_INTERPRETATION').value = profile.webpage_prompt.DOCUMENT_INTERPRETATION;
+                document.getElementById('STRICT_OUTPUT_and_CONTENT_REQUIREMENTS').value = profile.webpage_prompt.STRICT_OUTPUT_and_CONTENT_REQUIREMENTS;
+                document.getElementById('STRUCTURE_RULES_and_STYLE_CONSTRAINTS').value = profile.webpage_prompt.STRUCTURE_RULES_and_STYLE_CONSTRAINTS;
+                document.getElementById('IMAGE_PROMPT').value = profile.webpage_prompt.IMAGE_PROMPT;
+               
+            }
+
+        async function save_prompt() {
+            // ---- 1. Disable button immediately ----
+            const btn = document.getElementById("save_prompt");
+            btn.style.pointerEvents = "none";    // disable click
+            btn.style.opacity = "0.7";           // visual feedback
+            const originalHTML = btn.innerHTML;   // save original content
+
+            // ---- 2. Replace with spinner ----
+            btn.innerHTML = `
+                <div class="spinner-border text-light" role="status" style="width: 24px; height: 24px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            `;
+
+            const webpage_prompt = {
+                webpage_prompt:{
+                    system: document.getElementById('system').value,
+                    DOCUMENT_INTERPRETATION: document.getElementById('DOCUMENT_INTERPRETATION').value,
+                    STRICT_OUTPUT_and_CONTENT_REQUIREMENTS: document.getElementById('STRICT_OUTPUT_and_CONTENT_REQUIREMENTS').value,
+                    STRUCTURE_RULES_and_STYLE_CONSTRAINTS: document.getElementById('STRUCTURE_RULES_and_STYLE_CONSTRAINTS').value,
+                    IMAGE_PROMPT: document.getElementById('IMAGE_PROMPT').value,
+                }
+                
+            }
+            
+            response = await authFetch(`/admin/profile/updates/` ,{
+                    method: 'PATCH',
+                    body: JSON.stringify(webpage_prompt)
+                });
+            console.log('Prompt setting updated', response);
+            alert('prompt updated');
+
+            btn.innerHTML = originalHTML;
+            btn.style.pointerEvents = "auto"; // re-enable click
+            btn.style.opacity = "1";
+        }
+
+        function default_button(){
+            const default_button = document.getElementById("default_button");
+            const customize_button = document.getElementById("customize_button");
+
+            default_button.style.pointerEvents = "none";    // disable click
+            default_button.style.opacity = "0.7";    
+
+            customize_button.style.pointerEvents = "auto";    // disable click
+            customize_button.style.opacity = "1";  
+
+            default_prompt = {
+                system: "You are a professional academic science communicator and research writer.\nYour task is to transform multiple academic documents into ONE cohesive, unified narrative report.\nThe writing style should resemble a polished LinkedIn research post or public academic update.",
+                DOCUMENT_INTERPRETATION: "- The provided documents represent one or more academic papers.\n- Treat them as thematically related, even if they differ in scope or method.\n- Do NOT summarize papers individually.\n- Identify a SINGLE unifying research theme that connects all documents.\n- Synthesize ideas, methods, and contributions into one integrated storyline.",
+                STRICT_OUTPUT_and_CONTENT_REQUIREMENTS: "- Output must be valid Markdown only.\n- Write ONE continuous, homogeneous report.\n- Do NOT include citations, references, or external links.\n- Do NOT mention that multiple documents were provided.\n- Do NOT add explanations outside the report.\n- Length: At least 1000 words.\n- Tone: professional, reflective, confident, and accessible.\n- Audience: researchers, industry professionals, graduate students, and policy-aware readers.\n- Emphasize:\n• the core research problem\n• why it matters\n• conceptual or methodological innovation\n• broader implications and future direction",
+                STRUCTURE_RULES_and_STYLE_CONSTRAINTS: "- The first sentence should always be a well title related to the report. \n- Start with a strong opening paragraph that frames the research vision.\n- Develop the narrative logically, with smooth transitions.\n- End with a forward-looking or impact-focused conclusion.\n- Do NOT use section headings unless they improve readability\n- Avoid excessive technical detail.\n- Avoid bullet points.\n- Maintain a natural narrative flow.\n- The text should read as if written by the researcher themselves.",
+                IMAGE_PROMPT: "- Images are OPTIONAL and should be used only when they improve clarity or engagement.\n- Do NOT include real image URLs.\n- When adding an image, use Markdown image syntax with the placeholder URL: example.url\n- The image generation prompt MUST be placed inside the image alt text.\n- The alt text must be a detailed, visual prompt suitable for an AI image generator.\n- Format exactly like this:\n![IMAGE_PROMPT: detailed image generation prompt](example.url)\n- Include at most ONE image per main section.\n- The blog must contain AT LEAST ONE images in total.\n- The FIRST image must appear IMMEDIATELY after the blog title (on the next line after the title) before any text content."
+            }
+
+            document.getElementById('system').value = default_prompt.system;
+            document.getElementById('DOCUMENT_INTERPRETATION').value = default_prompt.DOCUMENT_INTERPRETATION;
+            document.getElementById('STRICT_OUTPUT_and_CONTENT_REQUIREMENTS').value = default_prompt.STRICT_OUTPUT_and_CONTENT_REQUIREMENTS;
+            document.getElementById('STRUCTURE_RULES_and_STYLE_CONSTRAINTS').value = default_prompt.STRUCTURE_RULES_and_STYLE_CONSTRAINTS;
+            document.getElementById('IMAGE_PROMPT').value = default_prompt.IMAGE_PROMPT;
+
+            document.getElementById('system').readOnly = true ; 
+            document.getElementById('DOCUMENT_INTERPRETATION').readOnly = true ;
+            document.getElementById('STRICT_OUTPUT_and_CONTENT_REQUIREMENTS').readOnly = true ;
+            document.getElementById('STRUCTURE_RULES_and_STYLE_CONSTRAINTS').readOnly = true ;
+            document.getElementById('IMAGE_PROMPT').readOnly = true ;
+        }
+
+        async function customize_button(){
+            const default_button = document.getElementById("default_button");
+            const customize_button = document.getElementById("customize_button");
+
+            default_button.style.pointerEvents = "auto";    // disable click
+            default_button.style.opacity = "1";    
+
+            customize_button.style.pointerEvents = "none";    // disable click
+            customize_button.style.opacity = "0.7";  
+
+            const originalHTML = customize_button.innerHTML;   // save original content
+
+            // ---- 2. Replace with spinner ----
+            customize_button.innerHTML = `
+                <div class="spinner-border text-light" role="status" style="width: 24px; height: 24px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            `;
+
+            
+            document.getElementById('system').readOnly = false ; 
+            document.getElementById('DOCUMENT_INTERPRETATION').readOnly = false ;
+            document.getElementById('STRICT_OUTPUT_and_CONTENT_REQUIREMENTS').readOnly = false ;
+            document.getElementById('STRUCTURE_RULES_and_STYLE_CONSTRAINTS').readOnly = false ;
+            document.getElementById('IMAGE_PROMPT').readOnly = false ;
+
+            await loading_settings();
+
+            customize_button.innerHTML = originalHTML;
+        }
+        
 
         // Remove a document from the list
         function removeUploadedDocument(documentId) {
@@ -912,6 +1184,7 @@ justify-content: center;
                 document.querySelectorAll('.custom-input-wrapper')[0].style.display = 'none';
                 document.getElementById('generateContainer').style.display = 'none';
                 document.querySelectorAll('.row.mb-3.ml-1')[0].style.display = 'none';
+                document.getElementById('web_type').style.display = "none";
 
                 const container = document.querySelectorAll('.row.g-3')[1];
                 if (container) container.innerHTML = '';
@@ -1063,75 +1336,139 @@ justify-content: center;
         });
 
         async function generateCards() {
-          const divcontainer = document.getElementById('carddivcontainer');
-          divcontainer.style.display = 'block';
-          const container = document.getElementById("cardContainer");
-          const textarea_prompt = document.getElementById("contentEditor");
-          
-          const btn = document.getElementById("generateBtn");
-          btn.style.pointerEvents = "none";    // disable click
-          btn.style.opacity = "0.7";           // visual feedback
-          const originalHTML = btn.innerHTML;   // save original content
+            const activeBtn = document.querySelector(".option-btn.active");
 
-          // ---- 2. Replace with spinner ----
-          btn.innerHTML = `
-            <div class="spinner-border text-light" role="status" style="width: 24px; height: 24px;">
-                <span class="sr-only">Loading...</span>
-            </div>
-          `;
-        //   const count = parseInt(document.getElementById("cardCount").value);
-          const count = selectedCardCount
-          container.innerHTML = ""; // Clear old cards
-    
-          if (!count || count <= 0) {
-            alert("Please enter a valid number of cards!");
-            return;
-          }
-          // 🔹 Send prompt to backend and get list of strings
-         const prompt = textarea_prompt.value //"Generate creative content for cards"; // You can replace this dynamically
-         const language = selectedLanguage
-         const result  = await getGeneratedTopics(prompt, count,language);
-         if (result.status != "success") {
-                console.error("❌ Backend error:", result);
-                return; // DO NOT proceed
+            if (!activeBtn) {
+                alert("Please choose one option first");
+                return;
             }
-         if (!result.topics) {
-            console.error("❌ Backend returned no topics:", result);
-            return;
-         } 
 
-         const generatedTexts = result.topics;
-         localStorage.setItem('currentBlogSlug', result.blog_slug);
+            const type = activeBtn.dataset.type;
 
-          // 🔹 Generate cards and fill them with backend output
-            for (let i = 1; i <= count; i++) {
-                const wrapper = document.createElement("div");
-                wrapper.className = "custom-input-wrapper-card mb-2";
-                // wrapper.style.border = "1px solid black";
-                // wrapper.style.borderRadius = "5px";
-                // wrapper.style.padding = "5px";
+            if (type === "webpage") {
 
-                const number = document.createElement("div");
-                number.className = "card-number";
-                number.textContent = i;
+                // ---- 1. Disable button immediately ----
+                const btn = document.getElementById("generateBtn");
+                btn.style.pointerEvents = "none";    // disable click
+                btn.style.opacity = "0.7";           // visual feedback
+                const originalHTML = btn.innerHTML;   // save original content
 
-                const textarea = document.createElement("textarea");
-                textarea.className = "custom-input-card";
-                textarea.id = `contentEditor_${i}`;
-                textarea.value = generatedTexts[i - 1] || ``;
+                // ---- 2. Replace with spinner ----
+                btn.innerHTML = `
+                    <div class="spinner-border text-light" role="status" style="width: 24px; height: 24px;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                `;
+                
+                const container = document.getElementById("cardContainer");
+                const textarea_prompt = document.getElementById("contentEditor");
+                //   const count = parseInt(document.getElementById("cardCount").value);
+                const count = selectedCardCount
+                container.innerHTML = ""; // Clear old cards
+            
+                if (!count || count <= 0) {
+                    alert("Please enter a valid number of cards!");
+                    return;
+                }
+                // 🔹 Send prompt to backend and get list of strings
+                const prompt = textarea_prompt.value //"Generate creative content for cards"; // You can replace this dynamically
+                const language = selectedLanguage
+                const documents_id = getUploadedDocumentIds()
+                try {
+                    const response = await authFetch(`/admin/blogs/generate_webpage_content/`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            prompt: prompt,
+                            language:language,
+                            documents:documents_id
+                        })
+                    });
 
-                wrapper.appendChild(number);
-                wrapper.appendChild(textarea);
-                container.appendChild(wrapper);
+                    console.log("✅ Backend response:", response);
+                    // ---- 3. Restore original button ----
+                    btn.innerHTML = originalHTML;
+                    btn.style.pointerEvents = "auto"; // re-enable click
+                    btn.style.opacity = "1";
+                    window.location.href = `edit-webpage.html?title=${response.slug}`;
+                } catch (error) {
+                    console.error("❌ Error fetching topics:", error);
+                    return [];
+                }
+                // const result  = await GeneratedWebpage(prompt,language)
+
+            } 
+            else if (type === "presentation") {
+
+                const divcontainer = document.getElementById('carddivcontainer');
+                divcontainer.style.display = 'block';
+                const container = document.getElementById("cardContainer");
+                const textarea_prompt = document.getElementById("contentEditor");
+                
+                const btn = document.getElementById("generateBtn");
+                btn.style.pointerEvents = "none";    // disable click
+                btn.style.opacity = "0.7";           // visual feedback
+                const originalHTML = btn.innerHTML;   // save original content
+
+                // ---- 2. Replace with spinner ----
+                btn.innerHTML = `
+                    <div class="spinner-border text-light" role="status" style="width: 24px; height: 24px;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                `;
+                //   const count = parseInt(document.getElementById("cardCount").value);
+                const count = selectedCardCount
+                container.innerHTML = ""; // Clear old cards
+            
+                if (!count || count <= 0) {
+                    alert("Please enter a valid number of cards!");
+                    return;
+                }
+                // 🔹 Send prompt to backend and get list of strings
+                const prompt = textarea_prompt.value //"Generate creative content for cards"; // You can replace this dynamically
+                const language = selectedLanguage
+                const result  = await getGeneratedTopics(prompt, count,language);
+                if (result.status != "success") {
+                        console.error("❌ Backend error:", result);
+                        return; // DO NOT proceed
+                    }
+                if (!result.topics) {
+                    console.error("❌ Backend returned no topics:", result);
+                    return;
+                } 
+
+                const generatedTexts = result.topics;
+                localStorage.setItem('currentBlogSlug', result.blog_slug);
+
+                // 🔹 Generate cards and fill them with backend output
+                for (let i = 1; i <= count; i++) {
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "custom-input-wrapper-card mb-2";
+                        // wrapper.style.border = "1px solid black";
+                        // wrapper.style.borderRadius = "5px";
+                        // wrapper.style.padding = "5px";
+
+                        const number = document.createElement("div");
+                        number.className = "card-number";
+                        number.textContent = i;
+
+                        const textarea = document.createElement("textarea");
+                        textarea.className = "custom-input-card";
+                        textarea.id = `contentEditor_${i}`;
+                        textarea.value = generatedTexts[i - 1] || ``;
+
+                        wrapper.appendChild(number);
+                        wrapper.appendChild(textarea);
+                        container.appendChild(wrapper);
+                    }
+                    // ---- 3. Restore original button ----
+                    btn.innerHTML = originalHTML;
+                    btn.style.pointerEvents = "auto"; // re-enable click
+                    btn.style.opacity = "1";
+                    // hide container
+                    document.getElementById('generateContainer').style.display = 'none';
+                    document.getElementById('navbar-bottom').style.display = 'flex';
+                    console.log("🎉 Cards generated successfully!");
             }
-            // ---- 3. Restore original button ----
-            btn.innerHTML = originalHTML;
-            btn.style.pointerEvents = "auto"; // re-enable click
-            btn.style.opacity = "1";
-            // hide container
-            document.getElementById('generateContainer').style.display = 'none';
-            document.getElementById('navbar-bottom').style.display = 'flex';
-            console.log("🎉 Cards generated successfully!");
         }
       
 
@@ -1253,6 +1590,7 @@ justify-content: center;
     
         document.addEventListener('DOMContentLoaded', () => {
             updateLanguage(currentLang);
+            customize_button();
         });
     </script>
 </body>

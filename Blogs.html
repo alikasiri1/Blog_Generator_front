@@ -936,8 +936,12 @@
             const blogCard = `
                 <div class="col-sm-6  col-md-6 col-xl-4 mb-3">
                     <div class="card doc-card shadow-sm hover-card-light">
-                        <a class="text-decoration-none" href="http://localhost:8004/Blog.html?account=${account}&title=${blog.slug}">
-                            <img src="${blog.image_url}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
+                        <a class="text-decoration-none" 
+                        href=${ blog.blog_type === 'webpage'
+                                ? `Blog.html?account=${account}&title=${blog.slug}`
+                                : `slide.html?account=${account}&title=${blog.slug}`
+                                }>
+                            <img src="${blog.image_url || 'https://res.cloudinary.com/dbezwpqgi/image/upload/v1/media/admin_images/pic_3_v0ij9t'}" class="card-img-top" alt="project" style="width: 100%;height: 10rem;">
                             <div class="card-body">
                                 <h6 class="card-title mb-1 text-gray-900">
                                 ${blog.title}

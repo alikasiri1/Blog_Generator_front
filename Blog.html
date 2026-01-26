@@ -168,8 +168,8 @@
             --color-toolbar-bg: #faf5ff;
             --color-toolbar-hover: #f3e8ff;
             
-            --font-heading: 'Palatino', serif;
-            --font-body: 'Georgia', serif;
+            /* --font-heading: 'Palatino', serif;
+            --font-body: 'Georgia', serif; */
         }
 
         /* Theme: Monochrome */
@@ -431,7 +431,9 @@
         .card {
             background: var(--color-card-bg);
             border-radius: var(--radius);
-            padding: 2rem;
+            /* padding: 2rem; */
+            padding-left: 2rem;
+            padding-right: 2rem;
             transition: all 0.3s ease;
             position: relative;
             border: 2px solid transparent;
@@ -1792,6 +1794,12 @@
                 // }
                 
                 const cardElement = createCardElement(card, index);
+                if (index === 0 ) {
+                    cardElement.style.paddingTop = '2rem';
+                }
+                if (index === cards.length - 1) {
+                    cardElement.style.paddingBottom = '2rem';
+                }
                 container.appendChild(cardElement);
             });
 
@@ -1844,20 +1852,20 @@
             if (card.image) {
                 const imageContainer = createImageContainer(card, index);
                 if (card.imagePosition == "top") {
-                    cardDiv.appendChild(header);
+                    // cardDiv.appendChild(header);
                     cardDiv.appendChild(imageContainer);
-                    cardDiv.appendChild(contentWrapper);
+                    // cardDiv.appendChild(contentWrapper);
                 } else if (card.imagePosition == "bottom") {
-                    cardDiv.appendChild(header); 
+                    // cardDiv.appendChild(header); 
                     cardDiv.appendChild(contentWrapper); 
-                    cardDiv.appendChild(imageContainer);
+                    // cardDiv.appendChild(imageContainer);
                 } else {
-                    cardDiv.appendChild(header);
+                    // cardDiv.appendChild(header);
                     contentWrapper.appendChild(imageContainer);
-                    cardDiv.appendChild(contentWrapper); 
+                    // cardDiv.appendChild(contentWrapper); 
                 }
             } else {
-                cardDiv.appendChild(header);
+                // cardDiv.appendChild(header);
                 cardDiv.appendChild(contentWrapper);
             }
             
